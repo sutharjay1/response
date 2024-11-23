@@ -31,8 +31,25 @@ model Project {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  user User @relation("UserProjects", fields: [userId], references: [id])
+  user   User    @relation("UserProjects", fields: [userId], references: [id])
+  fields Field[] @relation("ProjectFields")
 
   @@index([id])
   @@index([userId])
+}
+
+model Field {
+  id        String   @id @default(cuid())
+  label     String
+  type      String
+  value     String?
+  checked   Boolean?
+  formId    String
+  project   Project  @relation("ProjectFields", fields: [formId], references: [id])
+  order     Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([id])
+  @@index([formId])
 }

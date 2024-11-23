@@ -3,14 +3,14 @@
 import DynamicForm from "@/features/projects/dynamic-form";
 import React from "react";
 
-// type Props = {
-//   params: Promise<{
-//     projectId: string;
-//   }>;
-// };
+type Props = {
+  params: Promise<{
+    projectId: string;
+  }>;
+};
 
-const IndividualProject = () => {
-  // const { projectId } = React.use(params);
+const IndividualProject = ({ params }: Props) => {
+  const { projectId } = React.use(params);
   // const { data: project, isLoading: loadingProjects } = useQuery({
   //   queryKey: ["project", projectId],
   //   queryFn: () => getProjectById(projectId as string),
@@ -116,7 +116,7 @@ const IndividualProject = () => {
         </div>
       </div> */}
       {/* <div className="grid grid-cols-1 gap-4 md:grid-cols-2"></div> */}
-      <DynamicForm />
+      <DynamicForm projectId={projectId} />
     </>
   );
 };
