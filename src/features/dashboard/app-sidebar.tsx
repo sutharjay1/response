@@ -1,10 +1,6 @@
 "use client";
 
-import * as React from "react";
 import {
-  BookOpen,
-  Bot,
-  Command,
   Frame,
   LifeBuoy,
   Map,
@@ -13,11 +9,8 @@ import {
   Settings2,
   SquareTerminal,
 } from "lucide-react";
+import * as React from "react";
 
-import { NavMain } from "@/features/dashboard/nav-main";
-import { NavProjects } from "@/features/dashboard/nav-projects";
-import { NavSecondary } from "@/features/dashboard/nav-secondary";
-import { NavUser } from "@/features/dashboard/nav-user";
 import {
   Sidebar,
   SidebarContent,
@@ -27,152 +20,144 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { NavMain } from "@/features/dashboard/nav-main";
+import { NavProjects } from "@/features/dashboard/nav-projects";
+import { NavSecondary } from "@/features/dashboard/nav-secondary";
+import { NavUser } from "@/features/dashboard/nav-user";
+import { useProject } from "@/hooks/use-project";
 
-const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-  navMain: [
-    {
-      title: "Playground",
-      url: "#",
-      icon: SquareTerminal,
-      isActive: true,
-      items: [
-        {
-          title: "History",
-          url: "#",
-        },
-        {
-          title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Models",
-      url: "#",
-      icon: Bot,
-      items: [
-        {
-          title: "Genesis",
-          url: "#",
-        },
-        {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Documentation",
-      url: "#",
-      icon: BookOpen,
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
-      ],
-    },
-  ],
-  navSecondary: [
-    {
-      title: "Support",
-      url: "#",
-      icon: LifeBuoy,
-    },
-    {
-      title: "Feedback",
-      url: "#",
-      icon: Send,
-    },
-  ],
-  projects: [
-    {
-      name: "Design Engineering",
-      url: "#",
-      icon: Frame,
-    },
-    {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: PieChart,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
-    },
-  ],
-};
+import { ProjectDropDown } from "../projects/project-dropdown";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { project } = useProject();
+
+  const data = {
+    user: {
+      name: "shadcn",
+      email: "m@example.com",
+      avatar: "/avatars/shadcn.jpg",
+    },
+    navMain: [
+      {
+        title: "Dashboard",
+        url: "/dashboard",
+        icon: SquareTerminal,
+        isActive: true,
+        items: [
+          {
+            title: "Overview",
+            url: "/dashboard/overview",
+          },
+          {
+            title: "Analytics",
+            url: "/dashboard/analytics",
+          },
+          {
+            title: "Reports",
+            url: "/dashboard/reports",
+          },
+        ],
+      },
+      {
+        title: "Projects",
+        url: "#",
+        icon: Frame,
+        isActive: true,
+        items: [
+          {
+            title: "My Projects",
+            url: "/projects",
+          },
+          {
+            title: "Create Project",
+            url: `/projects/new`,
+          },
+          {
+            title: "Archived Projects",
+            url: "/projects/archived",
+          },
+          {
+            title: "Settings",
+            url: `/projects/${project?.id}/settings`,
+          },
+        ],
+      },
+      {
+        title: "Feedback",
+        url: "#",
+        icon: Send,
+        isActive: true,
+        items: [
+          {
+            title: "New Feedback",
+            url: "/feedback/new",
+          },
+          {
+            title: "My Feedback",
+            url: "/feedback/my-feedback",
+          },
+          {
+            title: "Feedback Reports",
+            url: "/feedback/reports",
+          },
+        ],
+      },
+      {
+        title: "Settings",
+        url: "#",
+        icon: Settings2,
+        isActive: true,
+        items: [
+          {
+            title: "General Settings",
+            url: `/projects/${project?.id}/settings`,
+          },
+        ],
+      },
+    ],
+    navSecondary: [
+      {
+        title: "Support",
+        url: "#",
+        icon: LifeBuoy,
+      },
+      {
+        title: "Feedback",
+        url: "#",
+        icon: Send,
+      },
+    ],
+    projects: [
+      {
+        name: "Design Engineering",
+        url: "#",
+        icon: Frame,
+      },
+      {
+        name: "Sales & Marketing",
+        url: "#",
+        icon: PieChart,
+      },
+      {
+        name: "Travel",
+        url: "#",
+        icon: Map,
+      },
+    ],
+  };
+
   return (
     <Sidebar variant="inset" {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
-              <a href="#">
-                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                  <Command className="size-4" />
-                </div>
-                <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">Acme Inc</span>
-                  <span className="truncate text-xs">Enterprise</span>
-                </div>
-              </a>
+              <ProjectDropDown />
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
-      <SidebarContent>
+      <SidebarContent className="z-10">
         <NavMain items={data.navMain} />
         <NavProjects projects={data.projects} />
         <NavSecondary items={data.navSecondary} className="mt-auto" />

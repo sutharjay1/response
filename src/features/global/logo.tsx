@@ -20,7 +20,7 @@ const Logo = ({ text, show = true }: Props) => {
     >
       <div
         className={cn(
-          "relative flex h-8 w-fit items-center justify-center rounded-md px-2",
+          "relative flex h-8 w-fit items-center justify-center rounded-lg px-2",
           !show && "pb-12",
         )}
       >

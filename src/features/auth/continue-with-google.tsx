@@ -50,11 +50,11 @@ const ContinueWithGoogle = () => {
   return (
     <Button
       variant="outline"
-      className="w-full gap-x-2 rounded-xl border border-input bg-transparent py-2 text-base text-primary hover:text-primary"
+      className="w-full space-x-4 rounded-xl border border-input bg-transparent py-2 text-base text-primary hover:text-primary"
       onClick={handleGoogleLogin}
       disabled={isLoggingIn}
     >
-      <GrGoogle className="mr-4 h-5 w-5" />
+      <GrGoogle className="h-5 w-5 pr-4" />
       {isLoggingIn ? "Connecting..." : "Continue with Google"}
     </Button>
   );
