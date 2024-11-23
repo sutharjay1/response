@@ -19,22 +19,20 @@ import {
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
 
-export function NavMain({
-  items,
-}: {
-  items: {
+type NavItem = {
+  title: string;
+  url: string;
+  icon: LucideIcon;
+  isActive?: boolean;
+  items?: {
     title: string;
     url: string;
-    icon: LucideIcon;
-    isActive?: boolean;
-    items?: {
-      title: string;
-      url: string;
-    }[];
   }[];
-}) {
+};
+
+export function NavMain({ items }: { items: NavItem[] }) {
   return (
-    <SidebarGroup>
+    <SidebarGroup className="z-10">
       <SidebarGroupLabel>Platform</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => (

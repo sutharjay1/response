@@ -1,101 +1,64 @@
-import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { H1, P } from "@/components/ui/typography";
+import { geistSans } from "@/features/font";
+import { cn } from "@/lib/utils";
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="grid min-h-screen grid-rows-[20px_1fr_20px] items-center justify-items-center gap-16 p-8 pb-20 font-[family-name:var(--font-geist-sans)] sm:p-20">
-      <main className="row-start-2 flex flex-col items-center gap-8 sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-center font-[family-name:var(--font-geist-mono)] text-sm sm:text-left">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="rounded bg-black/[.05] px-1 py-0.5 font-semibold dark:bg-white/[.06]">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex flex-col items-center gap-4 sm:flex-row">
-          <a
-            className="flex h-10 items-center justify-center gap-2 rounded-full border border-solid border-transparent bg-foreground px-4 text-sm text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] sm:h-12 sm:px-5 sm:text-base"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="flex h-10 items-center justify-center rounded-full border border-solid border-black/[.08] px-4 text-sm transition-colors hover:border-transparent hover:bg-[#f2f2f2] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] sm:h-12 sm:min-w-44 sm:px-5 sm:text-base"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <>
+      <main
+        className={cn(
+          "relative z-10 min-h-screen bg-gradient-to-b from-[#fdfdfc] via-[#fee7ac] to-[#ffc064]/90",
+          geistSans.className,
+        )}
+      >
+        <div className="absolute inset-0 z-0">
+          <div className="bg-grid-white/[0.02] absolute inset-0 bg-[size:50px_50px]" />
+          <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-primary/20 blur-[100px]" />
         </div>
+
+        <section
+          className={cn(
+            "relative flex h-[calc(100vh-20rem)] flex-col items-center justify-center pt-20 md:pt-24",
+          )}
+        >
+          <div className="relative z-10 flex min-h-screen w-full flex-col items-center justify-center px-4">
+            <div className="mx-auto max-w-3xl text-center">
+              <H1 className="font-inter mb-6 text-4xl font-bold tracking-tight sm:text-6xl lg:text-6xl">
+                Streamline feedback
+                <span className="bg-gradient-to-br from-primary to-primary-foreground bg-clip-text text-transparent">
+                  for better experiences
+                </span>
+              </H1>
+
+              <P className="mx-auto mb-12 max-w-5xl text-base font-light text-muted-foreground md:text-lg">
+                Empower your team with Response&apos;s dynamic feedback
+                platform. Collect, analyze, and act on user feedback
+                effortlessly, whether it&apos;s video or text responses.
+                Seamlessly integrate with your workflow and unlock actionable
+                insights to improve your products and foster meaningful user
+                engagement.
+              </P>
+
+              <div className="flex flex-col gap-4 px-2 sm:flex-row sm:justify-center md:px-0">
+                <Button
+                  size="lg"
+                  className="group w-full gap-2 border border-input bg-zinc-100 px-6 hover:bg-zinc-50 sm:w-fit"
+                  asChild
+                  variant="outline"
+                >
+                  <Link href="/signin">
+                    Start collecting feedback
+                    <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-1000 group-hover:translate-x-1" />
+                  </Link>
+                </Button>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
-      <footer className="row-start-3 flex flex-wrap items-center justify-center gap-6">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="/dashboard"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+    </>
   );
 }

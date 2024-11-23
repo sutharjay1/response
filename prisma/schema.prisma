@@ -17,6 +17,22 @@ model User {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
+  projects Project[] @relation("UserProjects")
+
   @@index([email])
   @@index([id])
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String?
+  userId      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user User @relation("UserProjects", fields: [userId], references: [id])
+
+  @@index([id])
+  @@index([userId])
 }

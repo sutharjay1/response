@@ -19,16 +19,26 @@ export const authOptions: AuthOptions = {
       if (session.user?.email) {
         const dbUser = await db.user.findUnique({
           where: { email: session.user.email },
+          include: {
+            projects: true,
+          },
         });
 
         if (dbUser && session.user) {
           session.user.id = dbUser.id;
+
+          if (dbUser.projects.length > 0) {
+            session.user.project = dbUser.projects[0];
+          }
         }
       }
+
       return session;
     },
     async signIn({ user }) {
-      if (!user.email) return false;
+      if (!user.email) {
+        return false;
+      }
 
       try {
         const dbUser = await db.user.findUnique({
@@ -36,11 +46,22 @@ export const authOptions: AuthOptions = {
         });
 
         if (!dbUser) {
-          await db.user.create({
+          const newUser = await db.user.create({
             data: {
               email: user.email,
               name: user.name || "Guest",
               avatar: user.image || "",
+            },
+          });
+
+          await db.project.create({
+            data: {
+              name: "My Project",
+              user: {
+                connect: {
+                  id: newUser.id,
+                },
+              },
             },
           });
         }

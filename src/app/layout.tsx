@@ -10,18 +10,20 @@ import { authOptions } from "./api/auth/[...nextauth]/auth";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Togl - Feature Management for Scalable Growth",
+  title: "Response - Streamlined Feedback for Better Experiences",
   description:
-    "Togl is a reliable feature management platform designed to support your growth. Streamline feature deployment and run A/B tests effortlessly with efficient caching support for modern development needs.",
+    "Response is a dynamic feedback platform empowering teams to collect, analyze, and act on user feedback effortlessly. Whether it's video or text responses, Response integrates seamlessly with your workflow, offering an embedded script feature for easy deployment. Unlock actionable insights to improve products and foster meaningful user engagement.",
   keywords: [
-    "feature management",
-    "feature flags",
-    "A/B testing",
-    "NextJS",
-    "enterprise",
+    "feedback management",
+    "user feedback",
+    "video responses",
+    "text responses",
+    "embedded script",
+    "user engagement",
+    "SaaS",
     "development",
   ],
-  authors: [{ name: "Togl Team" }],
+  authors: [{ name: "Response Team" }],
   creator: "Jay Suthar",
 };
 

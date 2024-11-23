@@ -8,6 +8,14 @@ declare module "next-auth" {
     user: {
       /** The user's postal address. */
       id: string;
+      project: {
+        id: string;
+        name: string;
+        createdAt: Date;
+        updatedAt: Date;
+        description: string | null;
+        userId: string;
+      };
     } & DefaultSession["user"];
   }
 }
