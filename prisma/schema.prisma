@@ -31,8 +31,9 @@ model Project {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  user   User    @relation("UserProjects", fields: [userId], references: [id])
-  fields Field[] @relation("ProjectFields")
+  user    User     @relation("UserProjects", fields: [userId], references: [id], onDelete: Cascade)
+  fields  Field[]  @relation("ProjectFields")
+  results Result[] @relation("ProjectResults")
 
   @@index([id])
   @@index([userId])
@@ -45,11 +46,28 @@ model Field {
   value     String?
   checked   Boolean?
   formId    String
-  project   Project  @relation("ProjectFields", fields: [formId], references: [id])
+  project   Project  @relation("ProjectFields", fields: [formId], references: [id], onDelete: Cascade)
   order     Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  results Result[] @relation("FieldResults")
+
   @@index([id])
   @@index([formId])
+}
+
+model Result {
+  id        String   @id @default(cuid())
+  projectId String
+  fieldId   String?
+  value     String?
+  createdAt DateTime @default(now())
+
+  project Project @relation("ProjectResults", fields: [projectId], references: [id], onDelete: Cascade)
+  field   Field?  @relation("FieldResults", fields: [fieldId], references: [id], onDelete: Cascade)
+
+  @@index([id])
+  @@index([projectId])
+  @@index([fieldId])
 }

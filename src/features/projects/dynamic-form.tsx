@@ -298,6 +298,11 @@ import { MoveDown, MoveUp, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { GrDrag } from "react-icons/gr";
 import { createForm } from "./actions/create-form";
+import { Badge } from "@/components/ui/badge";
+import { toast } from "sonner";
+import { errorToast, infoToast, successToast } from "../global/toast";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { getProjectField } from "./actions/get-project-field";
 
 type InputField = {
   id: number;
@@ -326,7 +331,7 @@ type CheckboxField = {
   checked: boolean;
 };
 
-type FormElement = InputField | TextareaField | ButtonField | CheckboxField;
+export type FormElement = InputField | TextareaField | ButtonField | CheckboxField;
 
 const DynamicForm = ({ projectId }: { projectId: string }) => {
   const [formElements, setFormElements] = useState<FormElement[]>([]);
@@ -334,29 +339,96 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
 
   const debouncedFormElements = useDebounce(formElements, 1000);
 
+  const { isLoading, error } = useQuery({
+    queryKey: ["projectFields", projectId],
+    queryFn: async () => {
+      if (!projectId) {
+        throw new Error("Project ID is required");
+      }
+      return getProjectField(projectId);
+    },
+    onSuccess: (data) => {
+      console.log({
+        data,
+      });
+      setFormElements(
+        data.fields.map((field) => {
+          const baseField = {
+            id: field.id,
+            label: field.label,
+            type: field.type as FormElement["type"],
+          };
+
+          switch (field.type) {
+            case "checkbox":
+              return {
+                ...baseField,
+                checked: Boolean(field.checked),
+              };
+            case "input":
+            case "textarea":
+              return {
+                ...baseField,
+                value: field.value || "",
+              };
+            case "button":
+              return {
+                ...baseField,
+                value: field.value,
+              };
+            default:
+              return {};
+          }
+        }) as FormElement[],
+      );
+    },
+    onError: (error: any) => {
+      errorToast(error.message, {
+        description: "Please try again",
+      });
+    },
+    enabled: Boolean(projectId), // Ensure query only runs when projectId is truthy
+  });
+
   useEffect(() => {
     const saveForm = async () => {
       if (debouncedFormElements.length === 0) return;
 
+      const loadId = toast.loading("Saving form...", {
+        position: "bottom-right",
+      });
       try {
         setIsSaving(true);
 
         const fields = debouncedFormElements.map((element, index) => ({
+          id: element.id.toString(), // Convert number to string
           label: element.label,
           type: element.type,
-          value: "value" in element ? element.value : "",
-          checked: "checked" in element ? element.checked : false,
+          value: "value" in element ? element.value || "" : "",
+          checked: "checked" in element ? Boolean(element.checked) : false,
           order: index,
         }));
 
-        await createForm({
-          projectId,
+        console.log({
           fields,
         });
+
+        const res = await createForm({
+          projectId,
+          fields,
+        }).then((res) =>
+          infoToast("Form saved", {
+            description: `Your form has been saved updated.`,
+          }),
+        );
       } catch (error) {
-        console.error("Error saving form:", error);
+        errorToast("Error saving form", {
+          description: "Please try again",
+        });
+        toast.dismiss(loadId);
       } finally {
         setIsSaving(false);
+        toast.dismiss(loadId);
       }
     };
 
@@ -411,7 +483,7 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
     };
 
     return (
-      <div {...commonProps}>
+      <div {...commonProps} key={element.id}>
         <div className="mb-2 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <GrDrag className="text-gray-400" size={16} />
@@ -510,9 +582,13 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
             <CardHeader className="pt-6">
               <div className="flex items-center justify-between">
                 <CardTitle>Form Builder</CardTitle>
-                {isSaving && (
-                  <span className="text-sm text-gray-500">Saving...</span>
-                )}
+                <CardTitle>
+                  {isSaving ? (
+                    <Badge variant="default">Saving...</Badge>
+                  ) : (
+                    <Badge variant="default">Saved</Badge>
+                  )}
+                </CardTitle>
               </div>
               <div className="mt-4 flex flex-wrap gap-2">
                 <Button
