@@ -1,11 +1,19 @@
-import React, { useState } from "react";
-import { X, MoveUp, MoveDown } from "lucide-react";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { useDebounce } from "@/hooks/use-debounce";
+import { useQuery } from "@tanstack/react-query";
+import { MoveDown, MoveUp, X } from "lucide-react";
+import { useEffect, useState } from "react";
 import { GrDrag } from "react-icons/gr";
+import { toast } from "sonner";
+import { errorToast, infoToast } from "../global/toast";
+import { createForm } from "./actions/create-form";
+import { getProjectField } from "./actions/get-project-field";
+import { removeField } from "./actions/remove-field";
 
 type InputField = {
   id: number;
@@ -34,10 +42,117 @@ type CheckboxField = {
   checked: boolean;
 };
 
-type FormElement = InputField | TextareaField | ButtonField | CheckboxField;
+export type FormElement =
+  | InputField
+  | TextareaField
+  | ButtonField
+  | CheckboxField;
 
-const DynamicForm = () => {
+const DynamicForm = ({ projectId }: { projectId: string }) => {
   const [formElements, setFormElements] = useState<FormElement[]>([]);
+  const [isSaving, setIsSaving] = useState(false);
+  const [isNewElementAdded, setIsNewElementAdded] = useState(false);
+
+  const debouncedFormElements = useDebounce(formElements, 1000);
+
+  const {} = useQuery({
+    queryKey: ["projectFields", projectId],
+    queryFn: async () => {
+      if (!projectId) {
+        throw new Error("Project ID is required");
+      }
+      return getProjectField(projectId);
+    },
+    onSuccess: (data) => {
+      console.log({
+        data,
+      });
+      setFormElements(
+        data.fields.map((field) => {
+          const baseField = {
+            id: field.id,
+            label: field.label,
+            type: field.type as FormElement["type"],
+          };
+
+          switch (field.type) {
+            case "checkbox":
+              return {
+                ...baseField,
+                checked: Boolean(field.checked),
+              };
+            case "input":
+            case "textarea":
+              return {
+                ...baseField,
+                value: field.value || "",
+              };
+            case "button":
+              return {
+                ...baseField,
+                value: field.value,
+              };
+            default:
+              return {};
+          }
+        }) as FormElement[],
+      );
+    },
+    onError: (error: { message: string }) => {
+      errorToast(error.message, {
+        description: "Please try again",
+      });
+    },
+    enabled: Boolean(projectId), // Ensure query only runs when projectId is truthy
+  });
+
+  useEffect(() => {
+    const saveForm = async () => {
+      if (debouncedFormElements.length === 0) return;
+
+      if (!isNewElementAdded) return;
+
+      const loadId = toast.loading("Saving form...", {
+        position: "bottom-right",
+      });
+      try {
+        setIsSaving(true);
+
+        const fields = debouncedFormElements.map((element, index) => ({
+          id: element.id.toString(), // Convert number to string
+          label: element.label,
+          type: element.type,
+          value: "value" in element ? element.value || "" : "",
+          checked: "checked" in element ? Boolean(element.checked) : false,
+          order: index,
+        }));
+
+        console.log({
+          fields,
+        });
+
+        await createForm({
+          projectId,
+          fields,
+        }).then(() =>
+          infoToast("Form saved", {
+            description: `Your form has been saved updated.`,
+          }),
+        );
+      } catch (error) {
+        console.error(error);
+        errorToast("Error saving form", {
+          description: "Please try again",
+        });
+        toast.dismiss(loadId);
+      } finally {
+        setIsSaving(false);
+        toast.dismiss(loadId);
+      }
+    };
+
+    saveForm();
+  }, [debouncedFormElements, projectId, isNewElementAdded]);
 
   const addField = (type: FormElement["type"]) => {
     const baseField = {
@@ -53,6 +168,7 @@ const DynamicForm = () => {
     } as FormElement;
 
     setFormElements([...formElements, newField]);
+    setIsNewElementAdded(true);
   };
 
   const handleChange = (id: number, key: string, value: string | boolean) => {
@@ -76,7 +192,8 @@ const DynamicForm = () => {
     }
   };
 
-  const removeElement = (id: number) => {
+  const removeElement = async (id: number) => {
+    await removeField(projectId, id.toString());
     setFormElements(formElements.filter((element) => element.id !== id));
   };
 
@@ -87,7 +204,7 @@ const DynamicForm = () => {
     };
 
     return (
-      <div {...commonProps}>
+      <div {...commonProps} key={element.id}>
         <div className="mb-2 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <GrDrag className="text-gray-400" size={16} />
@@ -184,7 +301,16 @@ const DynamicForm = () => {
         <div className="w-full">
           <Card className="md:mr-2">
             <CardHeader className="pt-6">
-              <CardTitle>Form Builder</CardTitle>
+              <div className="flex items-center justify-between">
+                <CardTitle>Form Builder</CardTitle>
+                <CardTitle>
+                  {isSaving ? (
+                    <Badge variant="default">Saving...</Badge>
+                  ) : (
+                    <Badge variant="default">Saved</Badge>
+                  )}
+                </CardTitle>
+              </div>
               <div className="mt-4 flex flex-wrap gap-2">
                 <Button
                   onClick={() => addField("input")}
