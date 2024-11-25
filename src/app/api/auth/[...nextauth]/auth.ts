@@ -36,7 +36,7 @@ export const authOptions: AuthOptions = {
       return session;
     },
     async signIn({ user }) {
-      if (!user.email) {
+      if (!user.email || !user) {
         return false;
       }
 
