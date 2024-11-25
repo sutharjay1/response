@@ -14,13 +14,21 @@ export const submitFieldResponse = async (
   projectId: string,
   formData: FieldResponse[],
 ): Promise<{ success: boolean }> => {
+  if (!formData || formData.length === 0) {
+    throw new Error("Form data is empty or null");
+  }
+
   try {
-    const dataToInsert = formData.map((response) => ({
-      projectId,
-      fieldId: response.fieldId,
-      value:
-        response.type === "input" ? response.value : String(response.checked),
-    }));
+    const dataToInsert = formData
+      .filter((response) => response.fieldId)
+      .map((response) => ({
+        projectId,
+        fieldId: response.fieldId,
+        value:
+          response.type === "checkbox"
+            ? String(Boolean(response.checked))
+            : response.value?.toString(),
+      }));
 
     await db.result.createMany({
       data: dataToInsert,

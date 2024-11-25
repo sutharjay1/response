@@ -54,7 +54,7 @@ const ContinueWithGoogle = () => {
       onClick={handleGoogleLogin}
       disabled={isLoggingIn}
     >
-      <GrGoogle className="h-5 w-5 pr-4" />
+      <GrGoogle className="size-6 pr-4" />
       {isLoggingIn ? "Connecting..." : "Continue with Google"}
     </Button>
   );

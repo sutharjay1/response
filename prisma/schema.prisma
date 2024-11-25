@@ -40,16 +40,16 @@ model Project {
 }
 
 model Field {
-  id        String   @id @default(cuid())
+  id        String    @id @default(cuid())
   label     String
-  type      String
+  type      FieldType
   value     String?
   checked   Boolean?
   formId    String
-  project   Project  @relation("ProjectFields", fields: [formId], references: [id], onDelete: Cascade)
+  project   Project   @relation("ProjectFields", fields: [formId], references: [id], onDelete: Cascade)
   order     Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 
   results Result[] @relation("FieldResults")
 
@@ -70,4 +70,10 @@ model Result {
   @@index([id])
   @@index([projectId])
   @@index([fieldId])
+}
+
+enum FieldType {
+  textarea
+  input
+  checkbox
 }

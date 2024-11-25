@@ -40,7 +40,11 @@ export function NavMain({ items }: { items: NavItem[] }) {
             <SidebarMenuItem>
               <SidebarMenuButton asChild tooltip={item.title}>
                 <a href={item.url}>
-                  <item.icon />
+                  <item.icon
+                    size={16}
+                    className="font-semibold"
+                    strokeWidth={1.08}
+                  />
                   <span>{item.title}</span>
                 </a>
               </SidebarMenuButton>

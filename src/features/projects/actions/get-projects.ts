@@ -10,6 +10,13 @@ export async function getProjects(userId: string) {
   try {
     const projects = await db.project.findMany({
       where: { userId },
+      include: {
+        fields: {
+          select: {
+            results: true,
+          },
+        },
+      },
     });
     return projects;
   } catch (error) {
@@ -33,6 +40,34 @@ export async function getProjectById(projectId: string) {
     }
 
     return project;
+  } catch (error) {
+    console.error("Error fetching project:", error);
+    throw new Error("Failed to fetch project");
+  }
+}
+
+export async function getResponse(projectId: string) {
+  if (!projectId) {
+    throw new Error("Project ID is required");
+  }
+
+  try {
+    const project = await db.project.findUnique({
+      where: { id: projectId },
+      select: {
+        fields: {
+          select: {
+            results: true,
+          },
+        },
+      },
+    });
+
+    if (!project) {
+      throw new Error("Project not found");
+    }
+
+    return project.fields;
   } catch (error) {
     console.error("Error fetching project:", error);
     throw new Error("Failed to fetch project");

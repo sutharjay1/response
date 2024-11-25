@@ -44,7 +44,11 @@ export function NavProjects({
           <SidebarMenuItem key={item.name}>
             <SidebarMenuButton asChild>
               <a href={item.url}>
-                <item.icon />
+                <item.icon
+                  size={16}
+                  className="font-semibold"
+                  strokeWidth={1.08}
+                />
                 <span>{item.name}</span>
               </a>
             </SidebarMenuButton>

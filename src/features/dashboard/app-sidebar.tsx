@@ -82,26 +82,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           },
         ],
       },
-      {
-        title: "Feedback",
-        url: "#",
-        icon: Send,
-        isActive: true,
-        items: [
-          {
-            title: "New Feedback",
-            url: "/feedback/new",
-          },
-          {
-            title: "My Feedback",
-            url: "/feedback/my-feedback",
-          },
-          {
-            title: "Feedback Reports",
-            url: "/feedback/reports",
-          },
-        ],
-      },
+
       {
         title: "Settings",
         url: "#",
@@ -151,7 +132,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton size="lg" asChild>
+            <SidebarMenuButton size="lg" asChild className="bg-background">
               <ProjectDropDown />
             </SidebarMenuButton>
           </SidebarMenuItem>
