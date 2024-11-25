@@ -11,12 +11,6 @@ export async function createProject({
   description: string;
   userId: string;
 }) {
-  console.log({
-    name,
-    description,
-    userId,
-  });
-
   if (!name) {
     throw new Error("Project name is required");
   }

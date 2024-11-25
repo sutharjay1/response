@@ -43,10 +43,10 @@ export function NavUser() {
     <SidebarMenu>
       <SidebarMenuItem>
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
+          <DropdownMenuTrigger asChild className="bg-background">
             <SidebarMenuButton
               size="lg"
-              className="rounded-xl data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+              className="rounded-xl border border-input bg-background data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="h-8 w-8 rounded-xl">
                 <AvatarImage src={user?.image} alt={user?.name} />
@@ -54,7 +54,7 @@ export function NavUser() {
                   {user?.name?.charAt(0)}
                 </AvatarFallback>
               </Avatar>
-              <div className="grid flex-1 text-left text-sm leading-tight">
+              <div className="grid flex-1 items-center text-left text-sm leading-tight">
                 <span className="truncate font-semibold">{user?.name}</span>
                 <span className="truncate text-xs">{user?.email}</span>
               </div>

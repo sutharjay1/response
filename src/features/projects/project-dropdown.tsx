@@ -44,11 +44,11 @@ export function ProjectDropDown({ className }: { className?: string }) {
     <SidebarMenu>
       <SidebarMenuItem>
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
+          <DropdownMenuTrigger asChild className="rounded-3xl">
             <Button
               variant={"outline"}
               className={cn(
-                "my-2 flex w-full items-center gap-2 bg-transparent py-2 md:w-full",
+                "my-2 flex w-full items-center gap-2 rounded-3xl bg-transparent py-2 md:w-full",
                 className,
               )}
             >
@@ -77,7 +77,7 @@ export function ProjectDropDown({ className }: { className?: string }) {
           </DropdownMenuTrigger>
 
           <DropdownMenuContent
-            className="space-y-1mt-2p-2 z-20 w-[--radix-dropdown-menu-trigger-width] flex-col text-zinc-300 md:w-full"
+            className="space-y-1mt-2p-2 z-20 flex-col text-zinc-300 md:w-full"
             side="bottom"
             align="end"
             sideOffset={4}

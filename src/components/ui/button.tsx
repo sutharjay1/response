@@ -10,11 +10,10 @@ const buttonVariants = cva(
       variant: {
         default:
           "text-primary-foreground animate-shine bg-gradient-to-r from-primary via-primary/75 to-primary bg-[length:400%_100%] h-9 dark:text-background ",
-        // "bg-primary   text-primary-foreground dark:text-background hover:bg-primary/90",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         outline:
-          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+          "border border-input bg-background hover:bg-accent font-semibold hover:text-accent-foreground rounded-xl",
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",

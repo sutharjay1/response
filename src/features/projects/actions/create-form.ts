@@ -1,6 +1,7 @@
 "use server";
 
 import { db } from "@/db";
+import { FieldType } from "@prisma/client";
 import { z } from "zod";
 
 const fieldSchema = z.object({
@@ -23,24 +24,11 @@ export const createForm = async ({
   projectId: string;
   fields: TField[];
 }) => {
-  console.log("Received createForm request");
-  console.log("Project ID:", projectId);
-  console.log("Fields:", JSON.stringify(fields, null, 2));
-
   try {
-    // Validate the fields
-    console.log("Validating fields...");
     const parsedFields = fieldsSchema.parse(fields);
-    console.log("Parsed fields:", JSON.stringify(parsedFields, null, 2));
 
-    // Create fields in the database
-    console.log("Creating fields in the database...");
     const createdFields = await Promise.all(
       parsedFields.map(async (field) => {
-        console.log("Creating field:", field);
-        console.log("Processing field:", field);
-
-        // Upsert logic: Check for existing field and update or create
         const existingField = await db.field.findFirst({
           where: {
             formId: projectId,
@@ -49,11 +37,10 @@ export const createForm = async ({
         });
 
         if (existingField) {
-          console.log("Updating existing field:", existingField.id);
           return db.field.update({
             where: { id: existingField.id },
             data: {
-              type: field.type,
+              type: field.type as FieldType,
               value: field.value || null,
               checked: field.checked || null,
               order: field.order,
@@ -61,11 +48,10 @@ export const createForm = async ({
           });
         }
 
-        console.log("Creating new field:", field.label);
         return db.field.create({
           data: {
             label: field.label,
-            type: field.type,
+            type: field.type as FieldType,
             value: field.value || null,
             checked: field.checked || null,
             formId: projectId,
@@ -75,20 +61,16 @@ export const createForm = async ({
       }),
     );
 
-    console.log("Created fields:", JSON.stringify(createdFields, null, 2));
     const fieldTypes = createdFields.map((field) => {
       if (
         field.type === "input" ||
         field.type === "textarea" ||
-        field.type === "button" ||
         field.type === "checkbox"
       ) {
         return field.type;
       }
       throw new Error(`Unexpected field type: ${field.type}`);
     });
-
-    console.log("Returning field types:", fieldTypes);
 
     return fieldTypes;
   } catch (error) {

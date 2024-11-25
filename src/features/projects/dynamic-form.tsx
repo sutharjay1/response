@@ -6,9 +6,8 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useDebounce } from "@/hooks/use-debounce";
 import { useQuery } from "@tanstack/react-query";
-import { MoveDown, MoveUp, X } from "lucide-react";
+import { ChevronDown, ChevronUp, GripVertical, X } from "lucide-react";
 import { useEffect, useState } from "react";
-import { GrDrag } from "react-icons/gr";
 import { toast } from "sonner";
 import { errorToast, infoToast } from "../global/toast";
 import { createForm } from "./actions/create-form";
@@ -29,12 +28,6 @@ type TextareaField = {
   value: string;
 };
 
-type ButtonField = {
-  id: number;
-  type: "button";
-  label: string;
-};
-
 type CheckboxField = {
   id: number;
   type: "checkbox";
@@ -42,16 +35,11 @@ type CheckboxField = {
   checked: boolean;
 };
 
-export type FormElement =
-  | InputField
-  | TextareaField
-  | ButtonField
-  | CheckboxField;
+export type FormElement = InputField | TextareaField | CheckboxField;
 
 const DynamicForm = ({ projectId }: { projectId: string }) => {
   const [formElements, setFormElements] = useState<FormElement[]>([]);
   const [isSaving, setIsSaving] = useState(false);
-  const [isNewElementAdded, setIsNewElementAdded] = useState(false);
 
   const debouncedFormElements = useDebounce(formElements, 1000);
 
@@ -64,9 +52,6 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
       return getProjectField(projectId);
     },
     onSuccess: (data) => {
-      console.log({
-        data,
-      });
       setFormElements(
         data.fields.map((field) => {
           const baseField = {
@@ -87,11 +72,6 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
                 ...baseField,
                 value: field.value || "",
               };
-            case "button":
-              return {
-                ...baseField,
-                value: field.value,
-              };
             default:
               return {};
           }
@@ -103,14 +83,12 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
         description: "Please try again",
       });
     },
-    enabled: Boolean(projectId), // Ensure query only runs when projectId is truthy
+    enabled: Boolean(projectId),
   });
 
   useEffect(() => {
     const saveForm = async () => {
       if (debouncedFormElements.length === 0) return;
-
-      if (!isNewElementAdded) return;
 
       const loadId = toast.loading("Saving form...", {
         position: "bottom-right",
@@ -119,17 +97,13 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
         setIsSaving(true);
 
         const fields = debouncedFormElements.map((element, index) => ({
-          id: element.id.toString(), // Convert number to string
+          id: element.id.toString(),
           label: element.label,
           type: element.type,
           value: "value" in element ? element.value || "" : "",
           checked: "checked" in element ? Boolean(element.checked) : false,
           order: index,
         }));
-
-        console.log({
-          fields,
-        });
 
         await createForm({
           projectId,
@@ -152,7 +126,7 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
     };
 
     saveForm();
-  }, [debouncedFormElements, projectId, isNewElementAdded]);
+  }, [debouncedFormElements, projectId]);
 
   const addField = (type: FormElement["type"]) => {
     const baseField = {
@@ -168,7 +142,6 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
     } as FormElement;
 
     setFormElements([...formElements, newField]);
-    setIsNewElementAdded(true);
   };
 
   const handleChange = (id: number, key: string, value: string | boolean) => {
@@ -198,215 +171,218 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
   };
 
   const renderFormElement = (element: FormElement, index: number) => {
-    const commonProps = {
-      key: element.id,
-      className: "bg-white rounded-lg p-4 shadow-sm border border-gray-200",
-    };
-
     return (
-      <div {...commonProps} key={element.id}>
-        <div className="mb-2 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <GrDrag className="text-gray-400" size={16} />
-            <span className="text-sm font-medium text-gray-600">
-              {element.type.toUpperCase()}
-            </span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => moveElement(index, "up")}
-              disabled={index === 0}
-            >
-              <MoveUp size={16} />
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => moveElement(index, "down")}
-              disabled={index === formElements.length - 1}
-            >
-              <MoveDown size={16} />
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => removeElement(element.id)}
-            >
-              <X size={16} />
-            </Button>
-          </div>
-        </div>
+      <Card className="group relative transition-all hover:shadow-md">
+        <CardContent className="p-6">
+          {/* Header Section */}
+          <div className="mb-6 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="cursor-move opacity-40 transition-opacity group-hover:opacity-100">
+                <GripVertical className="h-5 w-5" />
+              </div>
+              <Badge variant="secondary" className="ml-2 font-medium">
+                {element.type}
+              </Badge>
+            </div>
 
-        <div className="space-y-4">
-          <div>
-            <Label>Label</Label>
-            <Input
-              value={element.label}
-              onChange={(e) =>
-                handleChange(element.id, "label", e.target.value)
-              }
-              placeholder="Enter label"
-              className="mt-1"
-            />
+            <div className="flex items-center gap-1">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => moveElement(index, "up")}
+                disabled={index === 0}
+                className="h-8 w-8 rounded-xl p-0"
+              >
+                <ChevronUp className="h-4 w-4" />
+                <span className="sr-only">Move up</span>
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => moveElement(index, "down")}
+                disabled={index === formElements.length - 1}
+                className="h-8 w-8 rounded-xl p-0"
+              >
+                <ChevronDown className="h-4 w-4" />
+                <span className="sr-only">Move down</span>
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => removeElement(element.id)}
+                className="h-8 w-8 rounded-xl p-0 text-destructive hover:text-destructive/80"
+              >
+                <X className="h-4 w-4" />
+                <span className="sr-only">Remove element</span>
+              </Button>
+            </div>
           </div>
-
-          {(element.type === "input" || element.type === "textarea") && (
-            <div>
-              <Label>Value</Label>
-              {element.type === "input" ? (
+          <div className="mb-2 flex items-center justify-between rounded-3xl">
+            <div className="space-y-1">
+              <div className="space-y-2">
+                <Label
+                  htmlFor={`${element.id}-label`}
+                  className="text-sm font-medium"
+                >
+                  Label
+                </Label>
                 <Input
-                  value={element.value}
+                  id={`${element.id}-label`}
+                  value={element.label}
                   onChange={(e) =>
-                    handleChange(element.id, "value", e.target.value)
+                    handleChange(element.id, "label", e.target.value)
                   }
-                  placeholder="Enter value"
-                  className="mt-1"
+                  placeholder="Enter field label"
+                  className="mt-1 transition-colors focus-visible:ring-1"
                 />
-              ) : (
-                <Textarea
-                  value={element.value}
-                  onChange={(e) =>
-                    handleChange(element.id, "value", e.target.value)
-                  }
-                  placeholder="Enter value"
-                  className="mt-1"
-                />
+              </div>
+
+              {(element.type === "input" || element.type === "textarea") && (
+                <div>
+                  <Label
+                    htmlFor={`${element.id}-value`}
+                    className="text-sm font-medium"
+                  >
+                    Default Value
+                  </Label>
+                  {element.type === "input" ? (
+                    <Input
+                      id={`${element.id}-value`}
+                      value={element.value}
+                      onChange={(e) =>
+                        handleChange(element.id, "value", e.target.value)
+                      }
+                      placeholder="Enter default value"
+                      className="transition-colors focus-visible:ring-1"
+                    />
+                  ) : (
+                    <Textarea
+                      id={`${element.id}-value`}
+                      value={element.value}
+                      onChange={(e) =>
+                        handleChange(element.id, "value", e.target.value)
+                      }
+                      placeholder="Enter default value"
+                      className="mt-1 min-h-[100px] transition-colors focus-visible:ring-1"
+                    />
+                  )}
+                </div>
+              )}
+
+              {element.type === "checkbox" && (
+                <div className="mt-1 flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    checked={element.checked}
+                    onChange={(e) =>
+                      handleChange(element.id, "checked", e.target.checked)
+                    }
+                    className="rounded"
+                  />
+                  <span className="text-sm text-gray-600">Default state</span>
+                </div>
               )}
             </div>
-          )}
-
-          {element.type === "checkbox" && (
-            <div className="flex items-center gap-2">
-              <input
-                type="checkbox"
-                checked={element.checked}
-                onChange={(e) =>
-                  handleChange(element.id, "checked", e.target.checked)
-                }
-                className="rounded"
-              />
-              <span className="text-sm text-gray-600">Default state</span>
-            </div>
-          )}
-        </div>
-      </div>
+          </div>
+        </CardContent>
+      </Card>
     );
   };
 
   return (
-    <div className="container mx-auto w-full gap-6 space-x-9">
-      <div className="flex w-full flex-1 flex-row gap-8 p-4">
-        <div className="w-full">
-          <Card className="md:mr-2">
-            <CardHeader className="pt-6">
-              <div className="flex items-center justify-between">
-                <CardTitle>Form Builder</CardTitle>
-                <CardTitle>
-                  {isSaving ? (
-                    <Badge variant="default">Saving...</Badge>
-                  ) : (
-                    <Badge variant="default">Saved</Badge>
-                  )}
-                </CardTitle>
-              </div>
-              <div className="mt-4 flex flex-wrap gap-2">
-                <Button
-                  onClick={() => addField("input")}
-                  variant="outline"
-                  className="bg-blue-50 hover:bg-blue-100"
-                >
-                  Add Input
-                </Button>
-                <Button
-                  onClick={() => addField("textarea")}
-                  variant="outline"
-                  className="bg-green-50 hover:bg-green-100"
-                >
-                  Add Textarea
-                </Button>
-                <Button
-                  onClick={() => addField("button")}
-                  variant="outline"
-                  className="bg-purple-50 hover:bg-purple-100"
-                >
-                  Add Button
-                </Button>
-                <Button
-                  onClick={() => addField("checkbox")}
-                  variant="outline"
-                  className="bg-orange-50 hover:bg-orange-100"
-                >
-                  Add Checkbox
-                </Button>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {formElements.map((element, index) =>
-                  renderFormElement(element, index),
+    <div className="container gap-6 space-x-9">
+      <div className="flex flex-1 flex-row gap-8 py-4">
+        {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-4"> */}
+
+        <Card className="w-full">
+          <CardHeader className="pt-6">
+            <div className="flex items-center justify-between">
+              <CardTitle>Form Builder</CardTitle>
+              <CardTitle>
+                {isSaving ? (
+                  <Badge variant="default">Saving...</Badge>
+                ) : (
+                  <Badge variant="default">Saved</Badge>
                 )}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-        <div className="w-full">
-          <Card className="md:ml-2">
-            <CardHeader className="pt-6">
-              <CardTitle>Preview</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-6">
-                {formElements.map((element) => {
-                  switch (element.type) {
-                    case "input":
-                      return (
-                        <div key={element.id} className="space-y-2">
-                          <Label>{element.label}</Label>
-                          <Input value={element.value} readOnly />
-                        </div>
-                      );
-                    case "textarea":
-                      return (
-                        <div key={element.id} className="space-y-2">
-                          <Label>{element.label}</Label>
-                          <Textarea value={element.value} readOnly />
-                        </div>
-                      );
-                    case "button":
-                      return (
-                        <Button
-                          key={element.id}
-                          className="mr-2"
-                          variant="secondary"
-                        >
-                          {element.label}
-                        </Button>
-                      );
-                    case "checkbox":
-                      return (
-                        <div
-                          key={element.id}
-                          className="flex items-center space-x-2"
-                        >
-                          <input
-                            type="checkbox"
-                            checked={element.checked}
-                            readOnly
-                            className="mr-2 rounded"
-                          />
-                          <Label>{element.label}</Label>
-                        </div>
-                      );
-                    default:
-                      return null;
-                  }
-                })}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+              </CardTitle>
+            </div>
+            <div className="mt-4 flex flex-wrap gap-2">
+              <Button
+                onClick={() => addField("input")}
+                variant="outline"
+                className="bg-blue-50 hover:bg-blue-100"
+              >
+                Add Input
+              </Button>
+              <Button
+                onClick={() => addField("textarea")}
+                variant="outline"
+                className="bg-green-50 hover:bg-green-100"
+              >
+                Add Textarea
+              </Button>
+              <Button
+                onClick={() => addField("checkbox")}
+                variant="outline"
+                className="bg-orange-50 hover:bg-orange-100"
+              >
+                Add Checkbox
+              </Button>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {formElements.map((element, index) =>
+                renderFormElement(element, index),
+              )}
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="w-full">
+          <CardHeader className="pt-6">
+            <CardTitle>Preview</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-6">
+              {formElements.map((element) => {
+                switch (element.type) {
+                  case "input":
+                    return (
+                      <div key={element.id} className="space-y-2">
+                        <Label>{element.label}</Label>
+                        <Input value={element.value} readOnly />
+                      </div>
+                    );
+                  case "textarea":
+                    return (
+                      <div key={element.id} className="space-y-2">
+                        <Label>{element.label}</Label>
+                        <Textarea value={element.value} readOnly />
+                      </div>
+                    );
+                  case "checkbox":
+                    return (
+                      <div
+                        key={element.id}
+                        className="flex items-center space-x-2"
+                      >
+                        <input
+                          type="checkbox"
+                          checked={element.checked}
+                          readOnly
+                          className="mr-2 rounded"
+                        />
+                        <Label>{element.label}</Label>
+                      </div>
+                    );
+                  default:
+                    return null;
+                }
+              })}
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

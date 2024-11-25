@@ -34,7 +34,7 @@ const Hint = ({
         sideOffset={sideOffset}
         align={align}
         className={cn(
-          "text-text z-[500] border-[1px] border-zinc-900/5 bg-zinc-100 px-2 py-1 dark:border-zinc-300/10 dark:bg-zinc-900",
+          "z-[500] border-[1px] border-zinc-900/5 bg-background px-2 py-1 text-primary dark:border-zinc-300/10 dark:bg-background",
           className,
         )}
         alignOffset={alignOffset}
