@@ -9,7 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ChevronDown, ChevronUp, GripVertical, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { errorToast, infoToast } from "../global/toast";
+import { errorToast, successToast } from "../global/toast";
 import { createForm } from "./actions/create-form";
 import { getProjectField } from "./actions/get-project-field";
 import { removeField } from "./actions/remove-field";
@@ -108,11 +108,7 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
         await createForm({
           projectId,
           fields,
-        }).then(() =>
-          infoToast("Form saved", {
-            description: `Your form has been saved updated.`,
-          }),
-        );
+        }).then(() => successToast("Form saved", {}));
       } catch (error) {
         console.error(error);
         errorToast("Error saving form", {
@@ -174,7 +170,6 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
     return (
       <Card className="group relative transition-all hover:shadow-md">
         <CardContent className="p-6">
-          {/* Header Section */}
           <div className="mb-6 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="cursor-move opacity-40 transition-opacity group-hover:opacity-100">
@@ -292,8 +287,6 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
   return (
     <div className="container gap-6 space-x-9">
       <div className="flex flex-1 flex-row gap-8 py-4">
-        {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-4"> */}
-
         <Card className="w-full">
           <CardHeader className="pt-6">
             <div className="flex items-center justify-between">

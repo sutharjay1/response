@@ -24,4 +24,10 @@ const inter = localFont({
   weight: "500",
 });
 
-export { geistSans, geistMono, gilroy, inter };
+const aeonik = localFont({
+  src: "./fonts/Aeonik.woff2",
+  variable: "--font-aeonik",
+  weight: "500",
+});
+
+export { geistSans, geistMono, gilroy, inter, aeonik };
