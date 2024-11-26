@@ -5,7 +5,13 @@ import { GoCheckCircleFill } from "react-icons/go";
 type ToastOptions = {
   description?: string;
   duration?: number;
-  position?: "bottom-right" | "bottom-left" | "top-right" | "top-left";
+  position?:
+    | "bottom-right"
+    | "bottom-left"
+    | "top-right"
+    | "top-left"
+    | "top-center"
+    | "bottom-center";
 };
 
 const DEFAULT_DURATION = 3000;
@@ -29,7 +35,7 @@ export const successToast = (message: string, options?: ToastOptions) => {
       border: "none",
     },
     className:
-      "rounded-md shadow-lg flex items-center gap-2 text-sm font-medium",
+      "rounded-xl shadow-lg flex items-center gap-2 py-2 text-sm font-medium",
   });
 };
 
@@ -40,12 +46,12 @@ export const errorToast = (message: string, options?: ToastOptions) => {
     position: options?.position || DEFAULT_POSITION,
     icon: <X className="h-5 w-5 font-bold" size={16} strokeWidth={1.08} />,
     style: {
-      backgroundColor: "rgb(220, 38, 38)",
-      color: "white",
+      backgroundColor: "#500000",
+      color: "#ED5555",
       border: "none",
     },
     className:
-      "rounded-md shadow-lg flex items-center gap-2 text-sm font-medium",
+      "rounded-xl py-2 shadow-lg flex items-center gap-2 text-sm font-medium",
   });
 };
 
@@ -63,7 +69,7 @@ export const infoToast = (message: string, options?: ToastOptions) => {
       border: "none",
     },
     className:
-      "rounded-md shadow-lg flex items-center gap-2 text-sm font-medium",
+      "rounded-xl py-2 shadow-lg flex items-center gap-2 text-sm font-medium",
   });
 };
 
@@ -85,7 +91,7 @@ export const warningToast = (message: string, options?: ToastOptions) => {
       border: "none",
     },
     className:
-      "rounded-md shadow-lg flex items-center gap-2 text-sm font-medium",
+      "rounded-xl py-2 shadow-lg flex items-center gap-2 text-sm font-medium",
   });
 };
 
@@ -106,7 +112,7 @@ export const copyToast = (
       border: "none",
     },
     className:
-      "rounded-md shadow-lg flex items-center gap-2 text-sm font-medium",
+      "rounded-xl py-2 shadow-lg flex items-center gap-2 text-sm font-medium",
   });
 };
 
@@ -124,6 +130,6 @@ export const notificationToast = (message: string, options?: ToastOptions) => {
       border: "none",
     },
     className:
-      "rounded-md shadow-lg flex items-center gap-2 text-sm font-medium",
+      "rounded-xl py-2 shadow-lg flex items-center gap-2 text-sm font-medium",
   });
 };

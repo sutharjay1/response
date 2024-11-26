@@ -2,9 +2,9 @@ import { Button } from "@/components/ui/button";
 import { H1, P } from "@/components/ui/typography";
 import ContinueWithGoogle from "@/features/auth/continue-with-google";
 import { geistSans } from "@/features/font";
-import Logo from "@/features/global/logo";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { LuSquare } from "react-icons/lu";
 
 const SignIn = () => {
   return (
@@ -17,13 +17,24 @@ const SignIn = () => {
       <div className="flex h-screen flex-col items-center justify-center bg-background">
         <div className="w-full max-w-[400px] space-y-8 px-4">
           <div className="flex flex-col items-center space-y-4">
-            <Logo text="text-4xl sm:text-5xl lg:text-5xl" show={false} />
+            <div className="flex items-center gap-2">
+              <Link
+                href="/"
+                className="flex items-center gap-2 text-xl font-semibold"
+              >
+                <LuSquare className="h-6 w-6" />
+
+                <span className="text-xl font-medium tracking-tight text-black">
+                  Response
+                </span>
+              </Link>
+            </div>
             <H1 className="font-inter mb-6 text-xl font-semibold tracking-tight sm:text-2xl lg:text-2xl">
               Login to Platform
             </H1>
           </div>
 
-          <div className="space-y-3">
+          <div className="mx-auto flex flex-col items-center space-y-3">
             <ContinueWithGoogle />
 
             <div className="flex justify-center">
