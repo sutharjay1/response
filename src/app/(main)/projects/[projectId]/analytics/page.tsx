@@ -2,10 +2,12 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { generateEmbeddedFile } from "@/features/analytics/actions/generate-embedded-file";
 import ProjectAnalyticsCharts from "@/features/analytics/response-charts";
 import ProjectAnalyticsResponseTable from "@/features/analytics/response-table";
-import { errorToast } from "@/features/global/toast";
+import { errorToast, successToast } from "@/features/global/toast";
 import { getProjectAnalytics } from "@/features/projects/actions/get-project-analytics";
 import { useUser } from "@/hooks/use-user";
 import { useQuery } from "@tanstack/react-query";
@@ -32,7 +34,7 @@ const ProjectAnalytics = ({ params }: Props) => {
 
     onError: (error: { message: string }) => {
       errorToast(error.message, {
-        description: "Please try again",
+        position: "top-center",
       });
     },
     enabled: Boolean(projectId), // Ensure query only runs when projectId is truthy
@@ -41,7 +43,7 @@ const ProjectAnalytics = ({ params }: Props) => {
   return (
     <>
       <div className="space-y-6">
-        <Card className="flex items-center justify-between rounded-lg p-4">
+        <Card className="flex items-center justify-between rounded-lg bg-sidebar p-4">
           <div className="flex items-center space-x-4">
             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-800">
               <AtSign className="h-6 w-6 text-white" />
@@ -75,13 +77,50 @@ const ProjectAnalytics = ({ params }: Props) => {
               </div>
             </div>
           </div>
+          <Button
+            variant="outline"
+            className="gap-2"
+            onClick={() => {
+              generateEmbeddedFile(projectId).then((filePath) => {
+                if (filePath) {
+                  console.log({
+                    filePath,
+                  });
+                  successToast("File generated", {
+                    position: "top-center",
+                  });
+                }
+              });
+            }}
+          >
+            Generate Embedded File
+          </Button>
         </Card>
 
+        {data?.scriptFile ? (
+          <Card className="flex items-center justify-between rounded-lg bg-sidebar p-4">
+            <div className="flex items-center space-x-4">
+              <div className="font-medium text-primary">{data?.scriptFile}</div>
+            </div>
+          </Card>
+        ) : (
+          <Card className="flex items-center justify-between rounded-lg bg-sidebar p-4">
+            <div className="flex items-center space-x-4">
+              No script file found - Add the feedback to favorites and generate
+              file
+            </div>
+          </Card>
+        )}
+
         {data && data.fields && (
-          <>
-            <ProjectAnalyticsCharts data={data} />
-            <ProjectAnalyticsResponseTable data={data!} />
-          </>
+          <div className="grid h-fit grid-cols-1 gap-4 md:grid-cols-[30%,70%]">
+            <ProjectAnalyticsCharts data={data} className="w-full" />
+            <ProjectAnalyticsResponseTable
+              data={data!}
+              projectId={projectId}
+              className="w-full"
+            />
+          </div>
         )}
       </div>
     </>

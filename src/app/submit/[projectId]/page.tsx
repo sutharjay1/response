@@ -94,10 +94,8 @@ const SubmitForm = ({ params }: Props) => {
       setFormElements(mappedElements);
     },
     onError: (error: { message: string }) => {
-      errorToast("Failed to Load Form", {
-        description:
-          error.message || "Unable to retrieve form fields. Please try again.",
-        duration: 5000,
+      errorToast(error.message, {
+        position: "top-center",
       });
     },
     enabled: Boolean(projectId),
@@ -106,8 +104,6 @@ const SubmitForm = ({ params }: Props) => {
   useEffect(() => {
     if (fieldsLoadError) {
       errorToast("Form Loading Error", {
-        description:
-          "We couldn't load the form. Please refresh the page or contact support.",
         position: "top-center",
       });
     }
@@ -135,9 +131,7 @@ const SubmitForm = ({ params }: Props) => {
         reset();
       },
       onError: (error: { message: string }) => {
-        errorToast("Submission Failed", {
-          description:
-            error.message || "Unable to submit form. Please try again.",
+        errorToast(error.message, {
           duration: 5000,
         });
       },
@@ -186,9 +180,8 @@ const SubmitForm = ({ params }: Props) => {
     });
 
     if (!isAllFieldsFilled) {
-      errorToast("Incomplete Form", {
-        description: "Please fill out all required fields.",
-        duration: 5000,
+      errorToast("Please fill out all required fields.", {
+        position: "top-center",
       });
       return;
     }

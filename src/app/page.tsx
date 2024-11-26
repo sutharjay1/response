@@ -48,7 +48,6 @@ export default function Home() {
             </p>
 
             <Button
-              size="lg"
               className="rounded-2xl border border-[#201e1d]/80 px-8 py-4 font-medium shadow-inner"
               asChild
             >

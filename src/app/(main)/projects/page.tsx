@@ -8,6 +8,7 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
+import { successToast } from "@/features/global/toast";
 import { getProjects } from "@/features/projects/actions/get-projects";
 import { useUser } from "@/hooks/use-user";
 import { useQuery } from "@tanstack/react-query";
@@ -19,8 +20,8 @@ import {
   PlusCircle,
 } from "lucide-react";
 import Link from "next/link";
-import { TiCog } from "react-icons/ti";
 import { TbLayoutDashboardFilled } from "react-icons/tb";
+import { TiAttachment, TiCog } from "react-icons/ti";
 
 const Projects = () => {
   const { user } = useUser();
@@ -88,6 +89,27 @@ const Projects = () => {
                   <div className="flex items-center gap-2">
                     <Button
                       variant="outline"
+                      className="cursor-pointer rounded-xl px-2 py-1.5"
+                      onClick={() => {
+                        if (project.scriptFile) {
+                          navigator.clipboard
+                            .writeText(project.scriptFile.toString()!)
+                            .then(() => {
+                              successToast("Your embed link has been copied.", {
+                                position: "top-center",
+                              });
+                            });
+                        }
+                      }}
+                    >
+                      <TiAttachment
+                        className="h-7 w-7 font-bold"
+                        strokeWidth={1.08}
+                      />
+                      <span className="sr-only">Open menu</span>
+                    </Button>
+                    <Button
+                      variant="outline"
                       className="rounded-xl px-2 py-1.5"
                       asChild
                     >
@@ -139,7 +161,10 @@ const Projects = () => {
                   variant="secondary"
                   className="text-sm font-medium hover:bg-secondary"
                 >
-                  {project.id}
+                  <span className="hidden md:flex">{project.id}</span>
+                  <span className="flex md:hidden">
+                    {project.id.slice(0, 6)}
+                  </span>
                 </Badge>
 
                 <Button

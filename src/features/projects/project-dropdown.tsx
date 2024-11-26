@@ -77,7 +77,7 @@ export function ProjectDropDown({ className }: { className?: string }) {
           </DropdownMenuTrigger>
 
           <DropdownMenuContent
-            className="space-y-1mt-2p-2 z-20 flex-col text-zinc-300 md:w-full"
+            className="z-20 mt-2 w-full flex-col space-y-1 text-zinc-300 md:w-full"
             side="bottom"
             align="end"
             sideOffset={4}

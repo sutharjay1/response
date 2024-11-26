@@ -28,6 +28,7 @@ export const submitFieldResponse = async (
           response.type === "checkbox"
             ? String(Boolean(response.checked))
             : response.value?.toString(),
+        isFavorite: false,
       }));
 
     await db.result.createMany({

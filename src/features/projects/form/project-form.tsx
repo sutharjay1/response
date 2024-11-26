@@ -78,8 +78,8 @@ const ProjectForm = () => {
                 : "An unexpected error occurred. Please try again.",
           });
         } else {
-          errorToast("Unexpected Error", {
-            description: "Something went wrong. Please try again later.",
+          errorToast("Something went wrong", {
+            position: "top-center",
           });
         }
       },
@@ -98,6 +98,7 @@ const ProjectForm = () => {
     if (!user?.id) {
       errorToast("Authentication Error", {
         description: "Please log in to create a project.",
+        position: "top-center",
       });
       return;
     }
@@ -121,8 +122,8 @@ const ProjectForm = () => {
               : "Please try again",
         });
       } else {
-        errorToast("Unexpected Error", {
-          description: "Something went wrong. Please try again.",
+        errorToast("Something went wrong", {
+          position: "top-center",
         });
       }
     } finally {

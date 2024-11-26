@@ -62,6 +62,7 @@ export const authOptions: AuthOptions = {
                   id: newUser.id,
                 },
               },
+              scriptFile: "",
             },
           });
         }
