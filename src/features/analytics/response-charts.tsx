@@ -15,6 +15,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { GetProjectAnalyticsType } from "../projects/actions/get-project-analytics";
+import { cn } from "@/lib/utils";
 
 const timeRanges = [
   { label: "Last 7 days", value: 7 },
@@ -24,8 +25,10 @@ const timeRanges = [
 
 const ProjectAnalyticsCharts = ({
   data,
+  className,
 }: {
   data: GetProjectAnalyticsType;
+  className?: string;
 }) => {
   const [timeRange, setTimeRange] = useState<number>(90);
 
@@ -52,7 +55,12 @@ const ProjectAnalyticsCharts = ({
   const chartData = processChartData(data, timeRange);
 
   return (
-    <Card className="overflow-hidden bg-sidebar transition-all hover:shadow-md">
+    <Card
+      className={cn(
+        "overflow-hidden bg-sidebar transition-all hover:shadow-md",
+        className,
+      )}
+    >
       <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
         <div className="grid flex-1 gap-1 text-center sm:text-left">
           <h2 className="text-lg font-semibold text-primary">

@@ -56,8 +56,8 @@ const ProjectSettings = ({ params }: Props) => {
               : "Please try again",
         });
       } else {
-        errorToast("Unexpected Error", {
-          description: "Something went wrong. Please try again.",
+        errorToast("Something went wrong. Please try again.", {
+          position: "top-center",
         });
       }
     } finally {

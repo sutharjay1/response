@@ -31,6 +31,8 @@ model Project {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
+  scriptFile String?
+
   user    User     @relation("UserProjects", fields: [userId], references: [id], onDelete: Cascade)
   fields  Field[]  @relation("ProjectFields")
   results Result[] @relation("ProjectResults")
@@ -64,8 +66,9 @@ model Result {
   value     String?
   createdAt DateTime @default(now())
 
-  project Project @relation("ProjectResults", fields: [projectId], references: [id], onDelete: Cascade)
-  field   Field?  @relation("FieldResults", fields: [fieldId], references: [id], onDelete: Cascade)
+  project    Project @relation("ProjectResults", fields: [projectId], references: [id], onDelete: Cascade)
+  field      Field?  @relation("FieldResults", fields: [fieldId], references: [id], onDelete: Cascade)
+  isFavorite Boolean @default(false)
 
   @@index([id])
   @@index([projectId])

@@ -26,12 +26,17 @@ export function Nav() {
         </Link>
       </div>
 
-      <div className="hidden md:flex md:gap-x-6">
+      <div
+        className="hidden md:flex"
+        style={{
+          gap: "0.5rem",
+        }}
+      >
         {navLinks.map((link) => (
           <Link
             key={link.label}
             href={link.href}
-            className="px-4 text-sm text-muted-foreground hover:text-primary"
+            className="rounded-lg px-2 py-0.5 text-sm text-muted-foreground hover:bg-accent hover:text-primary"
           >
             {link.label}
           </Link>

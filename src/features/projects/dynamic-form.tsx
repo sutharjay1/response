@@ -1,6 +1,12 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -80,7 +86,7 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
     },
     onError: (error: { message: string }) => {
       errorToast(error.message, {
-        description: "Please try again",
+        position: "top-center",
       });
     },
     enabled: Boolean(projectId),
@@ -112,7 +118,7 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
       } catch (error) {
         console.error(error);
         errorToast("Error saving form", {
-          description: "Please try again",
+          position: "top-center",
         });
         toast.dismiss(loadId);
       } finally {
@@ -248,7 +254,7 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
                         handleChange(element.id, "value", e.target.value)
                       }
                       placeholder="Enter default value"
-                      className="transition-colors focus-visible:ring-1"
+                      className="w-full transition-colors focus-visible:ring-1"
                     />
                   ) : (
                     <Textarea
@@ -258,7 +264,7 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
                         handleChange(element.id, "value", e.target.value)
                       }
                       placeholder="Enter default value"
-                      className="mt-1 min-h-[100px] transition-colors focus-visible:ring-1"
+                      className="mt-1 min-h-[100px] w-full transition-colors focus-visible:ring-1"
                     />
                   )}
                 </div>
@@ -286,8 +292,8 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
 
   return (
     <div className="container gap-6 space-x-9">
-      <div className="flex flex-1 flex-row gap-8 py-4">
-        <Card className="w-full">
+      <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-[30%,70%]">
+        <Card className="">
           <CardHeader className="pt-6">
             <div className="flex items-center justify-between">
               <CardTitle>Form Builder</CardTitle>
@@ -332,49 +338,61 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
           </CardContent>
         </Card>
 
-        <Card className="w-full">
-          <CardHeader className="pt-6">
-            <CardTitle>Preview</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-6">
-              {formElements.map((element) => {
-                switch (element.type) {
-                  case "input":
-                    return (
-                      <div key={element.id} className="space-y-2">
-                        <Label>{element.label}</Label>
-                        <Input value={element.value} readOnly />
-                      </div>
-                    );
-                  case "textarea":
-                    return (
-                      <div key={element.id} className="space-y-2">
-                        <Label>{element.label}</Label>
-                        <Textarea value={element.value} readOnly />
-                      </div>
-                    );
-                  case "checkbox":
-                    return (
-                      <div
-                        key={element.id}
-                        className="flex items-center space-x-2"
-                      >
-                        <input
-                          type="checkbox"
-                          checked={element.checked}
-                          readOnly
-                          className="mr-2 rounded"
-                        />
-                        <Label>{element.label}</Label>
-                      </div>
-                    );
-                  default:
-                    return null;
-                }
-              })}
-            </div>
-          </CardContent>
+        <Card className="mx-auto flex w-full items-center justify-center">
+          <Card className="w-full max-w-md overflow-hidden bg-sidebar transition-all hover:shadow-md">
+            <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
+              <div className="grid flex-1 gap-1 text-center sm:text-left">
+                <h2 className="text-lg font-semibold text-primary">Preview</h2>
+                <p className="text-sm text-muted-foreground">
+                  View how your form will look like
+                </p>
+              </div>
+            </CardHeader>
+            <CardContent className="px-4 pt-4 sm:px-6">
+              <div className="space-y-6">
+                {formElements.map((element) => {
+                  switch (element.type) {
+                    case "input":
+                      return (
+                        <div key={element.id} className="space-y-2">
+                          <Label>{element.label}</Label>
+                          <Input value={element.value} readOnly />
+                        </div>
+                      );
+                    case "textarea":
+                      return (
+                        <div key={element.id} className="space-y-2">
+                          <Label>{element.label}</Label>
+                          <Textarea value={element.value} readOnly />
+                        </div>
+                      );
+                    case "checkbox":
+                      return (
+                        <div
+                          key={element.id}
+                          className="flex items-center space-x-2"
+                        >
+                          <input
+                            type="checkbox"
+                            checked={element.checked}
+                            readOnly
+                            className="mr-2 rounded"
+                          />
+                          <Label>{element.label}</Label>
+                        </div>
+                      );
+                    default:
+                      return null;
+                  }
+                })}
+              </div>
+            </CardContent>
+            <CardFooter className="flex items-center justify-between bg-muted/50 px-6 py-4">
+              <Button type="submit" className="w-full" disabled>
+                Submit Form
+              </Button>
+            </CardFooter>
+          </Card>
         </Card>
       </div>
     </div>
