@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import { fontFamily } from "tailwindcss/defaultTheme";
 
 export default {
   darkMode: ["class"],
@@ -9,6 +10,13 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        gilroy: ["var(--font-gilroy-sans)", ...fontFamily.sans],
+        geistSans: ["var(--font-geist-sans)", ...fontFamily.sans],
+        geistMono: ["var(--font-geist-mono)", ...fontFamily.mono],
+        inter: ["var(--font-inter-sans)", ...fontFamily.sans],
+        aeonik: ["var(--font-aeonik)", ...fontFamily.sans],
+      },
       colors: {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",

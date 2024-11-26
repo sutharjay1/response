@@ -29,7 +29,7 @@ const SignIn = () => {
                 </span>
               </Link>
             </div>
-            <H1 className="font-inter mb-6 text-xl font-semibold tracking-tight sm:text-2xl lg:text-2xl">
+            <H1 className="mb-6 font-inter text-xl font-semibold tracking-tight sm:text-2xl lg:text-2xl">
               Login to Platform
             </H1>
           </div>

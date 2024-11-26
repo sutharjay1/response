@@ -66,7 +66,6 @@ const NavBar = () => {
             </div>
           </div>
           <div className="flex items-center gap-2 md:hidden">
-            {/* <ToggleTheme /> */}
             <div className="flex w-full flex-row space-x-2">
               <Button
                 className="w-full border border-input bg-transparent px-7 text-primary hover:text-primary"

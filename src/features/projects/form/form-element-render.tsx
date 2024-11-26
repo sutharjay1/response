@@ -39,7 +39,6 @@ export function FormElementRenderer({
   return (
     <Card className="group relative transition-all hover:shadow-md">
       <CardContent className="p-6">
-        {/* Header Section */}
         <div className="mb-6 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="cursor-move opacity-40 transition-opacity group-hover:opacity-100">
@@ -83,7 +82,6 @@ export function FormElementRenderer({
           </div>
         </div>
 
-        {/* Content Section */}
         <div className="space-y-4">
           <div className="space-y-2">
             <Label

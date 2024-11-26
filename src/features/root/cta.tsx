@@ -1,6 +1,8 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { Database } from "lucide-react";
+import { inter } from "../font";
 
 export default function CTA() {
   return (
@@ -18,12 +20,16 @@ export default function CTA() {
           Connect to feedback
         </h1>
 
-        <p className="mb-8 max-w-md text-lg text-muted-foreground">
+        <p
+          className={cn(
+            "mb-8 max-w-md text-lg font-normal text-muted-foreground",
+            inter.variable,
+          )}
+        >
           Make your business better with feedback
         </p>
-
         <div>
-          <Button className="rounded-2xl px-8 py-4 font-medium shadow shadow-slate-400">
+          <Button className="rounded-2xl border border-[#201e1d]/80 px-8 py-4 font-medium shadow-inner shadow-slate-400">
             Get started today
           </Button>
         </div>
