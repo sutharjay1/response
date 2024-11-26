@@ -5,7 +5,7 @@ import { useUser } from "@/hooks/use-user";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { GrGoogle } from "react-icons/gr";
+import { ImGoogle } from "react-icons/im";
 import { toast } from "sonner";
 
 const ContinueWithGoogle = () => {
@@ -50,11 +50,11 @@ const ContinueWithGoogle = () => {
   return (
     <Button
       variant="outline"
-      className="w-full space-x-4 rounded-xl border border-input bg-transparent py-2 text-base text-primary hover:text-primary"
+      className="flex gap-2 space-x-2"
       onClick={handleGoogleLogin}
       disabled={isLoggingIn}
     >
-      <GrGoogle className="size-6 pr-4" />
+      <ImGoogle className="size-10" />
       {isLoggingIn ? "Connecting..." : "Continue with Google"}
     </Button>
   );

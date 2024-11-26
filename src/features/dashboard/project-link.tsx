@@ -38,15 +38,15 @@ const ProjectLink = () => {
       <PopoverTrigger asChild>
         <Button variant="outline" className="gap-2">
           <Share2 className="h-4 w-4" />
-          Share Project
+          <span className="hidden md:flex">Share Form</span>
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-80 p-4" align="end">
         <div className="space-y-4">
           <div>
-            <h4 className="mb-1 text-lg font-medium">Project Share Link</h4>
+            <h4 className="mb-1 text-lg font-medium">Form Share Link</h4>
             <p className="text-sm text-muted-foreground">
-              Anyone with this link can submit to your project.
+              Anyone with this link can submit to your form.
             </p>
           </div>
           <div className="flex items-center space-x-2">

@@ -38,7 +38,6 @@ const ProjectAnalyticsResponseTable = ({
             <TableRow className="bg-muted/20">
               <TableHead className="p-3">Field Name</TableHead>
               <TableHead className="p-3">Type</TableHead>
-              <TableHead className="p-3 text-center">Checked</TableHead>
               <TableHead className="p-3 text-right">Value</TableHead>
               <TableHead className="p-3 text-right">Timestamp</TableHead>
             </TableRow>
@@ -54,14 +53,11 @@ const ProjectAnalyticsResponseTable = ({
                     {field.label}
                   </TableCell>
                   <TableCell className="p-3">{field.type}</TableCell>
-                  <TableCell className="p-3 text-center">
-                    {field.checked ? "Yes" : "No"}
-                  </TableCell>
                   <TableCell className="p-3 text-center text-secondary">
                     {result.value}
                   </TableCell>
                   <TableCell className="p-3 text-right text-muted-foreground">
-                    {format(new Date(result.createdAt), "MMM dd, yyyy HH:mm")}
+                    {format(new Date(result.createdAt), "MMM dd, yy HH:mm")}
                   </TableCell>
                 </TableRow>
               )),

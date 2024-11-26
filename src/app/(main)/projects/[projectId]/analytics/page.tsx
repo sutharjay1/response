@@ -46,33 +46,34 @@ const ProjectAnalytics = ({ params }: Props) => {
             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-800">
               <AtSign className="h-6 w-6 text-white" />
             </div>
+
             <div className="flex flex-col space-y-2">
               <div className="font-medium text-primary">{projectId}</div>
-              <div className="flex items-center justify-start space-x-2">
-                <Badge
-                  icon={<IoIosInformationCircle className="h-4 w-4" />}
-                  variant="default"
-                  className="ml-2 font-medium"
-                >
-                  Certified
-                </Badge>
-                <div className="flex items-center gap-2 rounded-3xl border border-input px-1 pr-1.5 font-medium text-primary">
-                  <Avatar className="h-5 w-5 rounded-xl">
-                    <AvatarImage src={user?.image} alt={user?.name} />
-                    <AvatarFallback className="rounded-xl px-3 py-2">
-                      {user?.name?.charAt(0)}
-                    </AvatarFallback>
-                  </Avatar>
-                  <span className="font-normal">{user?.name}</span>
+              <div className="flex flex-col gap-2 md:flex-row">
+                <div className="flex items-center justify-start space-x-2">
+                  <Badge
+                    icon={<IoIosInformationCircle className="h-4 w-4" />}
+                    variant="default"
+                    className="font-medium"
+                  >
+                    Certified
+                  </Badge>
+                  <div className="flex items-center gap-2 rounded-3xl border border-input px-1 pr-1.5 font-medium text-primary">
+                    <Avatar className="h-5 w-5 rounded-xl">
+                      <AvatarImage src={user?.image} alt={user?.name} />
+                      <AvatarFallback className="rounded-xl px-3 py-2">
+                        {user?.name?.charAt(0)}
+                      </AvatarFallback>
+                    </Avatar>
+                    <span className="font-normal">{user?.name}</span>
+                  </div>
                 </div>
+
                 <div className="font-medium text-primary">
                   Edited {data?.updatedAt.toLocaleTimeString()}
                 </div>
               </div>
             </div>
-          </div>
-          <div className="text-sm text-gray-500">
-            {data?.updatedAt.toLocaleString()}
           </div>
         </Card>
 

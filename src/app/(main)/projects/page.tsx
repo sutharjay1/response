@@ -19,7 +19,7 @@ import {
   PlusCircle,
 } from "lucide-react";
 import Link from "next/link";
-import { RiSettings3Fill } from "react-icons/ri";
+import { TiCog } from "react-icons/ti";
 import { TbLayoutDashboardFilled } from "react-icons/tb";
 
 const Projects = () => {
@@ -111,7 +111,7 @@ const Projects = () => {
                         href={`/projects/${project.id}/settings`}
                         className="cursor-pointer"
                       >
-                        <RiSettings3Fill
+                        <TiCog
                           className="h-7 w-7 font-bold"
                           strokeWidth={1.08}
                         />
