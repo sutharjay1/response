@@ -1,7 +1,6 @@
 "use client";
 
-import { ChevronRight, type LucideIcon } from "lucide-react";
-
+import { ChevronRight } from "@mynaui/icons-react";
 import {
   Collapsible,
   CollapsibleContent,
@@ -22,7 +21,7 @@ import {
 type NavItem = {
   title: string;
   url: string;
-  icon: LucideIcon;
+  icon: React.ReactNode | JSX.Element;
   isActive?: boolean;
   items?: {
     title: string;
@@ -40,11 +39,7 @@ export function NavMain({ items }: { items: NavItem[] }) {
             <SidebarMenuItem>
               <SidebarMenuButton asChild tooltip={item.title}>
                 <a href={item.url}>
-                  <item.icon
-                    size={16}
-                    className="font-semibold"
-                    strokeWidth={1.08}
-                  />
+                  {item.icon}
                   <span>{item.title}</span>
                 </a>
               </SidebarMenuButton>

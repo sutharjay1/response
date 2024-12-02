@@ -1,13 +1,13 @@
 "use client";
 
 import {
-  BadgeCheck,
   Bell,
-  ChevronsUpDown,
+  ChevronUpDown,
+  CheckWaves,
   CreditCard,
-  LogOut,
+  Logout,
   Sparkles,
-} from "lucide-react";
+} from "@mynaui/icons-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -58,7 +58,7 @@ export function NavUser() {
                 <span className="truncate font-semibold">{user?.name}</span>
                 <span className="truncate text-xs">{user?.email}</span>
               </div>
-              <ChevronsUpDown className="ml-auto size-4" />
+              <ChevronUpDown className="ml-auto size-4" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
@@ -91,7 +91,7 @@ export function NavUser() {
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
-                <BadgeCheck />
+                <CheckWaves />
                 Account
               </DropdownMenuItem>
               <DropdownMenuItem>
@@ -105,7 +105,7 @@ export function NavUser() {
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleLogout}>
-              <LogOut />
+              <Logout />
               Log out
             </DropdownMenuItem>
           </DropdownMenuContent>

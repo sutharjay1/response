@@ -10,6 +10,9 @@ importers:
       "@hookform/resolvers":
         specifier: ^3.9.1
         version: 3.9.1(react-hook-form@7.53.2(react@19.0.0-rc-66855b96-20241106))
+      "@mynaui/icons-react":
+        specifier: ^0.3.3
+        version: 0.3.3(react@19.0.0-rc-66855b96-20241106)
       "@prisma/client":
         specifier: ^5.21.1
         version: 5.21.1(prisma@5.22.0)
@@ -58,9 +61,6 @@ importers:
       date-fns:
         specifier: ^4.1.0
         version: 4.1.0
-      lucide-react:
-        specifier: ^0.460.0
-        version: 0.460.0(react@19.0.0-rc-66855b96-20241106)
       motion:
         specifier: ^11.11.17
         version: 11.11.17(react-dom@19.0.0-rc-66855b96-20241106(react@19.0.0-rc-66855b96-20241106))(react@19.0.0-rc-66855b96-20241106)
@@ -616,6 +616,14 @@ packages:
       {
         integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==,
       }
+
+  "@mynaui/icons-react@0.3.3":
+    resolution:
+      {
+        integrity: sha512-vUA7T9xlPrFrXnApTb5Jdm9rbFKpENAL4cgXEmY+CpWOth+y4vdmw2gp3xGJ4Fhjpw+N4WH+yErHIoNzUD9HhA==,
+      }
+    peerDependencies:
+      react: ^16.5.1 || ^17.0.0 || ^18.0.0
 
   "@next/env@15.0.3":
     resolution:
@@ -3289,14 +3297,6 @@ packages:
       }
     engines: { node: ">=10" }
 
-  lucide-react@0.460.0:
-    resolution:
-      {
-        integrity: sha512-BVtq/DykVeIvRTJvRAgCsOwaGL8Un3Bxh8MbDxMhEWlZay3T4IpEKDEpwt5KZ0KJMHzgm6jrltxlT5eXOWXDHg==,
-      }
-    peerDependencies:
-      react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0-rc
-
   merge2@1.4.1:
     resolution:
       {
@@ -4955,6 +4955,11 @@ snapshots:
     dependencies:
       "@jridgewell/resolve-uri": 3.1.2
       "@jridgewell/sourcemap-codec": 1.5.0
+
+  "@mynaui/icons-react@0.3.3(react@19.0.0-rc-66855b96-20241106)":
+    dependencies:
+      prop-types: 15.8.1
+      react: 19.0.0-rc-66855b96-20241106
 
   "@next/env@15.0.3": {}
 
@@ -6726,10 +6731,6 @@ snapshots:
   lru-cache@6.0.0:
     dependencies:
       yallist: 4.0.0
-
-  lucide-react@0.460.0(react@19.0.0-rc-66855b96-20241106):
-    dependencies:
-      react: 19.0.0-rc-66855b96-20241106
 
   merge2@1.4.1: {}
 

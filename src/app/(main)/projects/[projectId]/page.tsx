@@ -12,7 +12,11 @@ type Props = {
 const IndividualProject = ({ params }: Props) => {
   const { projectId } = React.use(params);
 
-  return <DynamicForm projectId={projectId} />;
+  return (
+    <div className="w-full">
+      <DynamicForm projectId={projectId} />
+    </div>
+  );
 };
 
 export default IndividualProject;

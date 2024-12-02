@@ -4,23 +4,23 @@ import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  CardHeader,
   CardFooter,
+  CardHeader,
 } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Checkbox } from "@/components/ui/checkbox";
 import { errorToast, successToast } from "@/features/global/toast";
 import { getProjectField } from "@/features/projects/actions/get-project-field";
 import { FormElement } from "@/features/projects/dynamic-form";
 import { submitFieldResponse } from "@/features/submit/actions/submit-field-response";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import React, { useState, useEffect } from "react";
-import { Loader2, Star } from "lucide-react";
-import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, Controller } from "react-hook-form";
+import { SpinnerOne, Star } from "@mynaui/icons-react";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import React, { useEffect, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import * as z from "zod";
 
 type Props = {
   params: Promise<{
@@ -235,7 +235,10 @@ const SubmitForm = ({ params }: Props) => {
           <CardContent className="px-4 pt-4 sm:px-6 sm:pt-6">
             {isLoadingFields ? (
               <div className="flex h-40 items-center justify-center">
-                <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                <SpinnerOne
+                  className="h-6 w-6 animate-spin font-semibold text-primary"
+                  strokeWidth={2}
+                />
               </div>
             ) : (
               <div className="space-y-6">
@@ -351,17 +354,27 @@ const SubmitForm = ({ params }: Props) => {
                                       id={`star-${element.id}`}
                                       type="button"
                                       variant="ghost"
+                                      size="icon"
                                       onClick={() => {
                                         onChange(rating);
                                       }}
                                       className={`p-1 ${
-                                        value === rating
+                                        value >= rating
                                           ? "text-yellow-500"
                                           : "text-gray-300"
                                       }`}
                                     >
-                                      <Star
+                                      {/* <Star
                                         className="h-5 w-5"
+                                        fill={
+                                          value >= rating
+                                            ? "currentColor"
+                                            : "none"
+                                        }
+                                      /> */}
+                                      <Star
+                                        className="h-6 w-6 font-semibold"
+                                        strokeWidth={2}
                                         fill={
                                           value >= rating
                                             ? "currentColor"
@@ -395,14 +408,7 @@ const SubmitForm = ({ params }: Props) => {
               className="w-full"
               disabled={isSubmitting || isLoadingFields}
             >
-              {isSubmitting ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Submitting...
-                </>
-              ) : (
-                "Submit Form"
-              )}
+              Submit Form 🚀
             </Button>
           </CardFooter>
         </form>

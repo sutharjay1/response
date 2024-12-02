@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  Folder,
-  MoreHorizontal,
-  Share,
-  Trash2,
-  type LucideIcon,
-} from "lucide-react";
+import { AlignHorizontal, Folder, Share, Trash } from "@mynaui/icons-react";
 
 import {
   DropdownMenu,
@@ -31,7 +25,7 @@ export function NavProjects({
   projects: {
     name: string;
     url: string;
-    icon: LucideIcon;
+    icon: React.ReactNode | JSX.Element;
   }[];
 }) {
   const { isMobile } = useSidebar();
@@ -44,18 +38,14 @@ export function NavProjects({
           <SidebarMenuItem key={item.name}>
             <SidebarMenuButton asChild>
               <a href={item.url}>
-                <item.icon
-                  size={16}
-                  className="font-semibold"
-                  strokeWidth={1.08}
-                />
+                {item.icon}
                 <span>{item.name}</span>
               </a>
             </SidebarMenuButton>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <SidebarMenuAction showOnHover>
-                  <MoreHorizontal />
+                  <AlignHorizontal />
                   <span className="sr-only">More</span>
                 </SidebarMenuAction>
               </DropdownMenuTrigger>
@@ -74,7 +64,7 @@ export function NavProjects({
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
-                  <Trash2 className="text-muted-foreground" />
+                  <Trash className="text-muted-foreground" />
                   <span>Delete Project</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -83,7 +73,7 @@ export function NavProjects({
         ))}
         <SidebarMenuItem>
           <SidebarMenuButton>
-            <MoreHorizontal />
+            <AlignHorizontal />
             <span>More</span>
           </SidebarMenuButton>
         </SidebarMenuItem>

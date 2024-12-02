@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/popover";
 import { useProject } from "@/hooks/use-project";
 import { cn } from "@/lib/utils";
-import { Check, Copy, Share2 } from "lucide-react";
+import { Check, Copy, Share } from "@mynaui/icons-react";
 import { usePathname } from "next/navigation";
 import { useRef, useState } from "react";
 import { successToast } from "../global/toast";
@@ -37,7 +37,7 @@ const ProjectLink = () => {
     <Popover>
       <PopoverTrigger asChild>
         <Button variant="outline" className="gap-2">
-          <Share2 className="h-4 w-4" />
+          <Share className="h-5 w-5 font-extrabold" />
           <span className="hidden md:flex">Share Form</span>
         </Button>
       </PopoverTrigger>

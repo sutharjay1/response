@@ -6,12 +6,12 @@ import {
 } from "@/components/ui/card";
 import {
   Database,
-  BarChart,
-  PieChart,
-  LineChart,
+  ChartBarTwo,
+  ChartPieTwo,
+  ChartLine,
   Globe,
   Users,
-} from "lucide-react";
+} from "@mynaui/icons-react";
 import Image from "next/image";
 
 const featuresData = [
@@ -29,7 +29,7 @@ const featuresData = [
     description: "Insights from different regions.",
     footer: "Bar chart for regional data.",
     imageSrc: "/images/chart2.png",
-    Icon: BarChart,
+    Icon: ChartBarTwo,
   },
   {
     id: 3,
@@ -37,7 +37,7 @@ const featuresData = [
     description: "Top-performing categories.",
     footer: "Pie chart with segment details.",
     imageSrc: "/images/chart3.png",
-    Icon: PieChart,
+    Icon: ChartPieTwo,
   },
   {
     id: 4,
@@ -61,7 +61,7 @@ const featuresData = [
     description: "Track growth over time.",
     footer: "Line chart with trend data.",
     imageSrc: "/images/chart6.png",
-    Icon: LineChart,
+    Icon: ChartLine,
   },
 ];
 

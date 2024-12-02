@@ -9,11 +9,11 @@ import { generateEmbeddedFile } from "@/features/analytics/actions/generate-embe
 import ProjectAnalyticsCharts from "@/features/analytics/response-charts";
 import ProjectAnalyticsResponseTable from "@/features/analytics/response-table";
 import Hint from "@/features/global/hint";
-import { errorToast, successToast } from "@/features/global/toast";
+import { copyToast, errorToast, successToast } from "@/features/global/toast";
 import { getProjectAnalytics } from "@/features/projects/actions/get-project-analytics";
 import { useUser } from "@/hooks/use-user";
+import { At } from "@mynaui/icons-react";
 import { useQuery } from "@tanstack/react-query";
-import { AtSign } from "lucide-react";
 import { use } from "react";
 import { IoIosInformationCircle } from "react-icons/io";
 
@@ -65,7 +65,10 @@ const ProjectAnalytics = ({ params }: Props) => {
         <Card className="flex flex-col items-start justify-between space-y-4 rounded-lg bg-sidebar p-4 md:flex-row md:items-center md:space-y-0">
           <div className="flex items-center space-x-4">
             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-800">
-              <AtSign className="h-6 w-6 text-white" />
+              <At
+                className="h-6 w-6 font-semibold text-white"
+                strokeWidth={2}
+              />
             </div>
 
             <div className="flex flex-col space-y-2">
@@ -130,7 +133,10 @@ const ProjectAnalytics = ({ params }: Props) => {
                       data?.scriptFile !== undefined
                     ) {
                       navigator.clipboard.writeText(data.scriptFile.toString());
-                      successToast("Copied to clipboard", {
+                      // successToast("Copied to clipboard", {
+                      //   position: "top-center",
+                      // });
+                      copyToast("Copied to clipboard", {
                         position: "top-center",
                       });
                     }

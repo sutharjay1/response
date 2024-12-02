@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -8,22 +9,19 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-
-import { generateSlug } from "random-word-slugs";
-
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
-import { useProject } from "@/hooks/use-project";
-import { useMutation } from "@tanstack/react-query";
-import { createProject } from "./actions/create-project";
-import { useUser } from "@/hooks/use-user";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { errorToast, successToast } from "@/features/global/toast";
+import { useProject } from "@/hooks/use-project";
+import { useUser } from "@/hooks/use-user";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import { generateSlug } from "random-word-slugs";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
+import { createProject } from "./actions/create-project";
+import { SpinnerOne } from "@mynaui/icons-react";
 
 const projectSchema = z.object({
   name: z
@@ -174,7 +172,7 @@ const ProjectForm = () => {
           )}
         />
 
-        <div className="mt-2 flex flex-1 gap-x-2 sm:flex-row sm:gap-x-2 sm:space-y-0 md:justify-end">
+        <div className="mt-4 flex flex-1 gap-x-2 sm:flex-row sm:gap-x-2 sm:space-y-0 md:justify-end">
           <Button
             variant="shine"
             className="w-fit sm:order-1 md:w-min md:self-center"
@@ -183,7 +181,7 @@ const ProjectForm = () => {
           >
             {loadingProjects ? (
               <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                <SpinnerOne className="mr-2 h-4 w-4 animate-spin text-muted-foreground" />
                 Creating...
               </>
             ) : (

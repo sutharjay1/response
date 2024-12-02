@@ -4,8 +4,8 @@ import { Button } from "@/components/ui/button";
 import { P } from "@/components/ui/typography";
 import { errorToast, successToast } from "@/features/global/toast";
 import { deleteProject } from "@/features/projects/actions/delete-project";
+import { SpinnerOne } from "@mynaui/icons-react";
 import { useMutation } from "@tanstack/react-query";
-import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { toast } from "sonner";
@@ -82,7 +82,13 @@ const ProjectSettings = ({ params }: Props) => {
           onClick={handleDeleteProject}
           disabled={isLoading}
         >
-          {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          {isLoading && (
+            <SpinnerOne
+              className="mr-2 h-4 w-4 animate-spin font-semibold"
+              aria-hidden="true"
+              strokeWidth={2}
+            />
+          )}
           Delete this project
         </Button>
       </div>

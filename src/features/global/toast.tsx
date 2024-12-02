@@ -1,6 +1,12 @@
 import { toast } from "sonner";
-import { X, Info, AlertCircle, Copy, Bell } from "lucide-react";
-import { GoCheckCircleFill } from "react-icons/go";
+import {
+  X,
+  Info,
+  Copy,
+  Bell,
+  DangerSquare,
+  CheckCircle,
+} from "@mynaui/icons-react";
 
 type ToastOptions = {
   description?: string;
@@ -23,11 +29,7 @@ export const successToast = (message: string, options?: ToastOptions) => {
     duration: options?.duration || DEFAULT_DURATION,
     position: options?.position || DEFAULT_POSITION,
     icon: (
-      <GoCheckCircleFill
-        className="h-5 w-5 font-bold"
-        size={16}
-        strokeWidth={1.08}
-      />
+      <CheckCircle className="h-5 w-5 font-bold" size={16} strokeWidth={1.08} />
     ),
     style: {
       backgroundColor: "#004014",
@@ -64,8 +66,8 @@ export const infoToast = (message: string, options?: ToastOptions) => {
       <Info className="h-5 w-5 font-semibold" size={16} strokeWidth={1.08} />
     ),
     style: {
-      backgroundColor: "rgb(59, 130, 246)",
-      color: "white",
+      backgroundColor: "#4338ca",
+      color: "#a5b4fc",
       border: "none",
     },
     className:
@@ -79,7 +81,7 @@ export const warningToast = (message: string, options?: ToastOptions) => {
     duration: options?.duration || DEFAULT_DURATION,
     position: options?.position || DEFAULT_POSITION,
     icon: (
-      <AlertCircle
+      <DangerSquare
         className="h-5 w-5 font-semibold"
         size={16}
         strokeWidth={1.08}
