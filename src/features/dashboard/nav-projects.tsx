@@ -1,7 +1,5 @@
 "use client";
 
-import { AlignHorizontal, Folder, Share, Trash } from "@mynaui/icons-react";
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,6 +16,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { DotsVertical, Folder, Share, Trash } from "@mynaui/icons-react";
 
 export function NavProjects({
   projects,
@@ -45,7 +44,10 @@ export function NavProjects({
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <SidebarMenuAction showOnHover>
-                  <AlignHorizontal />
+                  <DotsVertical
+                    className="h-5 w-5 font-semibold"
+                    strokeWidth={2}
+                  />
                   <span className="sr-only">More</span>
                 </SidebarMenuAction>
               </DropdownMenuTrigger>
@@ -73,7 +75,7 @@ export function NavProjects({
         ))}
         <SidebarMenuItem>
           <SidebarMenuButton>
-            <AlignHorizontal />
+            <DotsVertical className="h-5 w-5 font-semibold" strokeWidth={2} />
             <span>More</span>
           </SidebarMenuButton>
         </SidebarMenuItem>
