@@ -13,13 +13,7 @@ import { NavMain } from "@/features/dashboard/nav-main";
 import { NavProjects } from "@/features/dashboard/nav-projects";
 import { NavUser } from "@/features/dashboard/nav-user";
 import { useProject } from "@/hooks/use-project";
-import {
-  ChartPieTwo,
-  CogOne,
-  DotsVertical,
-  Map,
-  Terminal,
-} from "@mynaui/icons-react";
+import { ChartPieTwo, CogOne, Frame, Map, Terminal } from "@mynaui/icons-react";
 import * as React from "react";
 import { ProjectDropDown } from "./project-dropdown";
 
@@ -58,13 +52,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       {
         title: "Projects",
         url: "#",
-        icon: (
-          <DotsVertical
-            size={16}
-            className="font-semibold"
-            strokeWidth={1.08}
-          />
-        ),
+        icon: <Frame size={16} className="font-semibold" strokeWidth={1.08} />,
         isActive: true,
         items: [
           {
@@ -103,13 +91,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       {
         name: "Design Engineering",
         url: "#",
-        icon: (
-          <DotsVertical
-            size={16}
-            className="font-semibold"
-            strokeWidth={1.08}
-          />
-        ),
+        icon: <Frame size={16} className="font-semibold" strokeWidth={1.08} />,
       },
       {
         name: "Sales & Marketing",
