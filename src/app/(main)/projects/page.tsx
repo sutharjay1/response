@@ -11,17 +11,18 @@ import {
 import { successToast } from "@/features/global/toast";
 import { getProjects } from "@/features/projects/actions/get-projects";
 import { useUser } from "@/hooks/use-user";
-import { useQuery } from "@tanstack/react-query";
 import {
-  ArrowRight,
+  ArrowLongRight,
   Calendar,
-  FolderGit2,
-  Loader2,
-  PlusCircle,
-} from "lucide-react";
+  ChartBarTwo,
+  CogOne,
+  FileText,
+  Plus,
+  SpinnerOne,
+} from "@mynaui/icons-react";
+import { useQuery } from "@tanstack/react-query";
+import { AnnoyedSquare } from "@mynaui/icons-react";
 import Link from "next/link";
-import { SiGoogleanalytics } from "react-icons/si";
-import { TiAttachment, TiCog } from "react-icons/ti";
 
 const Projects = () => {
   const { user } = useUser();
@@ -36,21 +37,21 @@ const Projects = () => {
   return loadingProjects ? (
     <div className="flex min-h-[400px] items-center justify-center">
       <div className="flex flex-col items-center gap-2">
-        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+        <SpinnerOne className="h-8 w-8 animate-spin text-muted-foreground" />
         <p className="text-sm text-muted-foreground">Loading projects...</p>
       </div>
     </div>
   ) : !projects?.length ? (
     <div className="flex min-h-[400px] flex-col items-center justify-center">
       <div className="flex flex-col items-center gap-2">
-        <FolderGit2 className="h-8 w-8 text-muted-foreground" />
+        <AnnoyedSquare className="h-8 w-8 text-muted-foreground" />
         <h3 className="text-lg font-semibold">No projects found</h3>
         <p className="text-sm text-muted-foreground">
           Create your first project to get started
         </p>
         <Button asChild className="mt-4">
           <Link href="/projects/new">
-            <PlusCircle className="mr-2 h-4 w-4" />
+            <Plus className="mr-2 h-5 w-5" strokeWidth={2} />
             Create Project
           </Link>
         </Button>
@@ -62,7 +63,7 @@ const Projects = () => {
         <h2 className="text-2xl font-bold tracking-tight">Your Projects</h2>
         <Button asChild>
           <Link href="/projects/new">
-            <PlusCircle className="mr-2 h-4 w-4" />
+            <Plus className="mr-2 h-5 w-5" strokeWidth={2} />
             Create Project
           </Link>
         </Button>
@@ -102,7 +103,10 @@ const Projects = () => {
                         }
                       }}
                     >
-                      <TiAttachment className="h-7 w-7 font-semibold" />
+                      <FileText
+                        className="h-5 w-5 font-semibold"
+                        strokeWidth={2}
+                      />
                       <span className="sr-only">Open menu</span>
                     </Button>
                     <Button
@@ -114,7 +118,10 @@ const Projects = () => {
                         href={`/projects/${project.id}/analytics`}
                         className="cursor-pointer"
                       >
-                        <SiGoogleanalytics className="h-7 w-7 p-1 font-semibold" />
+                        <ChartBarTwo
+                          className="h-5 w-5 font-semibold"
+                          strokeWidth={2}
+                        />
                         <span className="sr-only">Open menu</span>
                       </Link>
                     </Button>
@@ -127,9 +134,9 @@ const Projects = () => {
                         href={`/projects/${project.id}/settings`}
                         className="cursor-pointer"
                       >
-                        <TiCog
-                          className="h-7 w-7 font-semibold"
-                          strokeWidth={1.08}
+                        <CogOne
+                          className="h-5 w-5 font-semibold"
+                          strokeWidth={2}
                         />
                         <span className="sr-only">Open menu</span>
                       </Link>
@@ -137,7 +144,7 @@ const Projects = () => {
                   </div>
                 </div>
                 <div className="mt-1 flex items-center text-sm text-muted-foreground">
-                  <Calendar className="mr-1 h-3 w-3" />
+                  <Calendar className="mr-1 h-5 w-5" strokeWidth={2} />
                   <time dateTime={project.createdAt.toISOString()}>
                     {project.createdAt.toLocaleDateString()}
                   </time>
@@ -145,9 +152,7 @@ const Projects = () => {
               </CardHeader>
               <CardContent>
                 <p className="line-clamp-2 text-sm text-muted-foreground">
-                  {projects.map((project) => (
-                    <span key={project.id}>{totalResults} responses</span>
-                  ))}
+                  <span>{totalResults} responses</span>
                 </p>
               </CardContent>
               <CardFooter className="flex items-center justify-between bg-muted/50 px-6 py-4">
@@ -172,7 +177,10 @@ const Projects = () => {
                     className="flex items-center"
                   >
                     View Project
-                    <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-700 group-hover:translate-x-1" />
+                    <ArrowLongRight
+                      className="ml-2 h-5 w-5 transition-transform duration-700 group-hover:translate-x-1"
+                      strokeWidth={2}
+                    />
                   </Link>
                 </Button>
               </CardFooter>

@@ -22,7 +22,7 @@ import { useUser } from "@/hooks/use-user";
 import { cn } from "@/lib/utils";
 import { Project } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
-import { Check, ChevronDown } from "lucide-react";
+import { Check, ChevronDown } from "@mynaui/icons-react";
 import { getProjectById, getProjects } from "../projects/actions/get-projects";
 
 export function ProjectDropDown({ className }: { className?: string }) {

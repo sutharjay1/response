@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { LuSquare } from "react-icons/lu";
+import Link from "next/link";
+import Logo from "../global/logo";
 
 const navLinks = [
   { label: "Features", href: "#" },
@@ -15,15 +15,7 @@ export function Nav() {
   return (
     <nav className="flex items-center justify-between p-4 px-8">
       <div className="flex items-center gap-2">
-        <Link
-          href="/"
-          className="flex items-center gap-2 text-xl font-semibold"
-        >
-          <LuSquare className="h-6 w-6" />
-          <span className="text-xl font-medium tracking-tight text-black">
-            Response
-          </span>
-        </Link>
+        <Logo show />
       </div>
 
       <div

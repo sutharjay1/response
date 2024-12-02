@@ -9,9 +9,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { useProject } from "@/hooks/use-project";
-import { BsFolder2Open } from "react-icons/bs";
-import { BiAt } from "react-icons/bi";
-import { SiAnalogue } from "react-icons/si";
+import { FolderTwo, At, ChartBarTwo } from "@mynaui/icons-react";
 import { usePathname } from "next/navigation";
 
 const BreadcrumbInfo = () => {
@@ -24,10 +22,10 @@ const BreadcrumbInfo = () => {
         <BreadcrumbItem className="hidden md:block">
           <BreadcrumbLink href="/dashboard">
             <BreadcrumbPage className="flex items-center gap-2">
-              <BsFolder2Open
+              <FolderTwo
                 size={16}
-                className="font-semibold"
-                strokeWidth={1.08}
+                className="h-5 w-5 font-bold"
+                strokeWidth={2}
               />{" "}
               Dashboard
             </BreadcrumbPage>
@@ -36,7 +34,7 @@ const BreadcrumbInfo = () => {
         <BreadcrumbSeparator className="hidden md:block" />
         <BreadcrumbItem>
           <BreadcrumbPage className="flex items-center gap-2">
-            <BiAt size={16} className="font-semibold" strokeWidth={1.08} />
+            <At size={16} className="h-5 w-5 font-bold" strokeWidth={2} />
             {project?.name}
           </BreadcrumbPage>
         </BreadcrumbItem>
@@ -46,10 +44,10 @@ const BreadcrumbInfo = () => {
             <BreadcrumbSeparator className="hidden md:block" />
             <BreadcrumbItem>
               <BreadcrumbPage className="flex items-center gap-2">
-                <SiAnalogue
+                <ChartBarTwo
                   size={16}
-                  className="font-semibold"
-                  strokeWidth={1.08}
+                  className="h-5 w-5 font-bold"
+                  strokeWidth={2}
                 />
                 Analytics
               </BreadcrumbPage>

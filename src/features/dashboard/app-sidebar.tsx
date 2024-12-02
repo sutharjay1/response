@@ -1,17 +1,6 @@
 "use client";
 
 import {
-  Frame,
-  LifeBuoy,
-  Map,
-  PieChart,
-  Send,
-  Settings2,
-  SquareTerminal,
-} from "lucide-react";
-import * as React from "react";
-
-import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
@@ -22,10 +11,16 @@ import {
 } from "@/components/ui/sidebar";
 import { NavMain } from "@/features/dashboard/nav-main";
 import { NavProjects } from "@/features/dashboard/nav-projects";
-import { NavSecondary } from "@/features/dashboard/nav-secondary";
 import { NavUser } from "@/features/dashboard/nav-user";
 import { useProject } from "@/hooks/use-project";
-
+import {
+  ChartPieTwo,
+  CogOne,
+  DotsVertical,
+  Map,
+  Terminal,
+} from "@mynaui/icons-react";
+import * as React from "react";
 import { ProjectDropDown } from "./project-dropdown";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -41,7 +36,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       {
         title: "Dashboard",
         url: "/dashboard",
-        icon: SquareTerminal,
+        icon: (
+          <Terminal size={16} className="font-semibold" strokeWidth={1.08} />
+        ),
         isActive: true,
         items: [
           {
@@ -61,7 +58,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       {
         title: "Projects",
         url: "#",
-        icon: Frame,
+        icon: (
+          <DotsVertical
+            size={16}
+            className="font-semibold"
+            strokeWidth={1.08}
+          />
+        ),
         isActive: true,
         items: [
           {
@@ -86,7 +89,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       {
         title: "Settings",
         url: "#",
-        icon: Settings2,
+        icon: <CogOne size={16} className="font-semibold" strokeWidth={1.08} />,
         isActive: true,
         items: [
           {
@@ -96,33 +99,29 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         ],
       },
     ],
-    navSecondary: [
-      {
-        title: "Support",
-        url: "#",
-        icon: LifeBuoy,
-      },
-      {
-        title: "Feedback",
-        url: "#",
-        icon: Send,
-      },
-    ],
     projects: [
       {
         name: "Design Engineering",
         url: "#",
-        icon: Frame,
+        icon: (
+          <DotsVertical
+            size={16}
+            className="font-semibold"
+            strokeWidth={1.08}
+          />
+        ),
       },
       {
         name: "Sales & Marketing",
         url: "#",
-        icon: PieChart,
+        icon: (
+          <ChartPieTwo size={16} className="font-semibold" strokeWidth={1.08} />
+        ),
       },
       {
         name: "Travel",
         url: "#",
-        icon: Map,
+        icon: <Map size={16} className="font-semibold" strokeWidth={1.08} />,
       },
     ],
   };
@@ -141,7 +140,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent className="z-10">
         <NavMain items={data.navMain} />
         <NavProjects projects={data.projects} />
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
         <NavUser />

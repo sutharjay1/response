@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Database } from "lucide-react";
+import { Database } from "@mynaui/icons-react";
 import { inter } from "../font";
 
 export default function CTA() {

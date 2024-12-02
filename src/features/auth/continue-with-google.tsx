@@ -2,10 +2,10 @@
 
 import { Button } from "@/components/ui/button";
 import { useUser } from "@/hooks/use-user";
+import { BrandGoogleSolid } from "@mynaui/icons-react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { ImGoogle } from "react-icons/im";
 import { toast } from "sonner";
 
 const ContinueWithGoogle = () => {
@@ -54,7 +54,7 @@ const ContinueWithGoogle = () => {
       onClick={handleGoogleLogin}
       disabled={isLoggingIn}
     >
-      <ImGoogle className="size-10" />
+      <BrandGoogleSolid className="size-10" />
       {isLoggingIn ? "Connecting..." : "Continue with Google"}
     </Button>
   );

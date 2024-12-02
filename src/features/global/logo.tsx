@@ -2,8 +2,9 @@
 
 import { useUser } from "@/hooks/use-user";
 import { cn } from "@/lib/utils";
-import { Monitor } from "lucide-react";
+import { SlashSquare } from "@mynaui/icons-react";
 import Link from "next/link";
+import { aeonik } from "../font";
 
 type Props = {
   text?: string;
@@ -24,9 +25,13 @@ const Logo = ({ text, show = true }: Props) => {
           !show && "pb-12",
         )}
       >
-        <Monitor size={show ? 25 : 75} />
+        <SlashSquare size={show ? 32 : 48} />
         {show ? (
-          <span className={cn("px-2 text-lg font-bold", text)}>Response</span>
+          <span
+            className={cn("px-2 text-lg font-bold", text, aeonik.className)}
+          >
+            Response
+          </span>
         ) : null}
       </div>
     </Link>
