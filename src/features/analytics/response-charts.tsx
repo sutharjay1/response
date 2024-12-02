@@ -73,7 +73,7 @@ const ProjectAnalyticsCharts = ({
     const endDate = new Date();
     const startDate = new Date(endDate.getTime() - range * 24 * 60 * 60 * 1000);
 
-    return field.results
+    return field?.results
       .filter(
         (result) =>
           new Date(result.createdAt) >= startDate &&
