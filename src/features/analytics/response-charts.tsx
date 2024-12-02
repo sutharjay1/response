@@ -13,7 +13,14 @@ import {
 } from "@/components/ui/chart";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
-import { Area, AreaChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
+import {
+  CartesianGrid,
+  Line,
+  LineChart,
+  ResponsiveContainer,
+  XAxis,
+  YAxis,
+} from "recharts";
 
 interface FieldResult {
   field: {
@@ -107,135 +114,106 @@ const ProjectAnalyticsCharts = ({
       case "star":
         return (
           <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={chartData}>
-              <defs>
-                <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
-                  <stop
-                    offset="5%"
-                    stopColor="var(--color-value)"
-                    stopOpacity={0.8}
-                  />
-                  <stop
-                    offset="95%"
-                    stopColor="var(--color-value)"
-                    stopOpacity={0.1}
-                  />
-                </linearGradient>
-              </defs>
+            <LineChart
+              data={chartData}
+              margin={{ top: 5, right: 10, left: 10, bottom: 5 }}
+            >
+              <CartesianGrid
+                strokeDasharray="3 3"
+                horizontal={true}
+                vertical={false}
+                stroke="rgba(255,255,255,0.1)"
+              />
               <XAxis
                 dataKey="date"
                 tickFormatter={(date) =>
                   new Date(date).toLocaleDateString("en-US", {
                     month: "short",
-                    day: "numeric",
                   })
                 }
                 tickLine={false}
                 axisLine={false}
+                stroke="rgba(255,255,255,0.5)"
                 tickMargin={8}
               />
-              <YAxis tickLine={false} axisLine={false} tickMargin={8} />
-              <ChartTooltip content={<ChartTooltipContent />} />
-              <Area
+              <YAxis
+                tickLine={false}
+                axisLine={false}
+                stroke="rgba(255,255,255,0.5)"
+                tickMargin={8}
+              />
+              <ChartTooltip content={<ChartTooltipContent />} cursor={false} />
+              <Line
                 type="monotone"
                 dataKey="value"
-                stroke="var(--color-value)"
-                fillOpacity={1}
-                fill="url(#colorValue)"
+                stroke="#7c533a"
+                strokeWidth={2}
+                dot={{
+                  r: 4,
+                  fill: "#7c533a",
+                  strokeWidth: 0,
+                }}
+                activeDot={{
+                  r: 6,
+                  fill: "#7c533a",
+                  strokeWidth: 0,
+                }}
               />
-            </AreaChart>
+            </LineChart>
           </ResponsiveContainer>
         );
       case "checkbox":
       case "input":
-        return (
-          <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={chartData}>
-              <defs>
-                <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
-                  <stop
-                    offset="5%"
-                    stopColor="var(--color-value)"
-                    stopOpacity={0.8}
-                  />
-                  <stop
-                    offset="95%"
-                    stopColor="var(--color-value)"
-                    stopOpacity={0.1}
-                  />
-                </linearGradient>
-              </defs>
-              <XAxis
-                dataKey="date"
-                tickFormatter={(date) =>
-                  new Date(date).toLocaleDateString("en-US", {
-                    month: "short",
-                    day: "numeric",
-                  })
-                }
-                tickLine={false}
-                axisLine={false}
-                tickMargin={8}
-              />
-              <YAxis tickLine={false} axisLine={false} tickMargin={8} />
-              <ChartTooltip content={<ChartTooltipContent />} />
-              <Area
-                type="monotone"
-                dataKey="value"
-                stroke="var(--color-value)"
-                fillOpacity={1}
-                fill="url(#colorValue)"
-              />
-            </AreaChart>
-          </ResponsiveContainer>
-        );
       case "text":
       case "textarea":
         return (
           <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={chartData}>
-              <defs>
-                <linearGradient
-                  id={`colorValue-${field.id}`}
-                  x1="0"
-                  y1="0"
-                  x2="0"
-                  y2="1"
-                >
-                  <stop
-                    offset="5%"
-                    stopColor="var(--color-value)"
-                    stopOpacity={0.8}
-                  />
-                  <stop
-                    offset="95%"
-                    stopColor="var(--color-value)"
-                    stopOpacity={0.1}
-                  />
-                </linearGradient>
-              </defs>
+            <LineChart
+              data={chartData}
+              margin={{ top: 5, right: 10, left: 10, bottom: 5 }}
+            >
+              <CartesianGrid
+                strokeDasharray="3 3"
+                horizontal={true}
+                vertical={false}
+                stroke="rgba(255,255,255,0.1)"
+              />
               <XAxis
                 dataKey="date"
                 tickFormatter={(date) =>
                   new Date(date).toLocaleDateString("en-US", {
                     month: "short",
-                    day: "numeric",
                   })
                 }
                 tickLine={false}
                 axisLine={false}
+                stroke="rgba(255,255,255,0.5)"
                 tickMargin={8}
               />
-              <YAxis tickLine={false} axisLine={false} tickMargin={8} />
-              <ChartTooltip content={<ChartTooltipContent />} />
-              <Area
+              <YAxis
+                tickLine={false}
+                axisLine={false}
+                stroke="rgba(255,255,255,0.5)"
+                tickMargin={8}
+              />
+              <ChartTooltip content={<ChartTooltipContent />} cursor={false} />
+              <Line
                 type="monotone"
                 dataKey="value"
-                stroke="var(--color-value)"
-                fillOpacity={1}
-                fill={`url(#colorValue-${field.id})`}
+                stroke="#7c533a"
+                strokeWidth={2}
+                dot={{
+                  r: 4,
+                  fill: "#7c533a",
+                  strokeWidth: 0,
+                }}
+                activeDot={{
+                  r: 6,
+                  fill: "#7c533a",
+                  strokeWidth: 0,
+                }}
               />
-            </AreaChart>
+            </LineChart>
           </ResponsiveContainer>
         );
       default:
