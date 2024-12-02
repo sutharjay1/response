@@ -1,6 +1,7 @@
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
+import { geistSans } from "@/features/font";
 
 const badgeVariants = cva(
   "inline-flex items-center rounded-xl border border-input px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
@@ -31,7 +32,16 @@ export interface BadgeProps
 function Badge({ className, variant, icon, children, ...props }: BadgeProps) {
   return (
     <div className={cn(badgeVariants({ variant }), className)} {...props}>
-      {icon && <span className="mr-2 inline-flex py-0.5">{icon}</span>}
+      {icon && (
+        <span
+          className={cn(
+            "mr-2 inline-flex py-0.5 font-semibold",
+            geistSans.className,
+          )}
+        >
+          {icon}
+        </span>
+      )}
       {children}
     </div>
   );

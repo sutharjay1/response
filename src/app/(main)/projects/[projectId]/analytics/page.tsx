@@ -9,7 +9,7 @@ import { generateEmbeddedFile } from "@/features/analytics/actions/generate-embe
 import ProjectAnalyticsCharts from "@/features/analytics/response-charts";
 import ProjectAnalyticsResponseTable from "@/features/analytics/response-table";
 import Hint from "@/features/global/hint";
-import { copyToast, errorToast, successToast } from "@/features/global/toast";
+import { errorToast, successToast } from "@/features/global/toast";
 import { getProjectAnalytics } from "@/features/projects/actions/get-project-analytics";
 import { useUser } from "@/hooks/use-user";
 import { At, InfoWaves } from "@mynaui/icons-react";
@@ -77,7 +77,7 @@ const ProjectAnalytics = ({ params }: Props) => {
                   <Badge
                     icon={<InfoWaves className="h-4 w-4" />}
                     variant="default"
-                    className="font-medium"
+                    className="border border-input text-sm font-medium"
                   >
                     Certified
                   </Badge>
@@ -132,10 +132,7 @@ const ProjectAnalytics = ({ params }: Props) => {
                       data?.scriptFile !== undefined
                     ) {
                       navigator.clipboard.writeText(data.scriptFile.toString());
-                      // successToast("Copied to clipboard", {
-                      //   position: "top-center",
-                      // });
-                      copyToast("Copied to clipboard", {
+                      successToast("Copied to clipboard", {
                         position: "top-center",
                       });
                     }

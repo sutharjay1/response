@@ -80,7 +80,7 @@ export default function Home() {
     <div className="min-h-screen bg-background">
       <Nav />
       <div className="mx-8 my-3 rounded-3xl">
-        <main className="mx-auto max-w-6xl px-4 py-12">
+        <main className="mx-auto max-w-6xl px-4 pb-12">
           <div className="mb-12 w-full text-center">
             <Badge
               icon={<CheckWaves className="h-4 w-4" />}
@@ -125,8 +125,8 @@ export default function Home() {
       </div>
 
       <div className="mx-8 my-3 rounded-3xl">
-        <main className="mx-auto w-full space-y-12 py-12 md:max-w-6xl md:px-4">
-          <div className="relative z-10 flex flex-col items-center justify-center rounded-2xl bg-sidebar px-4 py-6 text-center">
+        <main className="mx-auto w-full space-y-12 pb-12 md:max-w-6xl md:px-4">
+          <div className="relative z-10 flex flex-col items-center justify-center rounded-2xl border border-[#7c533a]/10 bg-sidebar px-4 py-6 text-center">
             <Badge
               icon={<Database className="h-4 w-4" />}
               variant="default"
@@ -206,7 +206,12 @@ export default function Home() {
                 Feedback Collection
               </Badge>
 
-              <h1 className="mb-4 text-4xl font-bold text-sidebar md:text-5xl">
+              <h1
+                className={cn(
+                  "mb-4 text-4xl font-bold text-sidebar md:text-5xl",
+                  aeonik.className,
+                )}
+              >
                 Ease of Use
               </h1>
 
@@ -231,7 +236,12 @@ export default function Home() {
                 Actionable Insights
               </Badge>
 
-              <h1 className="mb-4 text-4xl font-bold text-sidebar md:text-5xl">
+              <h1
+                className={cn(
+                  "mb-4 text-4xl font-bold text-sidebar md:text-5xl",
+                  aeonik.className,
+                )}
+              >
                 Data to Insights
               </h1>
 

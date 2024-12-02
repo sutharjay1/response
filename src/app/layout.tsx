@@ -41,6 +41,7 @@ export default async function RootLayout({
         className={cn(
           "min-h-screen w-full scroll-smooth bg-background text-foreground antialiased",
           geistSans.variable,
+          geistSans.className,
         )}
       >
         <ClientProvider session={session}>

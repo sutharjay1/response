@@ -48,7 +48,7 @@ const customerData = [
 
 export function DashboardPreview() {
   return (
-    <div className="space-y-4 rounded-xl bg-sidebar p-4">
+    <div className="space-y-4 rounded-xl border-[#7c533a]/10 bg-sidebar p-4">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
         <Card className="bg-sidebar p-4">
           <h3 className="mb-4 text-sm font-medium">User signups</h3>
