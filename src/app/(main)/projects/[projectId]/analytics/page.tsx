@@ -4,9 +4,11 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { generateEmbeddedFile } from "@/features/analytics/actions/generate-embedded-file";
 import ProjectAnalyticsCharts from "@/features/analytics/response-charts";
 import ProjectAnalyticsResponseTable from "@/features/analytics/response-table";
+import Hint from "@/features/global/hint";
 import { errorToast, successToast } from "@/features/global/toast";
 import { getProjectAnalytics } from "@/features/projects/actions/get-project-analytics";
 import { useUser } from "@/hooks/use-user";
@@ -23,7 +25,7 @@ const ProjectAnalytics = ({ params }: Props) => {
   const { projectId } = use(params);
   const { user } = useUser();
 
-  const { data } = useQuery({
+  const { data, isLoading, isInitialLoading } = useQuery({
     queryKey: ["projectFields", projectId],
     queryFn: async () => {
       if (!projectId) {
@@ -37,13 +39,30 @@ const ProjectAnalytics = ({ params }: Props) => {
         position: "top-center",
       });
     },
-    enabled: Boolean(projectId), // Ensure query only runs when projectId is truthy
+    enabled: Boolean(projectId),
+  });
+
+  const { refetch } = useQuery({
+    queryKey: ["refetch", projectId],
+    queryFn: async () => {
+      if (!projectId) {
+        throw new Error("Project ID is required");
+      }
+      return getProjectAnalytics(projectId);
+    },
+
+    onError: (error: { message: string }) => {
+      errorToast(error.message, {
+        position: "top-center",
+      });
+    },
+    enabled: Boolean(projectId),
   });
 
   return (
     <>
       <div className="space-y-6">
-        <Card className="flex items-center justify-between rounded-lg bg-sidebar p-4">
+        <Card className="flex flex-col items-start justify-between space-y-4 rounded-lg bg-sidebar p-4 md:flex-row md:items-center md:space-y-0">
           <div className="flex items-center space-x-4">
             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-800">
               <AtSign className="h-6 w-6 text-white" />
@@ -79,16 +98,14 @@ const ProjectAnalytics = ({ params }: Props) => {
           </div>
           <Button
             variant="outline"
-            className="gap-2"
+            className="w-full gap-2 md:w-fit"
             onClick={() => {
               generateEmbeddedFile(projectId).then((filePath) => {
                 if (filePath) {
-                  console.log({
-                    filePath,
-                  });
                   successToast("File generated", {
                     position: "top-center",
                   });
+                  refetch();
                 }
               });
             }}
@@ -97,10 +114,33 @@ const ProjectAnalytics = ({ params }: Props) => {
           </Button>
         </Card>
 
-        {data?.scriptFile ? (
+        {isLoading && isInitialLoading ? (
+          <Card className="flex items-center justify-between rounded-lg bg-sidebar p-4">
+            <Skeleton className="h-4 max-w-[--skeleton-width] flex-1" />
+          </Card>
+        ) : data?.scriptFile ? (
           <Card className="flex items-center justify-between rounded-lg bg-sidebar p-4">
             <div className="flex items-center space-x-4">
-              <div className="font-medium text-primary">{data?.scriptFile}</div>
+              <Hint label="Copy feedback script file" side="top">
+                <Badge
+                  className="cursor-pointer rounded-lg py-1"
+                  onClick={() => {
+                    if (
+                      data?.scriptFile !== null &&
+                      data?.scriptFile !== undefined
+                    ) {
+                      navigator.clipboard.writeText(data.scriptFile.toString());
+                      successToast("Copied to clipboard", {
+                        position: "top-center",
+                      });
+                    }
+                  }}
+                >
+                  <div className="font-medium text-primary">
+                    {data?.scriptFile}
+                  </div>
+                </Badge>
+              </Hint>
             </div>
           </Card>
         ) : (
@@ -113,7 +153,7 @@ const ProjectAnalytics = ({ params }: Props) => {
         )}
 
         {data && data.fields && (
-          <div className="grid h-fit grid-cols-1 gap-4 md:grid-cols-[30%,70%]">
+          <div className="grid h-fit grid-cols-1 gap-4 md:grid-cols-[50%,50%]">
             <ProjectAnalyticsCharts data={data} className="w-full" />
             <ProjectAnalyticsResponseTable
               data={data!}

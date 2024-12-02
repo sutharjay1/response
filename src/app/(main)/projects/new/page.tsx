@@ -1,7 +1,7 @@
 "use client";
 
 import PageHeader from "@/features/global/page-header";
-import ProjectForm from "@/features/projects/form/project-form";
+import ProjectForm from "@/features/projects/create-project-form";
 import { QueryProvider } from "@/providers/query-provider";
 import React from "react";
 

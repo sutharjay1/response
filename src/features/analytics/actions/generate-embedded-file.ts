@@ -14,6 +14,7 @@ export const generateEmbeddedFile = async (projectId: string) => {
     const result = await db.result.findMany({
       where: {
         projectId,
+        isFavorite: true,
       },
       select: {
         id: true,
@@ -28,96 +29,181 @@ export const generateEmbeddedFile = async (projectId: string) => {
       const tailwindScript = document.createElement('script');
       tailwindScript.src = 'https://cdn.tailwindcss.com';
       document.head.appendChild(tailwindScript);
-    
+
+      // Configure Tailwind
+      const tailwindConfig = document.createElement('script');
+      tailwindConfig.textContent = \`
+        tailwind.config = {
+          theme: {
+            extend: {
+              colors: {
+                border: "hsl(var(--border))",
+                input: "hsl(var(--input))",
+                ring: "hsl(var(--ring))",
+                background: "hsl(var(--background))",
+                foreground: "hsl(var(--foreground))",
+                primary: {
+                  DEFAULT: "hsl(var(--primary))",
+                  foreground: "hsl(var(--primary-foreground))",
+                },
+                secondary: {
+                  DEFAULT: "hsl(var(--secondary))",
+                  foreground: "hsl(var(--secondary-foreground))",
+                },
+                destructive: {
+                  DEFAULT: "hsl(var(--destructive))",
+                  foreground: "hsl(var(--destructive-foreground))",
+                },
+                muted: {
+                  DEFAULT: "hsl(var(--muted))",
+                  foreground: "hsl(var(--muted-foreground))",
+                },
+                accent: {
+                  DEFAULT: "hsl(var(--accent))",
+                  foreground: "hsl(var(--accent-foreground))",
+                },
+                card: {
+                  DEFAULT: "hsl(var(--card))",
+                  foreground: "hsl(var(--card-foreground))",
+                },
+              },
+            },
+          },
+        }
+      \`;
+      document.head.appendChild(tailwindConfig);
+
+      // Add CSS Variables
+      const style = document.createElement('style');
+      style.textContent = \`
+        :root {
+          --background: 0 0% 100%;
+          --foreground: 240 10% 3.9%;
+          --card: 0 0% 100%;
+          --card-foreground: 240 10% 3.9%;
+          --popover: 0 0% 100%;
+          --popover-foreground: 240 10% 3.9%;
+          --primary: 346 77% 49%;
+          --primary-foreground: 355.7 100% 97.3%;
+          --secondary: 240 4.8% 95.9%;
+          --secondary-foreground: 240 5.9% 10%;
+          --muted: 240 4.8% 95.9%;
+          --muted-foreground: 240 3.8% 46.1%;
+          --accent: 240 4.8% 95.9%;
+          --accent-foreground: 240 5.9% 10%;
+          --destructive: 0 84.2% 60.2%;
+          --destructive-foreground: 0 0% 98%;
+          --border: 240 5.9% 90%;
+          --input: 240 5.9% 90%;
+          --ring: 346 77% 49%;
+          --radius: 0.75rem;
+        }
+      \`;
+      document.head.appendChild(style);
+
       // Results data
       const results = ${JSON.stringify(result)};
-    
-      // Render function
+
       function renderResults(data) {
         // Create main container
         const container = document.createElement('div');
-        container.className = 'max-w-6xl mx-auto px-4 py-8';
-    
-        // Create wrapper
-        const wrapper = document.createElement('div');
-        wrapper.className = 'bg-gray-50 rounded-xl shadow-lg p-6';
-    
-        // Title section
-        const titleSection = document.createElement('div');
-        titleSection.className = 'mb-8 text-center';
-        titleSection.innerHTML = \`
-          <h1 class="text-3xl font-bold text-indigo-700 mb-4">Project Results</h1>
-          <p class="text-gray-600">Showing \${data.length} results</p>
-        \`;
-        wrapper.appendChild(titleSection);
-    
-        // Results grid
-        const resultsGrid = document.createElement('div');
-        resultsGrid.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6';
-    
-        // Filter and limit favorite data
-        const favoriteData = data.filter(item => item.isFavorite).slice(0, 20);
-    
-        if (favoriteData.length === 0) {
-          const noResultsMessage = document.createElement('div');
-          noResultsMessage.className = 'col-span-full text-center py-12';
-          noResultsMessage.innerHTML = \`
-            <div class="bg-yellow-100 text-yellow-800 p-6 rounded-lg inline-block">
-              <svg class="w-12 h-12 mx-auto mb-4 text-yellow-600" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
-              </svg>
-              <p class="text-xl font-semibold">No favorite results found</p>
+        container.className = 'min-h-screen bg-background text-foreground';
+
+        // Create header
+        const header = document.createElement('header');
+        header.className = 'border-b';
+        header.innerHTML = \`
+          <div class="container flex h-16 items-center px-4 mx-auto">
+            <div class="flex items-center gap-2">
+              <span class="font-semibold">Response</span>
+              <span class="inline-flex items-center rounded-md bg-secondary px-2 py-1 text-xs font-medium">
+                Beta
+              </span>
             </div>
-          \`;
-          wrapper.appendChild(noResultsMessage);
-        } else {
-          favoriteData.forEach((item) => {
-            const resultCard = document.createElement('div');
-            resultCard.className = \`
-              bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 
-              transform hover:-translate-y-2 border border-gray-100
-            \`;
-            
-            resultCard.innerHTML = \`
-              <div class="p-6">
-                <div class="flex justify-between items-start mb-4">
-                  <div class="flex-grow pr-4">
-                    <h3 class="text-xl font-semibold text-indigo-700 mb-2">\${item.value || 'Unnamed Result'}</h3>
-                    <div class="text-sm text-gray-500">
-                      Task ID: <span class="font-mono bg-gray-100 px-2 py-1 rounded">\${item.id}</span>
-                    </div>
-                  </div>
-                  <span class="
-                    px-3 py-1 rounded-full text-xs font-bold 
-                    \${item.isFavorite ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}
-                  ">
-                    \${item.isFavorite ? 'Completed' : 'Pending'}
-                  </span>
-                </div>
-              </div>
-            \`;
-            
-            resultsGrid.appendChild(resultCard);
-          });
-          
-          wrapper.appendChild(resultsGrid);
-        }
-    
-        // Footer section
-        const footerSection = document.createElement('div');
-        footerSection.className = 'text-center text-gray-500 mt-8 text-sm';
-        footerSection.innerHTML = \`
-          <p>Total Results: \${data.length}</p>
-          <p>Generated on \${new Date().toLocaleString()}</p>
+          </div>
         \`;
-        wrapper.appendChild(footerSection);
-    
-        // Append everything to the body
-        container.appendChild(wrapper);
+        container.appendChild(header);
+
+        // Create main content
+        const main = document.createElement('main');
+        main.className = 'container mx-auto px-4 py-8';
+
+        // Title section with stats
+        const titleSection = document.createElement('div');
+        titleSection.className = 'mb-8';
+        titleSection.innerHTML = \`
+          <h1 class="text-4xl font-bold tracking-tight mb-4">Analytics Overview</h1>
+          <div class="grid gap-4 md:grid-cols-3">
+            <div class="rounded-xl border bg-card p-6 shadow-sm">
+              <div class="text-sm font-medium text-muted-foreground mb-2">Total Responses</div>
+              <div class="text-2xl font-bold">\${data.length}</div>
+            </div>
+            <div class="rounded-xl border bg-card p-6 shadow-sm">
+              <div class="text-sm font-medium text-muted-foreground mb-2">Favorited</div>
+              <div class="text-2xl font-bold">\${data.filter(item => item.isFavorite).length}</div>
+            </div>
+            <div class="rounded-xl border bg-card p-6 shadow-sm">
+              <div class="text-sm font-medium text-muted-foreground mb-2">Last Updated</div>
+              <div class="text-2xl font-bold">\${new Date().toLocaleDateString()}</div>
+            </div>
+          </div>
+        \`;
+        main.appendChild(titleSection);
+
+        // Results section
+        const resultsSection = document.createElement('div');
+        resultsSection.className = 'rounded-xl border bg-card shadow-sm';
+        
+        // Results header
+        const resultsHeader = document.createElement('div');
+        resultsHeader.className = 'border-b p-4';
+        resultsHeader.innerHTML = \`
+          <div class="flex items-center justify-between">
+            <h2 class="text-lg font-semibold">Results</h2>
+            <span class="text-sm text-muted-foreground">Showing \${data.length} entries</span>
+          </div>
+        \`;
+        resultsSection.appendChild(resultsHeader);
+
+        // Results content
+        const resultsContent = document.createElement('div');
+        resultsContent.className = 'divide-y';
+        
+        data.forEach((item) => {
+          const resultItem = document.createElement('div');
+          resultItem.className = 'flex items-center justify-between p-4';
+          resultItem.innerHTML = \`
+            <div class="flex-1 space-y-1">
+              <div class="flex items-center gap-2">
+                <span class="font-medium">\${item.value}</span>
+                \${item.isFavorite ? \`
+                  <span class="inline-flex items-center rounded-md bg-primary/10 px-2 py-1 text-xs font-medium text-primary">
+                    Favorited
+                  </span>
+                \` : ''}
+              </div>
+              <div class="text-sm text-muted-foreground font-mono">
+                \${item.id}
+              </div>
+            </div>
+            <button class="rounded-full p-2 hover:bg-secondary">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="\${item.isFavorite ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary">
+                <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+              </svg>
+            </button>
+          \`;
+          resultsContent.appendChild(resultItem);
+        });
+        
+        resultsSection.appendChild(resultsContent);
+        main.appendChild(resultsSection);
+        container.appendChild(main);
+
+        // Replace body content
         document.body.innerHTML = '';
         document.body.appendChild(container);
       }
-    
+
       // Ensure Tailwind is loaded before rendering
       tailwindScript.onload = () => {
         renderResults(results);

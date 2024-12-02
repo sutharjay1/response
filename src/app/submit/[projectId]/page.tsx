@@ -17,7 +17,7 @@ import { FormElement } from "@/features/projects/dynamic-form";
 import { submitFieldResponse } from "@/features/submit/actions/submit-field-response";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import React, { useState, useEffect } from "react";
-import { Loader2 } from "lucide-react";
+import { Loader2, Star } from "lucide-react";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, Controller } from "react-hook-form";
@@ -52,6 +52,16 @@ const SubmitForm = ({ params }: Props) => {
             required_error: `${element.label} must be checked`,
           });
           break;
+        case "star":
+          schemaFields[element.id] = z
+            .string({
+              required_error: `${element.label} is required`,
+              invalid_type_error: `${element.label} must be a rating`,
+            })
+            .refine((val) => ["1", "2", "3", "4", "5"].includes(val), {
+              message: "Please select a rating",
+            });
+          break;
       }
     });
 
@@ -85,6 +95,11 @@ const SubmitForm = ({ params }: Props) => {
             return {
               ...baseField,
               value: "",
+            };
+          case "star":
+            return {
+              ...baseField,
+              value: "0",
             };
           default:
             return {};
@@ -174,6 +189,8 @@ const SubmitForm = ({ params }: Props) => {
           return data[element.id]?.trim() !== "";
         case "checkbox":
           return data[element.id] === true;
+        case "star":
+          return { ...element, value: data[element.id] };
         default:
           return false;
       }
@@ -193,6 +210,8 @@ const SubmitForm = ({ params }: Props) => {
           return { ...element, value: data[element.id] };
         case "checkbox":
           return { ...element, checked: data[element.id] };
+        case "star":
+          return { ...element, value: data[element.id] };
         default:
           return element;
       }
@@ -301,6 +320,58 @@ const SubmitForm = ({ params }: Props) => {
                                 >
                                   {element.label}
                                 </Label>
+                                {errors[element.id] && (
+                                  <p className="ml-2 text-xs text-red-500">
+                                    {errors[element.id]?.message as string}
+                                  </p>
+                                )}
+                              </div>
+                            )}
+                          />
+                        </div>
+                      );
+                    case "star":
+                      return (
+                        <div key={element.id} className="space-y-2">
+                          <Label
+                            className="block text-sm font-medium"
+                            htmlFor={`star-${element.id}`}
+                          >
+                            {element.label}
+                          </Label>
+                          <Controller
+                            name={element.id.toString()}
+                            control={control}
+                            render={({ field: { onChange, value } }) => (
+                              <div className="flex items-center">
+                                {(["1", "2", "3", "4", "5"] as const).map(
+                                  (rating) => (
+                                    <Button
+                                      key={rating}
+                                      id={`star-${element.id}`}
+                                      type="button"
+                                      variant="ghost"
+                                      onClick={() => {
+                                        onChange(rating);
+                                      }}
+                                      className={`p-1 ${
+                                        value === rating
+                                          ? "text-yellow-500"
+                                          : "text-gray-300"
+                                      }`}
+                                    >
+                                      <Star
+                                        className="h-5 w-5"
+                                        fill={
+                                          value >= rating
+                                            ? "currentColor"
+                                            : "none"
+                                        }
+                                      />
+                                    </Button>
+                                  ),
+                                )}
+
                                 {errors[element.id] && (
                                   <p className="ml-2 text-xs text-red-500">
                                     {errors[element.id]?.message as string}

@@ -12,36 +12,20 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useDebounce } from "@/hooks/use-debounce";
 import { useQuery } from "@tanstack/react-query";
-import { ChevronDown, ChevronUp, GripVertical, X } from "lucide-react";
+import { ChevronDown, ChevronUp, GripVertical, Star, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { CheckboxField, InputField, StarField, TextareaField } from "./types";
+import { getProjectField } from "./actions/get-project-field";
 import { errorToast, successToast } from "../global/toast";
 import { createForm } from "./actions/create-form";
-import { getProjectField } from "./actions/get-project-field";
 import { removeField } from "./actions/remove-field";
 
-type InputField = {
-  id: number;
-  type: "input";
-  label: string;
-  value: string;
-};
-
-type TextareaField = {
-  id: number;
-  type: "textarea";
-  label: string;
-  value: string;
-};
-
-type CheckboxField = {
-  id: number;
-  type: "checkbox";
-  label: string;
-  checked: boolean;
-};
-
-export type FormElement = InputField | TextareaField | CheckboxField;
+export type FormElement =
+  | InputField
+  | TextareaField
+  | CheckboxField
+  | StarField;
 
 const DynamicForm = ({ projectId }: { projectId: string }) => {
   const [formElements, setFormElements] = useState<FormElement[]>([]);
@@ -78,6 +62,11 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
                 ...baseField,
                 value: field.value || "",
               };
+            case "star":
+              return {
+                ...baseField,
+                value: field.value || "1",
+              };
             default:
               return {};
           }
@@ -106,7 +95,7 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
           id: element.id.toString(),
           label: element.label,
           type: element.type,
-          value: "value" in element ? element.value || "" : "",
+          value: "value" in element ? element.value : "",
           checked: "checked" in element ? Boolean(element.checked) : false,
           order: index,
         }));
@@ -141,6 +130,7 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
       type,
       ...(type === "input" || type === "textarea" ? { value: "" } : {}),
       ...(type === "checkbox" ? { checked: false } : {}),
+      ...(type === "star" ? { value: "0" } : {}),
     } as FormElement;
 
     setFormElements([...formElements, newField]);
@@ -239,7 +229,7 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
               </div>
 
               {(element.type === "input" || element.type === "textarea") && (
-                <div>
+                <div key={`${element.id}-value`}>
                   <Label
                     htmlFor={`${element.id}-value`}
                     className="text-sm font-medium"
@@ -271,7 +261,7 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
               )}
 
               {element.type === "checkbox" && (
-                <div className="mt-1 flex items-center gap-2">
+                <div className="mt-1 flex items-center gap-2" key={element.id}>
                   <input
                     type="checkbox"
                     checked={element.checked}
@@ -281,6 +271,30 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
                     className="rounded"
                   />
                   <span className="text-sm text-gray-600">Default state</span>
+                </div>
+              )}
+
+              {element.type === "star" && (
+                <div className="mt-4 flex items-center gap-2" key={element.id}>
+                  <Label className="text-sm font-medium">Default Rating</Label>
+                  <div className="flex">
+                    {(["1", "2", "3", "4", "5"] as const).map((rating) => (
+                      <button
+                        key={rating}
+                        type="button"
+                        onClick={() =>
+                          handleChange(element.id, "value", rating)
+                        }
+                        className={`p-1 ${
+                          element.value === rating
+                            ? "text-yellow-500"
+                            : "text-gray-300"
+                        }`}
+                      >
+                        <Star className="h-5 w-5" fill="currentColor" />
+                      </button>
+                    ))}
+                  </div>
                 </div>
               )}
             </div>
@@ -326,6 +340,13 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
                 className="bg-orange-50 hover:bg-orange-100"
               >
                 Add Checkbox
+              </Button>
+              <Button
+                onClick={() => addField("star")}
+                variant="outline"
+                className="bg-orange-50 hover:bg-orange-100"
+              >
+                Add Star
               </Button>
             </div>
           </CardHeader>
@@ -379,6 +400,27 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
                             className="mr-2 rounded"
                           />
                           <Label>{element.label}</Label>
+                        </div>
+                      );
+                    case "star":
+                      return (
+                        <div key={element.id} className="space-y-2">
+                          <Label>{element.label}</Label>
+                          <div className="flex">
+                            {(["1", "2", "3", "4", "5"] as const).map(
+                              (rating) => (
+                                <Star
+                                  key={rating}
+                                  className={`h-6 w-6 ${
+                                    parseInt(element.value) >= parseInt(rating)
+                                      ? "text-yellow-500"
+                                      : "text-gray-300"
+                                  }`}
+                                  fill="currentColor"
+                                />
+                              ),
+                            )}
+                          </div>
                         </div>
                       );
                     default:

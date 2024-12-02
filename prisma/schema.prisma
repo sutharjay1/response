@@ -79,4 +79,5 @@ enum FieldType {
   textarea
   input
   checkbox
+  star
 }

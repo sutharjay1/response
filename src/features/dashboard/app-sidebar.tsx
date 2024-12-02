@@ -26,7 +26,7 @@ import { NavSecondary } from "@/features/dashboard/nav-secondary";
 import { NavUser } from "@/features/dashboard/nav-user";
 import { useProject } from "@/hooks/use-project";
 
-import { ProjectDropDown } from "../projects/project-dropdown";
+import { ProjectDropDown } from "./project-dropdown";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { project } = useProject();
