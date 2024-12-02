@@ -15,7 +15,7 @@ import {
 import { format } from "date-fns";
 import { GetProjectAnalyticsType } from "../projects/actions/get-project-analytics";
 import { cn } from "@/lib/utils";
-import { TiHeartFullOutline, TiHeartOutline } from "react-icons/ti";
+import { Heart, HeartSolid } from "@mynaui/icons-react";
 import { Button } from "@/components/ui/button";
 import { addFeedbackToFavorite } from "./actions/add-feedback-to-favourite";
 import { errorToast, successToast } from "../global/toast";
@@ -76,6 +76,7 @@ const ProjectAnalyticsResponseTable = ({
                     <Button
                       variant={result.isFavorite ? "default" : "outline"}
                       size="sm"
+                      className="px-2"
                       onClick={() => {
                         addFeedbackToFavorite(
                           projectId,
@@ -100,11 +101,7 @@ const ProjectAnalyticsResponseTable = ({
                           });
                       }}
                     >
-                      {result.isFavorite ? (
-                        <TiHeartFullOutline />
-                      ) : (
-                        <TiHeartOutline />
-                      )}
+                      {result.isFavorite ? <HeartSolid /> : <Heart />}
                     </Button>
                   </TableCell>
                 </TableRow>

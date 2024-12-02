@@ -12,10 +12,9 @@ import Hint from "@/features/global/hint";
 import { copyToast, errorToast, successToast } from "@/features/global/toast";
 import { getProjectAnalytics } from "@/features/projects/actions/get-project-analytics";
 import { useUser } from "@/hooks/use-user";
-import { At } from "@mynaui/icons-react";
+import { At, InfoWaves } from "@mynaui/icons-react";
 import { useQuery } from "@tanstack/react-query";
 import { use } from "react";
-import { IoIosInformationCircle } from "react-icons/io";
 
 type Props = {
   params: Promise<{ projectId: string }>;
@@ -76,7 +75,7 @@ const ProjectAnalytics = ({ params }: Props) => {
               <div className="flex flex-col gap-2 md:flex-row">
                 <div className="flex items-center justify-start space-x-2">
                   <Badge
-                    icon={<IoIosInformationCircle className="h-4 w-4" />}
+                    icon={<InfoWaves className="h-4 w-4" />}
                     variant="default"
                     className="font-medium"
                   >
