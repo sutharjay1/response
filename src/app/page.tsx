@@ -124,7 +124,7 @@ export default function Home() {
         </main>
       </div>
 
-      <div className="mx-8 my-3 rounded-3xl">
+      <div className="mx-4 my-3 rounded-3xl md:mx-8">
         <main className="mx-auto w-full space-y-12 pb-12 md:max-w-6xl md:px-4">
           <div className="relative z-10 flex flex-col items-center justify-center rounded-2xl border border-[#7c533a]/10 bg-sidebar px-4 py-6 text-center">
             <Badge
