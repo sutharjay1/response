@@ -1,7 +1,6 @@
 "use client";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,19 +9,25 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { SidebarMenu, SidebarMenuItem } from "@/components/ui/sidebar";
+import {
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  useSidebar,
+} from "@/components/ui/sidebar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { P } from "@/components/ui/typography";
 import { useProject } from "@/hooks/use-project";
 import { useUser } from "@/hooks/use-user";
 import { cn } from "@/lib/utils";
+import { Project } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 import { Check, ChevronDown } from "lucide-react";
-import { getProjectById, getProjects } from "./actions/get-projects";
-import { Project } from "@prisma/client";
+import { getProjectById, getProjects } from "../projects/actions/get-projects";
 
 export function ProjectDropDown({ className }: { className?: string }) {
   const { user } = useUser();
+  const { isMobile } = useSidebar();
   const { project, setProject } = useProject();
 
   const { data: projects, isLoading: loadingProjects } = useQuery({
@@ -45,10 +50,10 @@ export function ProjectDropDown({ className }: { className?: string }) {
       <SidebarMenuItem>
         <DropdownMenu>
           <DropdownMenuTrigger asChild className="rounded-3xl">
-            <Button
-              variant={"outline"}
+            <SidebarMenuButton
+              size="lg"
               className={cn(
-                "my-2 flex w-full items-center gap-2 rounded-3xl bg-transparent py-2 md:w-full",
+                "rounded-xl border border-input bg-background data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground",
                 className,
               )}
             >
@@ -73,12 +78,12 @@ export function ProjectDropDown({ className }: { className?: string }) {
                 )}
               </div>
               <ChevronDown className="ml-auto h-4 w-4" />
-            </Button>
+            </SidebarMenuButton>
           </DropdownMenuTrigger>
 
           <DropdownMenuContent
-            className="z-20 mt-2 w-full flex-col space-y-1 text-zinc-300 md:w-full"
-            side="bottom"
+            className="w-72"
+            side={isMobile ? "bottom" : "right"}
             align="end"
             sideOffset={4}
           >

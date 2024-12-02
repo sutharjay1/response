@@ -19,7 +19,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useProject } from "@/hooks/use-project";
 import { useMutation } from "@tanstack/react-query";
-import { createProject } from "../actions/create-project";
+import { createProject } from "./actions/create-project";
 import { useUser } from "@/hooks/use-user";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";

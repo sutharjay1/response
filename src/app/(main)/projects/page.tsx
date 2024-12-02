@@ -20,7 +20,7 @@ import {
   PlusCircle,
 } from "lucide-react";
 import Link from "next/link";
-import { TbLayoutDashboardFilled } from "react-icons/tb";
+import { SiGoogleanalytics } from "react-icons/si";
 import { TiAttachment, TiCog } from "react-icons/ti";
 
 const Projects = () => {
@@ -102,10 +102,7 @@ const Projects = () => {
                         }
                       }}
                     >
-                      <TiAttachment
-                        className="h-7 w-7 font-bold"
-                        strokeWidth={1.08}
-                      />
+                      <TiAttachment className="h-7 w-7 font-semibold" />
                       <span className="sr-only">Open menu</span>
                     </Button>
                     <Button
@@ -117,10 +114,7 @@ const Projects = () => {
                         href={`/projects/${project.id}/analytics`}
                         className="cursor-pointer"
                       >
-                        <TbLayoutDashboardFilled
-                          className="h-7 w-7 font-bold"
-                          strokeWidth={1.08}
-                        />
+                        <SiGoogleanalytics className="h-7 w-7 p-1 font-semibold" />
                         <span className="sr-only">Open menu</span>
                       </Link>
                     </Button>
@@ -134,7 +128,7 @@ const Projects = () => {
                         className="cursor-pointer"
                       >
                         <TiCog
-                          className="h-7 w-7 font-bold"
+                          className="h-7 w-7 font-semibold"
                           strokeWidth={1.08}
                         />
                         <span className="sr-only">Open menu</span>

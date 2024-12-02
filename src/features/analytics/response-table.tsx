@@ -51,9 +51,8 @@ const ProjectAnalyticsResponseTable = ({
           <TableHeader>
             <TableRow className="bg-muted/20">
               <TableHead className="p-3">Field Name</TableHead>
-              <TableHead className="p-3">Type</TableHead>
-              <TableHead className="p-3 text-right">Value</TableHead>
-              <TableHead className="p-3 text-right">Timestamp</TableHead>
+              <TableHead className="p-3">Value</TableHead>
+              <TableHead className="p-3">Timestamp</TableHead>
               <TableHead className="p-3 text-right">Favorited</TableHead>
             </TableRow>
           </TableHeader>
@@ -67,11 +66,10 @@ const ProjectAnalyticsResponseTable = ({
                   <TableCell className="p-3 font-medium text-primary">
                     {field.label}
                   </TableCell>
-                  <TableCell className="p-3">{field.type}</TableCell>
-                  <TableCell className="p-3 text-center text-secondary">
+                  <TableCell className="p-3 text-right text-secondary">
                     {result.value}
                   </TableCell>
-                  <TableCell className="p-3 text-center text-muted-foreground">
+                  <TableCell className="p-3 text-muted-foreground">
                     {format(new Date(result.createdAt), "MMM dd, yy HH:mm")}
                   </TableCell>
                   <TableCell className="p-3 text-center text-muted-foreground">
@@ -85,9 +83,14 @@ const ProjectAnalyticsResponseTable = ({
                           result.isFavorite,
                         )
                           .then(() => {
-                            successToast("Added to favorites", {
-                              position: "top-center",
-                            });
+                            successToast(
+                              result.isFavorite
+                                ? "Removed from favorites"
+                                : "Added to favorites",
+                              {
+                                position: "top-center",
+                              },
+                            );
                           })
                           .catch((error) => {
                             errorToast(
