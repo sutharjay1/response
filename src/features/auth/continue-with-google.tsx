@@ -15,7 +15,7 @@ const ContinueWithGoogle = () => {
 
   useEffect(() => {
     if (user) {
-      router.push("/dashboard");
+      router.push("/projects");
     }
   }, [user, router]);
 
