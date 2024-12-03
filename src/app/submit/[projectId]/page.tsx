@@ -62,6 +62,7 @@ const SubmitForm = ({ params }: Props) => {
             .refine((val) => ["1", "2", "3", "4", "5"].includes(val), {
               message: "Please select a rating",
             });
+
           break;
       }
     });
@@ -105,7 +106,7 @@ const SubmitForm = ({ params }: Props) => {
           case "image":
             return {
               ...baseField,
-              value: "",
+              value: field.value,
             };
           default:
             return {};
@@ -198,7 +199,7 @@ const SubmitForm = ({ params }: Props) => {
         case "star":
           return { ...element, value: data[element.id] };
         case "image":
-          return data[element.id]?.trim() !== "";
+          return { ...element, value: data[element.id] };
         default:
           return false;
       }
@@ -416,15 +417,21 @@ const SubmitForm = ({ params }: Props) => {
                             {element.label}
                           </Label>
 
-                          <Image
-                            src={
-                              element.value ||
-                              "https://res.cloudinary.com/cdn-feedback/image/upload/v1733229183/response/djqza3ehfpr3en6wbmsf.png"
-                            }
-                            alt="Image"
-                            className="w-full rounded-md border border-input shadow"
-                            width={200}
-                            height={200}
+                          <Controller
+                            name={element.id.toString()}
+                            control={control}
+                            render={() => (
+                              <Image
+                                src={
+                                  element.value ||
+                                  "https://res.cloudinary.com/cdn-feedback/image/upload/v1733229183/response/djqza3ehfpr3en6wbmsf.png"
+                                }
+                                alt="Image"
+                                className="w-full rounded-md border border-input shadow"
+                                width={200}
+                                height={200}
+                              />
+                            )}
                           />
                         </div>
                       );
