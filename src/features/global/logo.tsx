@@ -22,13 +22,16 @@ const Logo = ({ text, show = true }: Props) => {
       <div
         className={cn(
           "relative flex h-8 w-fit items-center justify-center rounded-lg px-2",
-          !show && "pb-12",
         )}
       >
         <SlashSquare size={show ? 32 : 48} />
         {show ? (
           <span
-            className={cn("px-2 text-lg font-bold", text, aeonik.className)}
+            className={cn(
+              "px-2 pt-1 text-xl font-bold",
+              text,
+              aeonik.className,
+            )}
           >
             Response
           </span>

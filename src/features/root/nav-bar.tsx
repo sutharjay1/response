@@ -13,7 +13,7 @@ const navLinks = [
 
 export function Nav() {
   return (
-    <nav className="flex items-center justify-between p-4 px-8">
+    <nav className="flex w-full items-center justify-between p-4 px-8">
       <div className="flex items-center gap-2">
         <Logo show />
       </div>

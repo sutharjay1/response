@@ -80,7 +80,7 @@ export default function Home() {
     <div className="min-h-screen bg-background">
       <Nav />
       <div className="mx-8 my-3 rounded-3xl">
-        <main className="mx-auto max-w-6xl px-4 pb-12">
+        <main className="mx-auto max-w-6xl px-4 py-12">
           <div className="mb-12 w-full text-center">
             <Badge
               icon={<CheckWaves className="h-4 w-4" />}

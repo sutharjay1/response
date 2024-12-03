@@ -1,7 +1,12 @@
-export type FormElementType = "input" | "textarea" | "checkbox" | "star";
+export type FormElementType =
+  | "input"
+  | "textarea"
+  | "checkbox"
+  | "star"
+  | "image";
 
 export interface BaseFormElement {
-  id: number;
+  id: string;
   label: string;
   type: FormElementType;
 }
@@ -26,8 +31,14 @@ export interface StarField extends BaseFormElement {
   value: string;
 }
 
+export interface ImageField extends BaseFormElement {
+  type: "image";
+  value: string;
+}
+
 export type FormElement =
   | InputField
   | TextareaField
   | CheckboxField
-  | StarField;
+  | StarField
+  | ImageField;
