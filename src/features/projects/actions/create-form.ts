@@ -7,7 +7,7 @@ import { z } from "zod";
 const fieldSchema = z.object({
   id: z.string().optional(),
   label: z.string().nonempty("Label is required"),
-  type: z.enum(["input", "textarea", "button", "checkbox", "star"]),
+  type: z.enum(["input", "textarea", "button", "checkbox", "star", "image"]),
   value: z.string().optional(),
   checked: z.boolean().optional(),
   order: z.number(),
@@ -50,6 +50,7 @@ export const createForm = async ({
 
         return db.field.create({
           data: {
+            id: field.id,
             label: field.label,
             type: field.type as FieldType,
             value: field.value || null,
@@ -66,7 +67,8 @@ export const createForm = async ({
         field.type === "input" ||
         field.type === "textarea" ||
         field.type === "checkbox" ||
-        field.type === "star"
+        field.type === "star" ||
+        field.type === "image"
       ) {
         return field.type;
       }

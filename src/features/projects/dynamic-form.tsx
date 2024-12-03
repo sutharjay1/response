@@ -16,6 +16,7 @@ import {
   CheckSquare,
   ChevronDown,
   ChevronUp,
+  Image as ImageIcon,
   Intersect,
   Keyboard,
   Star,
@@ -23,18 +24,14 @@ import {
   X,
 } from "@mynaui/icons-react";
 import { useQuery } from "@tanstack/react-query";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { errorToast, successToast } from "../global/toast";
 import { createForm } from "./actions/create-form";
 import { getProjectField } from "./actions/get-project-field";
 import { removeField } from "./actions/remove-field";
-import { CheckboxField, InputField, StarField, TextareaField } from "./types";
-
-export type FormElement =
-  | InputField
-  | TextareaField
-  | CheckboxField
-  | StarField;
+import { ImageUploadButton } from "./image-upload-button";
+import { FormElement } from "./types";
 
 const DynamicForm = ({ projectId }: { projectId: string }) => {
   const [formElements, setFormElements] = useState<FormElement[]>([]);
@@ -76,6 +73,11 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
                 ...baseField,
                 value: field.value || "1",
               };
+            case "image":
+              return {
+                ...baseField,
+                value: field.value || "",
+              };
             default:
               return {};
           }
@@ -94,6 +96,12 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
     const saveForm = async () => {
       if (debouncedFormElements.length === 0) return;
 
+      const validFields = debouncedFormElements.filter(
+        (field) => field.type !== "image" || field.value,
+      );
+
+      if (validFields.length === 0) return;
+
       try {
         setIsSaving(true);
 
@@ -101,7 +109,12 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
           id: element.id.toString(),
           label: element.label,
           type: element.type,
-          value: "value" in element ? element.value : "",
+          value:
+            element.type === "image" && !element.value
+              ? undefined
+              : "value" in element
+                ? element.value
+                : "",
           checked: "checked" in element ? Boolean(element.checked) : false,
           order: index,
         }));
@@ -127,7 +140,7 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
 
   const addField = (type: FormElement["type"]) => {
     const baseField = {
-      id: Date.now(),
+      id: `${type}_${projectId}_${Date.now()}`,
       label: `New ${type.charAt(0).toUpperCase() + type.slice(1)}`,
     };
 
@@ -137,14 +150,15 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
       ...(type === "input" || type === "textarea" ? { value: "" } : {}),
       ...(type === "checkbox" ? { checked: false } : {}),
       ...(type === "star" ? { value: "0" } : {}),
+      ...(type === "image" ? { value: "" } : {}),
     } as FormElement;
 
     setFormElements([...formElements, newField]);
   };
 
-  const handleChange = (id: number, key: string, value: string | boolean) => {
-    setFormElements(
-      formElements.map((element) =>
+  const handleChange = (id: string, key: string, value: string | boolean) => {
+    setFormElements((prevElements) =>
+      prevElements.map((element) =>
         element.id === id ? { ...element, [key]: value } : element,
       ),
     );
@@ -163,14 +177,17 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
     }
   };
 
-  const removeElement = async (id: number) => {
+  const removeElement = async (id: string) => {
     await removeField(projectId, id.toString());
     setFormElements(formElements.filter((element) => element.id !== id));
   };
 
   const renderFormElement = (element: FormElement, index: number) => {
     return (
-      <Card className="group relative transition-all hover:shadow">
+      <Card
+        className="group relative transition-all hover:shadow"
+        key={element.id}
+      >
         <CardContent className="p-6">
           <div className="mb-6 flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -307,6 +324,20 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
                   </div>
                 </div>
               )}
+
+              {element.type === "image" && (
+                <div className="mt-1 flex items-center gap-2" key={element.id}>
+                  <ImageUploadButton
+                    handleChange={(
+                      id: string,
+                      key: string,
+                      value: string | boolean,
+                    ) => handleChange(id, key, value)}
+                    id={element.id}
+                    setFormElements={setFormElements}
+                  />
+                </div>
+              )}
             </div>
           </div>
         </CardContent>
@@ -368,6 +399,14 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
               >
                 <Star className="h-6 w-6" />
                 Star
+              </Button>
+              <Button
+                onClick={() => addField("image")}
+                variant="outline"
+                className="flex items-center gap-1 bg-orange-50 px-2 hover:bg-orange-100 md:gap-2 md:px-4"
+              >
+                <ImageIcon className="h-6 w-6" />
+                Image
               </Button>
             </div>
           </CardHeader>
@@ -457,6 +496,23 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
                               ),
                             )}
                           </div>
+                        </div>
+                      );
+                    case "image":
+                      return (
+                        <div key={element.id} className="space-y-2">
+                          <Label>{element.label}</Label>
+
+                          <Image
+                            src={
+                              element.value ||
+                              "https://res.cloudinary.com/cdn-feedback/image/upload/v1733229183/response/djqza3ehfpr3en6wbmsf.png"
+                            }
+                            alt="Image"
+                            className="w-full rounded-md border border-input shadow"
+                            width={200}
+                            height={200}
+                          />
                         </div>
                       );
                     default:

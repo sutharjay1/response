@@ -13,11 +13,12 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { errorToast, successToast } from "@/features/global/toast";
 import { getProjectField } from "@/features/projects/actions/get-project-field";
-import { FormElement } from "@/features/projects/dynamic-form";
+import { FormElement } from "@/features/projects/types";
 import { submitFieldResponse } from "@/features/submit/actions/submit-field-response";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SpinnerOne, Star } from "@mynaui/icons-react";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
@@ -100,6 +101,11 @@ const SubmitForm = ({ params }: Props) => {
             return {
               ...baseField,
               value: "0",
+            };
+          case "image":
+            return {
+              ...baseField,
+              value: "",
             };
           default:
             return {};
@@ -191,6 +197,8 @@ const SubmitForm = ({ params }: Props) => {
           return data[element.id] === true;
         case "star":
           return { ...element, value: data[element.id] };
+        case "image":
+          return data[element.id]?.trim() !== "";
         default:
           return false;
       }
@@ -211,6 +219,8 @@ const SubmitForm = ({ params }: Props) => {
         case "checkbox":
           return { ...element, checked: data[element.id] };
         case "star":
+          return { ...element, value: data[element.id] };
+        case "image":
           return { ...element, value: data[element.id] };
         default:
           return element;
@@ -392,6 +402,29 @@ const SubmitForm = ({ params }: Props) => {
                                 )}
                               </div>
                             )}
+                          />
+                        </div>
+                      );
+
+                    case "image":
+                      return (
+                        <div key={element.id} className="space-y-2">
+                          <Label
+                            className="block text-sm font-medium"
+                            htmlFor={`star-${element.id}`}
+                          >
+                            {element.label}
+                          </Label>
+
+                          <Image
+                            src={
+                              element.value ||
+                              "https://res.cloudinary.com/cdn-feedback/image/upload/v1733229183/response/djqza3ehfpr3en6wbmsf.png"
+                            }
+                            alt="Image"
+                            className="w-full rounded-md border border-input shadow"
+                            width={200}
+                            height={200}
                           />
                         </div>
                       );

@@ -223,7 +223,7 @@ export const generateEmbeddedFile = async (projectId: string) => {
         tempFilePath,
         {
           resource_type: "raw",
-          folder: "response",
+          folder: "response/script",
           public_id: `response_${projectId}`,
           overwrite: true,
           use_filename: true,

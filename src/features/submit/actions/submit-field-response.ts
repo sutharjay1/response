@@ -7,7 +7,7 @@ type FieldResponse = {
   value?: string;
   checked?: boolean;
   label: string;
-  type: "input" | "textarea" | "button" | "checkbox" | "star";
+  type: "input" | "textarea" | "button" | "checkbox" | "star" | "image";
 };
 
 export const submitFieldResponse = async (
