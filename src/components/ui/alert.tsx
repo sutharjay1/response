@@ -1,9 +1,9 @@
 import { cn } from "@/lib/utils";
 import {
   CheckWaves,
-  DangerSquare,
   DangerTriangle,
-  Info,
+  DangerWaves,
+  InfoWaves,
 } from "@mynaui/icons-react";
 
 type AlertType = "success" | "error" | "warning" | "info";
@@ -33,11 +33,11 @@ const Alert = ({ title, description, type = "info" }: AlertProps) => {
       case "success":
         return <CheckWaves className="h-5 w-5 text-emerald-500" />;
       case "error":
-        return <DangerSquare className="h-5 w-5 text-red-500" />;
+        return <DangerWaves className="h-5 w-5 text-red-500" />;
       case "warning":
         return <DangerTriangle className="h-5 w-5 text-amber-500" />;
       case "info":
-        return <Info className="h-5 w-5 text-blue-500" />;
+        return <InfoWaves className="h-5 w-5 text-blue-500" />;
     }
   };
 

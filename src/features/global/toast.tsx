@@ -1,12 +1,12 @@
-import { toast } from "sonner";
 import {
-  X,
-  Info,
-  Copy,
   Bell,
-  DangerSquare,
-  CheckCircle,
+  CheckWaves,
+  Copy,
+  DangerTriangle,
+  DangerWaves,
+  InfoWaves,
 } from "@mynaui/icons-react";
+import { toast } from "sonner";
 
 type ToastOptions = {
   description?: string;
@@ -29,7 +29,7 @@ export const successToast = (message: string, options?: ToastOptions) => {
     duration: options?.duration || DEFAULT_DURATION,
     position: options?.position || DEFAULT_POSITION,
     icon: (
-      <CheckCircle className="h-5 w-5 font-bold" size={16} strokeWidth={1.08} />
+      <CheckWaves className="h-5 w-5 font-bold" size={16} strokeWidth={1.08} />
     ),
     style: {
       backgroundColor: "#004014",
@@ -46,7 +46,9 @@ export const errorToast = (message: string, options?: ToastOptions) => {
     description: options?.description,
     duration: options?.duration || DEFAULT_DURATION,
     position: options?.position || DEFAULT_POSITION,
-    icon: <X className="h-5 w-5 font-bold" size={16} strokeWidth={1.08} />,
+    icon: (
+      <DangerWaves className="h-5 w-5 font-bold" size={16} strokeWidth={1.08} />
+    ),
     style: {
       backgroundColor: "#500000",
       color: "#ED5555",
@@ -63,7 +65,11 @@ export const infoToast = (message: string, options?: ToastOptions) => {
     duration: options?.duration || DEFAULT_DURATION,
     position: options?.position || DEFAULT_POSITION,
     icon: (
-      <Info className="h-5 w-5 font-semibold" size={16} strokeWidth={1.08} />
+      <InfoWaves
+        className="h-5 w-5 font-semibold"
+        size={16}
+        strokeWidth={1.08}
+      />
     ),
     style: {
       backgroundColor: "#4338ca",
@@ -81,7 +87,7 @@ export const warningToast = (message: string, options?: ToastOptions) => {
     duration: options?.duration || DEFAULT_DURATION,
     position: options?.position || DEFAULT_POSITION,
     icon: (
-      <DangerSquare
+      <DangerTriangle
         className="h-5 w-5 font-semibold"
         size={16}
         strokeWidth={1.08}

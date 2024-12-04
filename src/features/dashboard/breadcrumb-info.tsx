@@ -9,7 +9,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { useProject } from "@/hooks/use-project";
-import { FolderTwo, At, ChartBarTwo } from "@mynaui/icons-react";
+import { At, ChartBarTwo, FolderTwo } from "@mynaui/icons-react";
 import { usePathname } from "next/navigation";
 
 const BreadcrumbInfo = () => {
