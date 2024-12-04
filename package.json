@@ -33,6 +33,7 @@
     "cloudinary": "^2.5.1",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
+    "mini-svg-data-uri": "^1.4.4",
     "motion": "^11.11.17",
     "next": "15.0.3",
     "next-auth": "^4.24.10",
