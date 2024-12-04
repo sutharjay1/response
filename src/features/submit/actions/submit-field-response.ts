@@ -1,13 +1,21 @@
 "use server";
 
 import { db } from "@/db";
+import { uploadVideoToCloudinary } from "./upload-video";
 
 type FieldResponse = {
   fieldId: string;
   value?: string;
   checked?: boolean;
   label: string;
-  type: "input" | "textarea" | "button" | "checkbox" | "star" | "image";
+  type:
+    | "input"
+    | "textarea"
+    | "button"
+    | "checkbox"
+    | "star"
+    | "image"
+    | "video";
 };
 
 export const submitFieldResponse = async (
@@ -19,10 +27,18 @@ export const submitFieldResponse = async (
   }
 
   try {
+    if (formData.some((d) => d.type === "video")) {
+      const videoValue = formData.find((d) => d.type === "video")?.value;
+      if (videoValue) {
+        uploadVideoToCloudinary(videoValue, projectId);
+      }
+    }
+
     const dataToInsert = formData
       .filter((response) => response.fieldId)
       .map((response) => ({
         projectId,
+
         fieldId: response.fieldId,
         value:
           response.type === "checkbox"

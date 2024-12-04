@@ -48,7 +48,11 @@ export const ImageUploadDropZone: React.FC<ImageUploadDropZoneProps> = ({
         const formData = new FormData();
         formData.append("file", file);
 
-        const response = await uploadToCloudinary(formData, id!.toString());
+        const response = await uploadToCloudinary(
+          formData,
+          id!.toString(),
+          "image",
+        );
 
         if (setFormElements && response.data) {
           setFormElements((prevElements) =>

@@ -21,11 +21,13 @@ import {
   Keyboard,
   Star,
   TypeBold,
+  Video,
   X,
 } from "@mynaui/icons-react";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import Hint from "../global/hint";
 import { errorToast, successToast } from "../global/toast";
 import { createForm } from "./actions/create-form";
 import { getProjectField } from "./actions/get-project-field";
@@ -78,6 +80,11 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
                 ...baseField,
                 value: field.value || "",
               };
+            case "video":
+              return {
+                ...baseField,
+                value: field.value || "",
+              };
             default:
               return {};
           }
@@ -110,7 +117,8 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
           label: element.label,
           type: element.type,
           value:
-            element.type === "image" && !element.value
+            (element.type === "image" || element.type === "video") &&
+            !element.value
               ? undefined
               : "value" in element
                 ? element.value
@@ -151,6 +159,7 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
       ...(type === "checkbox" ? { checked: false } : {}),
       ...(type === "star" ? { value: "0" } : {}),
       ...(type === "image" ? { value: "" } : {}),
+      ...(type === "video" ? { value: "" } : {}),
     } as FormElement;
 
     setFormElements([...formElements, newField]);
@@ -330,20 +339,46 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
 
               {element.type === "image" && (
                 <div className="mt-1 flex items-center gap-2" key={element.id}>
-                  {/* <ImageUploadButton
-                    handleChange={(
-                      id: string,
-                      key: string,
-                      value: string | boolean,
-                    ) => handleChange(id, key, value)}
-                    id={element.id}
-                    setFormElements={setFormElements}
-                  /> */}
-                  <ImageUploadDropZone
-                    handleChange={handleChange}
-                    id={element.id}
-                    setFormElements={setFormElements}
-                  />
+                  <Hint
+                    label="Attach reference image"
+                    side="top"
+                    align="center"
+                  >
+                    <ImageUploadDropZone
+                      handleChange={handleChange}
+                      id={element.id}
+                      setFormElements={setFormElements}
+                    />
+                  </Hint>
+                </div>
+              )}
+
+              {element.type === "video" && (
+                <div className="mt-1 flex items-center gap-2" key={element.id}>
+                  <Hint
+                    label="Customer can record a video"
+                    side="top"
+                    align="center"
+                  >
+                    <Card className="w-full max-w-md">
+                      <CardContent className="cursor-pointer border-8 border-dashed border-[#7c533a] p-6">
+                        <div
+                          className={`flex flex-col items-center justify-center rounded-lg transition-colors`}
+                        >
+                          <div className="flex flex-col items-center justify-center text-center">
+                            <Video className="mb-1 h-24 w-24 text-muted-foreground" />
+
+                            <p className="mb-2 text-lg font-semibold">
+                              Record a video
+                            </p>
+                            <p className="text-sm text-muted-foreground">
+                              Attach to accept a video
+                            </p>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </Hint>
                 </div>
               )}
             </div>
@@ -416,6 +451,14 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
                 <ImageIcon className="h-6 w-6" />
                 Image
               </Button>
+              <Button
+                onClick={() => addField("video")}
+                variant="outline"
+                className="flex items-center gap-1 bg-orange-50 px-2 hover:bg-orange-100 md:gap-2 md:px-4"
+              >
+                <Video className="h-6 w-6" />
+                Video
+              </Button>
             </div>
           </CardHeader>
           <CardContent className="p-4 pt-4 md:p-6 md:pt-6">
@@ -427,7 +470,7 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
           </CardContent>
         </Card>
 
-        <Card className="mx-auto my-8 flex w-full items-center justify-center md:col-span-1">
+        <Card className="mx-auto my-8 flex w-full items-center justify-center py-8 md:col-span-1">
           <Card className="w-full max-w-md overflow-hidden bg-sidebar transition-all hover:shadow-md">
             <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
               <div className="grid flex-1 gap-1 text-center sm:text-left">
@@ -520,6 +563,18 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
                             className="w-full rounded-md border border-input shadow"
                             width={200}
                             height={200}
+                          />
+                        </div>
+                      );
+
+                    case "video":
+                      return (
+                        <div key={element.id} className="space-y-2">
+                          <Label>{element.label}</Label>
+                          <video
+                            src={element.value}
+                            controls
+                            className="w-full rounded-md border border-input shadow"
                           />
                         </div>
                       );
