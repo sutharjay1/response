@@ -30,7 +30,7 @@ import { errorToast, successToast } from "../global/toast";
 import { createForm } from "./actions/create-form";
 import { getProjectField } from "./actions/get-project-field";
 import { removeField } from "./actions/remove-field";
-import { ImageUploadButton } from "./image-upload-button";
+import { ImageUploadDropZone } from "./image-upload-button";
 import { FormElement } from "./types";
 
 const DynamicForm = ({ projectId }: { projectId: string }) => {
@@ -231,9 +231,9 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
               </Button>
             </div>
           </div>
-          <div className="mb-2 flex items-center justify-between rounded-3xl">
-            <div className="space-y-1">
-              <div className="space-y-2">
+          <div className="mb-2 flex w-full items-center justify-between rounded-3xl">
+            <div className="w-full space-y-2">
+              <div className="flex flex-col space-y-2">
                 <Label
                   htmlFor={`${element.id}-label`}
                   className="text-sm font-medium"
@@ -252,7 +252,10 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
               </div>
 
               {(element.type === "input" || element.type === "textarea") && (
-                <div key={`${element.id}-value`} className="w-full gap-2">
+                <div
+                  key={`${element.id}-value`}
+                  className="w-full gap-2 space-y-1"
+                >
                   <Label
                     htmlFor={`${element.id}-value`}
                     className="text-sm font-medium"
@@ -327,12 +330,17 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
 
               {element.type === "image" && (
                 <div className="mt-1 flex items-center gap-2" key={element.id}>
-                  <ImageUploadButton
+                  {/* <ImageUploadButton
                     handleChange={(
                       id: string,
                       key: string,
                       value: string | boolean,
                     ) => handleChange(id, key, value)}
+                    id={element.id}
+                    setFormElements={setFormElements}
+                  /> */}
+                  <ImageUploadDropZone
+                    handleChange={handleChange}
                     id={element.id}
                     setFormElements={setFormElements}
                   />

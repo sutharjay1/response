@@ -250,8 +250,6 @@ export const generateEmbeddedFile = async (projectId: string) => {
     await fs.unlink(tempFilePath);
     await fs.rm(filePath);
 
-    console.log("Cloudinary upload response:", cloudinaryResponse);
-
     return cloudinaryResponse;
   } catch (error) {
     console.error("Error generating embedded file:", error);
