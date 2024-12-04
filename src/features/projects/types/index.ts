@@ -3,7 +3,8 @@ export type FormElementType =
   | "textarea"
   | "checkbox"
   | "star"
-  | "image";
+  | "image"
+  | "video";
 
 export interface BaseFormElement {
   id: string;
@@ -35,10 +36,15 @@ export interface ImageField extends BaseFormElement {
   type: "image";
   value: string;
 }
+export interface VideoField extends BaseFormElement {
+  type: "video";
+  value: string;
+}
 
 export type FormElement =
   | InputField
   | TextareaField
   | CheckboxField
   | StarField
-  | ImageField;
+  | ImageField
+  | VideoField;

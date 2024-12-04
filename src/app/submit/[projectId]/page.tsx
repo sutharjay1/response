@@ -14,7 +14,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { errorToast, successToast } from "@/features/global/toast";
 import { getProjectField } from "@/features/projects/actions/get-project-field";
 import { FormElement } from "@/features/projects/types";
+import { VideoUploadButton } from "@/features/projects/video-upload-button";
 import { submitFieldResponse } from "@/features/submit/actions/submit-field-response";
+import { useVideo } from "@/features/submit/hooks/use-video";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SpinnerOne, Star } from "@mynaui/icons-react";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -32,6 +34,7 @@ type Props = {
 const SubmitForm = ({ params }: Props) => {
   const { projectId } = React.use(params);
   const [formElements, setFormElements] = useState<FormElement[]>([]);
+  const { videoUrl } = useVideo();
 
   const generateFormSchema = (elements: FormElement[]) => {
     const schemaFields: { [key: string]: z.ZodType } = {};
@@ -63,6 +66,15 @@ const SubmitForm = ({ params }: Props) => {
               message: "Please select a rating",
             });
 
+          break;
+        case "video":
+          schemaFields[element.id] = z
+            .string({
+              required_error: `${element.label} is required`,
+              invalid_type_error: `${element.label} must be a string`,
+            })
+            .trim()
+            .min(1, { message: `${element.label} cannot be empty` });
           break;
       }
     });
@@ -108,6 +120,11 @@ const SubmitForm = ({ params }: Props) => {
               ...baseField,
               value: field.value,
             };
+          case "video":
+            return {
+              ...baseField,
+              value: field.value || videoUrl,
+            };
           default:
             return {};
         }
@@ -138,7 +155,14 @@ const SubmitForm = ({ params }: Props) => {
           fieldId: element.id.toString(),
           label: element.label,
           type: element.type,
-          value: "value" in element ? element.value : "",
+          value:
+            element.type === "video"
+              ? videoUrl || element.value
+              : element.type === "image" && !element.value
+                ? undefined
+                : "value" in element
+                  ? element.value
+                  : "",
           checked: "checked" in element ? element.checked : false,
         }));
 
@@ -150,6 +174,7 @@ const SubmitForm = ({ params }: Props) => {
           position: "top-center",
           duration: 3000,
         });
+
         reset();
       },
       onError: (error: { message: string }) => {
@@ -200,6 +225,8 @@ const SubmitForm = ({ params }: Props) => {
           return { ...element, value: data[element.id] };
         case "image":
           return { ...element, value: data[element.id] };
+        case "video":
+          return { ...element, value: data[element.id] };
         default:
           return false;
       }
@@ -222,6 +249,8 @@ const SubmitForm = ({ params }: Props) => {
         case "star":
           return { ...element, value: data[element.id] };
         case "image":
+          return { ...element, value: data[element.id] };
+        case "video":
           return { ...element, value: data[element.id] };
         default:
           return element;
@@ -430,6 +459,30 @@ const SubmitForm = ({ params }: Props) => {
                                 className="w-full rounded-md border border-input shadow"
                                 width={200}
                                 height={200}
+                              />
+                            )}
+                          />
+                        </div>
+                      );
+
+                    case "video":
+                      return (
+                        <div key={element.id} className="space-y-2">
+                          <Label
+                            className="block text-sm font-medium"
+                            htmlFor={`video-${element.id}`}
+                          >
+                            {element.label}
+                          </Label>
+
+                          <Controller
+                            name={element.id.toString()}
+                            control={control}
+                            render={({ field: { onChange } }) => (
+                              <VideoUploadButton
+                                id={element.id}
+                                setFormElements={setFormElements}
+                                onChange={onChange}
                               />
                             )}
                           />
