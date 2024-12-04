@@ -34,6 +34,7 @@ import { getProjectField } from "./actions/get-project-field";
 import { removeField } from "./actions/remove-field";
 import { ImageUploadDropZone } from "./image-upload-button";
 import { FormElement } from "./types";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const DynamicForm = ({ projectId }: { projectId: string }) => {
   const [formElements, setFormElements] = useState<FormElement[]>([]);
@@ -297,13 +298,17 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
 
               {element.type === "checkbox" && (
                 <div className="mt-1 flex items-center gap-2" key={element.id}>
-                  <input
-                    type="checkbox"
-                    checked={element.checked}
+                  <Checkbox
+                    id={`checkbox-${element.id}`}
                     onChange={(e) =>
-                      handleChange(element.id, "checked", e.target.checked)
+                      handleChange(
+                        element.id,
+                        "checked",
+                        (e.currentTarget as HTMLInputElement).checked,
+                      )
                     }
-                    className="rounded"
+                    checked={element.checked}
+                    className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                   />
                   <span className="text-sm text-gray-600">Default state</span>
                 </div>
@@ -512,11 +517,15 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
                           key={element.id}
                           className="flex items-center space-x-2"
                         >
-                          <input
+                          {/* <input
                             type="checkbox"
                             checked={element.checked}
                             readOnly
-                            className="mr-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                            className="mr-2 block w-fit rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                          /> */}
+                          <Checkbox
+                            checked={element.checked}
+                            className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                           />
                           <Label>{element.label}</Label>
                         </div>
@@ -571,11 +580,26 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
                       return (
                         <div key={element.id} className="space-y-2">
                           <Label>{element.label}</Label>
-                          <video
-                            src={element.value}
-                            controls
-                            className="w-full rounded-md border border-input shadow"
-                          />
+
+                          <Card className="w-full max-w-md">
+                            <CardContent className="flex cursor-pointer flex-col items-center border-8 border-dashed border-[#7c533a] p-6">
+                              <div className="flex flex-col items-center justify-center">
+                                <div className="flex flex-col items-center justify-center text-center">
+                                  <Video className="mb-1 h-24 w-24 text-muted-foreground" />
+                                  <p className="mb-2 text-lg font-semibold">
+                                    Record a video
+                                  </p>
+                                  <p className="text-sm text-muted-foreground">
+                                    {status === "idle"
+                                      ? "Click to start recording"
+                                      : status === "recording"
+                                        ? "Recording in progress"
+                                        : "Video recorded"}
+                                  </p>
+                                </div>
+                              </div>
+                            </CardContent>
+                          </Card>
                         </div>
                       );
                     default:
