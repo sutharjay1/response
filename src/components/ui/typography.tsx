@@ -85,9 +85,20 @@ export function H4({
     </h4>
   );
 }
-export function InlineCode({ children }: { children: React.ReactNode }) {
+export function InlineCode({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
   return (
-    <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold">
+    <code
+      className={cn(
+        "relative rounded px-1 py-0.5 text-sm text-primary",
+        className,
+      )}
+    >
       {children}
     </code>
   );

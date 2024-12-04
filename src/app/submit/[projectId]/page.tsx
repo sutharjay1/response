@@ -13,6 +13,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { errorToast, successToast } from "@/features/global/toast";
 import { getProjectField } from "@/features/projects/actions/get-project-field";
+import { getProjectById } from "@/features/projects/actions/get-projects";
 import { FormElement } from "@/features/projects/types";
 import { VideoUploadButton } from "@/features/projects/video-upload-button";
 import { submitFieldResponse } from "@/features/submit/actions/submit-field-response";
@@ -35,6 +36,12 @@ const SubmitForm = ({ params }: Props) => {
   const { projectId } = React.use(params);
   const [formElements, setFormElements] = useState<FormElement[]>([]);
   const { videoUrl } = useVideo();
+
+  const { data: project } = useQuery({
+    queryKey: ["currentProject", projectId],
+    queryFn: () => getProjectById(projectId as string),
+    enabled: !!projectId,
+  });
 
   const generateFormSchema = (elements: FormElement[]) => {
     const schemaFields: { [key: string]: z.ZodType } = {};
@@ -265,10 +272,14 @@ const SubmitForm = ({ params }: Props) => {
       <Card className="w-full max-w-md overflow-hidden bg-sidebar hover:shadow-md">
         <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
           <div className="grid flex-1 gap-1 text-center sm:text-left">
-            <h2 className="text-lg font-semibold text-primary">Submit Form</h2>
-            <p className="text-sm text-muted-foreground">
-              Please fill out all required fields
-            </p>
+            <h2 className="text-lg font-semibold text-primary">
+              {project?.name}
+            </h2>
+            {project?.description && (
+              <p className="text-sm text-muted-foreground">
+                {project?.description}
+              </p>
+            )}
           </div>
         </CardHeader>
         <form onSubmit={handleSubmit(onSubmit)}>

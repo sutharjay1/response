@@ -7,6 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useSidebar } from "@/components/ui/sidebar";
@@ -17,7 +18,6 @@ import {
   ChevronDown,
   ChevronUp,
   Image as ImageIcon,
-  Intersect,
   Keyboard,
   Star,
   TypeBold,
@@ -31,14 +31,20 @@ import Hint from "../global/hint";
 import { errorToast, successToast } from "../global/toast";
 import { createForm } from "./actions/create-form";
 import { getProjectField } from "./actions/get-project-field";
+import { getProjectById } from "./actions/get-projects";
 import { removeField } from "./actions/remove-field";
 import { ImageUploadDropZone } from "./image-upload-button";
 import { FormElement } from "./types";
-import { Checkbox } from "@/components/ui/checkbox";
 
 const DynamicForm = ({ projectId }: { projectId: string }) => {
   const [formElements, setFormElements] = useState<FormElement[]>([]);
   const [isSaving, setIsSaving] = useState(false);
+
+  const { data: project } = useQuery({
+    queryKey: ["currentProject", projectId],
+    queryFn: () => getProjectById(projectId as string),
+    enabled: !!projectId,
+  });
 
   const debouncedFormElements = useDebounce(formElements, 1000);
 
@@ -192,19 +198,39 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
     setFormElements(formElements.filter((element) => element.id !== id));
   };
 
+  const renderFormIcon = (type: FormElement["type"]) => {
+    switch (type) {
+      case "input":
+        return <TypeBold className="h-6 w-6" />;
+      case "textarea":
+        return <Keyboard className="h-6 w-6" />;
+      case "checkbox":
+        return <CheckSquare className="h-6 w-6" />;
+      case "star":
+        return <Star className="h-6 w-6" />;
+      case "image":
+        return <ImageIcon className="h-6 w-6" />;
+      case "video":
+        return <Video className="h-6 w-6" />;
+      default:
+        return null;
+    }
+  };
+
   const renderFormElement = (element: FormElement, index: number) => {
     return (
       <Card
-        className="group relative transition-all hover:shadow"
+        className="group relative bg-sidebar transition-all hover:shadow"
         key={element.id}
       >
-        <CardContent className="p-6">
-          <div className="mb-6 flex items-center justify-between">
+        <CardContent className="space-y-2 p-6">
+          <div className="mb-6 flex items-center justify-between gap-2">
             <div className="flex items-center gap-3">
-              <div className="cursor-move opacity-40 transition-opacity group-hover:opacity-100">
-                <Intersect className="h-5 w-5 font-semibold" strokeWidth={2} />
-              </div>
-              <Badge variant="secondary" className="ml-2 font-medium">
+              <Badge
+                icon={renderFormIcon(element.type)}
+                variant="default"
+                className="border border-input text-sm font-medium"
+              >
                 {element.type}
               </Badge>
             </div>
@@ -215,7 +241,7 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
                 size="sm"
                 onClick={() => moveElement(index, "up")}
                 disabled={index === 0}
-                className="h-8 w-8 rounded-xl p-0"
+                className="h-8 w-8 rounded-xl p-0 shadow"
               >
                 <ChevronUp className="h-4 w-4" />
                 <span className="sr-only">Move up</span>
@@ -225,7 +251,7 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
                 size="sm"
                 onClick={() => moveElement(index, "down")}
                 disabled={index === formElements.length - 1}
-                className="h-8 w-8 rounded-xl p-0"
+                className="h-8 w-8 rounded-xl p-0 shadow"
               >
                 <ChevronDown className="h-4 w-4" />
                 <span className="sr-only">Move down</span>
@@ -234,7 +260,7 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
                 variant="outline"
                 size="sm"
                 onClick={() => removeElement(element.id)}
-                className="h-8 w-8 rounded-xl p-0 text-destructive hover:text-destructive/80"
+                className="h-8 w-8 rounded-xl p-0 text-destructive shadow hover:text-destructive/80"
               >
                 <X className="h-4 w-4" />
                 <span className="sr-only">Remove element</span>
@@ -343,29 +369,26 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
               )}
 
               {element.type === "image" && (
-                <div className="mt-1 flex items-center gap-2" key={element.id}>
-                  <Hint
-                    label="Attach reference image"
-                    side="top"
-                    align="center"
-                  >
-                    <ImageUploadDropZone
-                      handleChange={handleChange}
-                      id={element.id}
-                      setFormElements={setFormElements}
-                    />
-                  </Hint>
+                <div className="mt-2 flex items-center gap-2" key={element.id}>
+                  <ImageUploadDropZone
+                    handleChange={handleChange}
+                    id={element.id}
+                    setFormElements={setFormElements}
+                  />
                 </div>
               )}
 
               {element.type === "video" && (
-                <div className="mt-1 flex items-center gap-2" key={element.id}>
+                <div
+                  className="mt-2 flex w-full items-center gap-2"
+                  key={element.id}
+                >
                   <Hint
                     label="Customer can record a video"
                     side="top"
                     align="center"
                   >
-                    <Card className="w-full max-w-md">
+                    <Card className="w-full">
                       <CardContent className="cursor-pointer border-8 border-dashed border-[#7c533a] p-6">
                         <div
                           className={`flex flex-col items-center justify-center rounded-lg transition-colors`}
@@ -479,9 +502,13 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
           <Card className="w-full max-w-md overflow-hidden bg-sidebar transition-all hover:shadow-md">
             <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
               <div className="grid flex-1 gap-1 text-center sm:text-left">
-                <h2 className="text-lg font-semibold text-primary">Preview</h2>
+                <h2 className="text-lg font-semibold text-primary">
+                  {project?.name}
+                </h2>
                 <p className="text-sm text-muted-foreground">
-                  View how your form will look like
+                  {project?.description || (
+                    <span className="text-destructive">No description</span>
+                  )}
                 </p>
               </div>
             </CardHeader>
