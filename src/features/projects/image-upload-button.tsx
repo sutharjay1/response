@@ -1,33 +1,27 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import {
-  Modal,
-  ModalContent,
-  ModalDescription,
-  ModalHeader,
-  ModalTitle,
-  ModalTrigger,
-} from "@/components/ui/modal";
+import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
-import { Cloud, File, SpinnerOne } from "@mynaui/icons-react";
-import { Dispatch, SetStateAction, useCallback, useState } from "react";
+import { CloudUpload, File, SpinnerOne, X } from "@mynaui/icons-react";
+import Image from "next/image";
+import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
+import { errorToast, successToast } from "../global/toast";
 import { uploadToCloudinary } from "./actions/upload-image";
 import { FormElement } from "./types";
-import { errorToast, successToast } from "../global/toast";
 
-const ImageUploadDropZone = ({
+interface ImageUploadDropZoneProps {
+  handleChange?: (id: string, key: string, value: string) => void;
+  id?: string;
+  setFormElements?: React.Dispatch<React.SetStateAction<FormElement[]>>;
+}
+
+export const ImageUploadDropZone: React.FC<ImageUploadDropZoneProps> = ({
   handleChange,
   id,
   setFormElements,
-  setIsOpen,
-}: {
-  handleChange?: (id: string, key: string, value: string) => void;
-  id?: string;
-  setFormElements?: Dispatch<SetStateAction<FormElement[]>>;
-  setIsOpen?: (v: boolean) => void;
 }) => {
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const [uploadProgress, setUploadProgress] = useState<number>(0);
@@ -71,10 +65,6 @@ const ImageUploadDropZone = ({
           setUploadProgress(100);
           successToast("Image uploaded successfully");
 
-          if (setIsOpen) {
-            setIsOpen(false);
-          }
-
           if (handleChange && response.data) {
             handleChange(id!, "value", response.data.secure_url!);
           }
@@ -91,118 +81,95 @@ const ImageUploadDropZone = ({
         setIsUploading(false);
       }
     },
-    [handleChange, id, setFormElements, setIsOpen],
+    [handleChange, id, setFormElements],
   );
 
-  const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
-    onDrop,
-    multiple: false,
-    accept: {
-      "image/*": [".jpeg", ".png", ".jpg", ".gif", ".webp"],
-    },
-    maxSize: 4 * 1024 * 1024,
-    disabled: isUploading,
-  });
+  const { getRootProps, getInputProps, acceptedFiles, isDragActive } =
+    useDropzone({
+      onDrop,
+      multiple: false,
+      accept: {
+        "image/*": [".jpeg", ".png", ".jpg", ".gif", ".webp"],
+      },
+      maxSize: 4 * 1024 * 1024,
+      disabled: isUploading,
+    });
+
+  const removeFile = () => {
+    acceptedFiles[0].slice();
+  };
 
   return (
-    <div
-      {...getRootProps()}
-      className="mx-1 my-2 rounded-lg border border-dashed border-[#7c533a] bg-background p-2 md:h-96"
-    >
-      <div className="flex h-full w-full items-center justify-center p-2">
-        <label
-          htmlFor="dropzone-file"
-          className="flex h-full w-full cursor-pointer flex-col items-center justify-center rounded-lg bg-zinc-50 hover:bg-zinc-100"
+    <Card className="w-full max-w-md">
+      <CardContent
+        className={cn(
+          "cursor-pointer border-8 border-dashed border-[#7c533a]",
+          acceptedFiles[0] ? "p-2" : "p-6",
+        )}
+      >
+        <div
+          {...getRootProps()}
+          className={`flex flex-col items-center justify-center rounded-lg transition-colors ${
+            isDragActive
+              ? "border-primary bg-primary/10"
+              : "border-muted-foreground/25 hover:bg-muted/10"
+          }`}
         >
-          <div className="flex select-none flex-col items-center justify-center space-y-2 pb-6 pt-5">
-            <Cloud className="mb-2 h-10 w-10 text-zinc-400" />
-            <p className="mb-2 text-sm text-zinc-700">
-              <span>Click to upload</span> or drag and drop
-            </p>
-            <p className="text-xs text-zinc-500">Image (Up to 4MB)</p>
-          </div>
           <input {...getInputProps()} />
-
-          {acceptedFiles[0] && (
-            <div className="flex max-w-xs items-center divide-x divide-zinc-200 overflow-hidden rounded-md bg-white outline outline-[1px] outline-zinc-200">
-              <div className="grid h-full place-items-center px-3 py-2">
-                <File className="h-4 w-4 text-primary" />
+          {acceptedFiles[0] ? (
+            <div className="flex w-full items-center justify-start space-x-4">
+              <div className="relative w-fit overflow-hidden rounded-lg border transition-all">
+                <Image
+                  src={URL.createObjectURL(acceptedFiles[0])}
+                  alt="Uploaded image"
+                  width={50}
+                  height={50}
+                  className="rounded-md border border-input object-cover shadow"
+                />
+                <Button
+                  variant="secondary"
+                  size="icon"
+                  className="absolute right-2 top-2"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    removeFile();
+                  }}
+                >
+                  <X className="h-4 w-4" />
+                </Button>
               </div>
-              <div className="truncate px-3 py-2 text-sm">
-                {acceptedFiles[0].name}
+              <div className="flex flex-col items-start justify-start gap-1 text-sm text-muted-foreground">
+                <div className="flex items-center">
+                  <File className="mr-2 h-4 w-4 text-primary" />
+                  <span className="font-medium">{acceptedFiles[0].name}</span>
+                </div>
+                <span>
+                  {(acceptedFiles[0].size / 1024 / 1024).toFixed(2)} MB
+                </span>
               </div>
             </div>
-          )}
+          ) : (
+            <div className="flex flex-col items-center justify-center text-center">
+              <CloudUpload className="mb-1 h-24 w-24 text-muted-foreground" />
 
-          {isUploading && (
-            <>
-              <div className="mx-auto mt-4 w-full max-w-xs">
-                <Progress
-                  value={uploadProgress}
-                  className="h-1 w-full bg-zinc-200"
-                  indicatorColor={
-                    uploadProgress === 100 ? "bg-green-500" : "bg-primary"
-                  }
-                />
-              </div>
-              {uploadProgress >= 90 && (
-                <div className="flex items-center justify-center gap-1 pt-2 text-center text-sm text-zinc-700">
-                  <SpinnerOne className="h-3 w-3 animate-spin" />
-                  Processing...
-                </div>
-              )}
-            </>
+              <p className="mb-2 text-lg font-semibold">
+                Drag & drop or click to upload
+              </p>
+              <p className="text-sm text-muted-foreground">Image (Up to 4MB)</p>
+            </div>
           )}
-        </label>
-      </div>
-    </div>
+        </div>
+
+        {isUploading && (
+          <div className="mt-4 space-y-2">
+            <Progress value={uploadProgress} className="h-2 w-full" />
+            <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+              <SpinnerOne className="h-4 w-4 animate-spin" />
+              {uploadProgress >= 90 ? "Processing..." : "Uploading..."}
+            </div>
+          </div>
+        )}
+      </CardContent>
+    </Card>
   );
 };
-
-const ImageUploadButton = ({
-  className,
-  handleChange,
-  id,
-  setFormElements,
-}: {
-  className?: string;
-  handleChange?: (id: string, key: string, value: string | boolean) => void;
-  id?: string;
-  setFormElements?: Dispatch<SetStateAction<FormElement[]>>;
-}) => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-
-  return (
-    <Modal open={isOpen} onOpenChange={setIsOpen}>
-      <ModalTrigger asChild>
-        <Button
-          variant="outline"
-          className={cn(
-            "mb-4 flex max-w-fit items-center justify-center space-x-2",
-            className,
-          )}
-        >
-          Upload Image
-        </Button>
-      </ModalTrigger>
-      <ModalContent className="h-fit lg:h-96">
-        <ModalHeader>
-          <ModalTitle>Upload Image</ModalTitle>
-          <ModalDescription>
-            <p className="text-muted-foreground">
-              Upload an image for your field.
-            </p>
-          </ModalDescription>
-        </ModalHeader>
-        <ImageUploadDropZone
-          handleChange={handleChange}
-          id={id}
-          setFormElements={setFormElements}
-          setIsOpen={setIsOpen}
-        />
-      </ModalContent>
-    </Modal>
-  );
-};
-
-export { ImageUploadButton };
