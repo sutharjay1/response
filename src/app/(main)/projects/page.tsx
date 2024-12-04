@@ -23,6 +23,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { AnnoyedSquare } from "@mynaui/icons-react";
 import Link from "next/link";
+import { InlineCode } from "@/components/ui/typography";
 
 const Projects = () => {
   const { user } = useUser();
@@ -160,17 +161,19 @@ const Projects = () => {
                   variant="secondary"
                   className="text-sm font-medium hover:bg-secondary"
                 >
-                  <span className="hidden md:flex">{project.id}</span>
-                  <span className="flex md:hidden">
+                  <InlineCode className="hidden md:flex">
+                    {project.id}
+                  </InlineCode>
+                  <InlineCode className="flex md:hidden">
                     {project.id.slice(0, 6)}
-                  </span>
+                  </InlineCode>
                 </Badge>
 
                 <Button
                   asChild
                   variant="ghost"
                   size="sm"
-                  className="group ml-auto"
+                  className="group ml-auto rounded-lg px-2 py-0.5 text-sm text-primary"
                 >
                   <Link
                     href={`/projects/${project.id}`}
