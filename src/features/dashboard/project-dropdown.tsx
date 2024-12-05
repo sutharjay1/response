@@ -16,13 +16,12 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { Skeleton } from "@/components/ui/skeleton";
-import { P } from "@/components/ui/typography";
 import { useProject } from "@/hooks/use-project";
 import { useUser } from "@/hooks/use-user";
 import { cn } from "@/lib/utils";
+import { Check, ChevronUpDown } from "@mynaui/icons-react";
 import { Project } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
-import { Check, ChevronDown } from "@mynaui/icons-react";
 import { getProjectById, getProjects } from "../projects/actions/get-projects";
 
 export function ProjectDropDown({ className }: { className?: string }) {
@@ -41,6 +40,7 @@ export function ProjectDropDown({ className }: { className?: string }) {
     queryFn: () => getProjectById(project?.id as string),
     enabled: !!project?.id,
   });
+
   const handleSelectProject = (projectId: string) => {
     setProject(projects?.find((p) => p.id === projectId) as Project);
   };
@@ -49,7 +49,7 @@ export function ProjectDropDown({ className }: { className?: string }) {
     <SidebarMenu>
       <SidebarMenuItem>
         <DropdownMenu>
-          <DropdownMenuTrigger asChild className="rounded-3xl">
+          <DropdownMenuTrigger asChild className="bg-background">
             <SidebarMenuButton
               size="lg"
               className={cn(
@@ -57,27 +57,32 @@ export function ProjectDropDown({ className }: { className?: string }) {
                 className,
               )}
             >
-              <Avatar className="h-8 w-8">
+              <Avatar className="h-8 w-8 rounded-xl">
                 {loadingCurrentProject ? (
-                  <Skeleton className="h-8 w-8 rounded-full" />
+                  <Skeleton className="h-8 w-8 rounded-xl" />
                 ) : (
-                  <AvatarFallback className="bg-gradient-to-tl from-[#2BC0E4] to-[#EAECC6] text-zinc-900">
+                  <AvatarFallback className="rounded-xl px-3 py-2">
                     {currentProject?.name
-                      ? currentProject?.name[0].toUpperCase()
+                      ? currentProject.name[0].toUpperCase()
                       : "?"}
                   </AvatarFallback>
                 )}
               </Avatar>
-              <div className="hidden flex-col items-start md:flex">
+              <div className="grid flex-1 items-center text-left text-sm leading-tight">
                 {loadingCurrentProject ? (
                   <Skeleton className="h-4 w-32" />
                 ) : (
-                  <P className="text-sm font-medium">
-                    {currentProject?.name || "Select Workspace"}
-                  </P>
+                  <>
+                    <span className="truncate font-semibold">
+                      {currentProject?.name || "Select Workspace"}
+                    </span>
+                    <span className="truncate text-xs text-muted-foreground">
+                      Project
+                    </span>
+                  </>
                 )}
               </div>
-              <ChevronDown className="ml-auto h-4 w-4" />
+              <ChevronUpDown className="ml-auto size-4" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
 
@@ -85,12 +90,13 @@ export function ProjectDropDown({ className }: { className?: string }) {
             className="w-72"
             side={isMobile ? "bottom" : "right"}
             align="end"
+            alignOffset={20}
             sideOffset={4}
           >
             <DropdownMenuLabel>Projects</DropdownMenuLabel>
-            <DropdownMenuSeparator className="bg-zinc-800" />
+            <DropdownMenuSeparator />
             {loadingProjects ? (
-              <div className="space-y-2">
+              <div className="space-y-2 p-2">
                 {[...Array(3)].map((_, i) => (
                   <Skeleton key={i} className="h-10 w-full" />
                 ))}
@@ -99,18 +105,16 @@ export function ProjectDropDown({ className }: { className?: string }) {
               projects?.map((workspace: Project) => (
                 <DropdownMenuItem
                   key={workspace.id}
-                  className="jc mb-4 flex w-full items-center px-2 py-1.5 focus:bg-zinc-800 focus:text-white"
+                  className="flex w-full items-center px-2 py-1.5"
                   onSelect={() => handleSelectProject(workspace.id)}
                 >
-                  <Avatar className="mr-2 h-8 w-8">
-                    <AvatarFallback className="bg-gradient-to-br from-indigo-500 to-purple-500 text-white">
+                  <Avatar className="mr-2 h-8 w-8 rounded-xl">
+                    <AvatarFallback className="rounded-xl px-3 py-2">
                       {workspace.name[0].toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
                   <div className="flex w-full items-center justify-between">
-                    <P className="[&:not(:first-child)]:mt-0">
-                      {workspace.name}
-                    </P>
+                    <span className="truncate">{workspace.name}</span>
                     {workspace.id === currentProject?.id && (
                       <Check className="ml-auto h-4 w-4" />
                     )}
