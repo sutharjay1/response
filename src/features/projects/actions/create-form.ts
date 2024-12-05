@@ -37,56 +37,40 @@ export const createForm = async ({
 
     const createdFields = await Promise.all(
       parsedFields.map(async (field) => {
-        const existingField = await db.field.findFirst({
-          where: {
-            formId: projectId,
-            label: field.label,
-          },
+        const existingField = await db.field.findUnique({
+          where: { id: field.id },
         });
 
         if (existingField) {
           return db.field.update({
             where: { id: existingField.id },
             data: {
+              label: field.label,
               type: field.type as FieldType,
               value: field.value || null,
               checked: field.checked || null,
               order: field.order,
             },
           });
+        } else {
+          return db.field.create({
+            data: {
+              id: field.id || `${field.type}_${projectId}_${Date.now()}`,
+              label: field.label,
+              type: field.type as FieldType,
+              value: field.value || null,
+              checked: field.checked || null,
+              formId: projectId,
+              order: field.order,
+            },
+          });
         }
-
-        return db.field.create({
-          data: {
-            id: field.id,
-            label: field.label,
-            type: field.type as FieldType,
-            value: field.value || null,
-            checked: field.checked || null,
-            formId: projectId,
-            order: field.order,
-          },
-        });
       }),
     );
 
-    const fieldTypes = createdFields.map((field) => {
-      if (
-        field.type === "input" ||
-        field.type === "textarea" ||
-        field.type === "checkbox" ||
-        field.type === "star" ||
-        field.type === "image" ||
-        field.type === "video"
-      ) {
-        return field.type;
-      }
-      throw new Error(`Unexpected field type: ${field.type}`);
-    });
-
-    return fieldTypes;
+    return createdFields.map((field) => field.type);
   } catch (error) {
-    console.error("Error creating form:", error);
+    console.error("Error creating or updating form:", error);
     throw new Error("Failed to create or update form.");
   }
 };
