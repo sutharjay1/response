@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://res.cloudinary.com/cdn-feedback/image/upload/v1733412809/response/response-github.png" alt="Response Logo" width="100%"  />
+  <img src="https://res.cloudinary.com/cdn-feedback/image/upload/v1733416565/response/response.png" alt="Response Logo" width="100%"  />
   <h1>Response ✏️</h1>
   <p><strong>A modern feedback collection and analysis system.</strong></p>
   <a href="https://response.sutharjay.com">Visit Response</a>
