@@ -61,6 +61,7 @@
     "eslint-config-next": "15.0.3",
     "eslint-plugin-boundaries": "^5.0.1",
     "eslint-plugin-project-structure": "^3.10.6",
+    "lite-server": "^2.6.1",
     "postcss": "^8",
     "prettier": "^3.4.1",
     "prettier-plugin-import-sort": "^0.0.7",
