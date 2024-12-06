@@ -1,7 +1,7 @@
 "use server";
 import { db } from "@/db";
-import fs from "fs/promises";
 import { v2 as cloudinary } from "cloudinary";
+import { Readable } from "stream";
 
 cloudinary.config({
   cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
@@ -264,46 +264,47 @@ export const generateEmbeddedFile = async (projectId: string) => {
     })();
     `;
 
-    const filename = `results-${projectId}.js`;
-    const filePath = `./public/${filename}`;
-    await fs.writeFile(filePath, script);
-
-    const tempFilePath = `/tmp/${filename}`;
-    await fs.writeFile(tempFilePath, script);
-
-    const cloudinaryResponse = await new Promise((resolve, reject) => {
-      cloudinary.uploader.upload(
-        tempFilePath,
-        {
-          resource_type: "raw",
-          folder: "response/script",
-          public_id: `response_${projectId}`,
-          overwrite: true,
-          use_filename: true,
-          unique_filename: false,
-        },
-        async (error, result) => {
-          if (error) reject(error);
-          else resolve(result);
-
-          if (result) {
-            await db.project.update({
-              where: {
-                id: projectId,
-              },
-              data: {
-                scriptFile: result.secure_url,
-              },
-            });
-          }
-        },
-      );
+    const buffer = Buffer.from(script, "utf-8");
+    const readableStream = new Readable({
+      read() {
+        this.push(buffer);
+        this.push(null);
+      },
     });
 
-    await fs.unlink(tempFilePath);
-    await fs.rm(filePath);
+    const uploadResponse = await cloudinary.uploader.upload_stream(
+      {
+        resource_type: "raw",
+        folder: "response/script",
+        public_id: `response_${projectId}.js`,
+        overwrite: true,
+        use_filename: true,
+        unique_filename: false,
+      },
+      async (error, result) => {
+        if (error) {
+          console.error("Error uploading to Cloudinary", error);
+          return;
+        }
+        console.log("Script uploaded to Cloudinary:", result);
 
-    return cloudinaryResponse;
+        if (result) {
+          await db.project.update({
+            where: {
+              id: projectId,
+            },
+            data: {
+              scriptFile: result.secure_url,
+            },
+          });
+        }
+
+        return result;
+      },
+    );
+    readableStream.pipe(uploadResponse);
+
+    return true;
   } catch (error) {
     console.error("Error generating embedded file:", error);
     throw new Error(`Failed to generate embedded file: ${error}`);
