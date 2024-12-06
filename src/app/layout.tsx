@@ -1,5 +1,6 @@
 import { geistSans } from "@/features/font";
 
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import ClientProvider from "@/providers/client-provider";
 import { ThemeProvider } from "@/providers/theme-provider";
@@ -8,7 +9,6 @@ import { getServerSession } from "next-auth";
 import { Toaster } from "sonner";
 import { authOptions } from "./api/auth/[...nextauth]/auth";
 import "./globals.css";
-import { TooltipProvider } from "@/components/ui/tooltip";
 
 export const metadata: Metadata = {
   title: "Response - Streamlined Feedback for Better Experiences",
@@ -26,6 +26,25 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Response Team" }],
   creator: "Jay Suthar",
+  openGraph: {
+    title: "Response - Your Feedback System",
+    description: "Collect feedback easily with video or text on Response.",
+    images: [
+      {
+        url: "https://res.cloudinary.com/cdn-feedback/image/upload/v1733416565/response/response.png",
+      },
+    ],
+    url: "https://response.sutharjay.com",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Response - Your Feedback System",
+    description: "Collect feedback easily with video or text on Response.",
+    images: [
+      "https://res.cloudinary.com/cdn-feedback/image/upload/v1733416565/response/response.png",
+    ],
+  },
 };
 
 export default async function RootLayout({
