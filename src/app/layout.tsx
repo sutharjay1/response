@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     description: "Collect feedback easily with video or text on Response.",
     images: [
       {
-        url: "https://res.cloudinary.com/cdn-feedback/image/upload/v1733416565/response/response.png",
+        url: "https://res.cloudinary.com/cdn-feedback/image/upload/v1733506409/response/response-no-border.png",
       },
     ],
     url: "https://response.sutharjay.com",
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     title: "Response - Your Feedback System",
     description: "Collect feedback easily with video or text on Response.",
     images: [
-      "https://res.cloudinary.com/cdn-feedback/image/upload/v1733416565/response/response.png",
+      "https://res.cloudinary.com/cdn-feedback/image/upload/v1733506409/response/response-no-border.png",
     ],
   },
 };
