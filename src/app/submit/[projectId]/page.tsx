@@ -326,7 +326,7 @@ const SubmitForm = ({ params }: Props) => {
                         render={({ field }) => (
                           <FormItem className="flex w-full flex-col gap-1">
                             <FormLabel className="text-xs font-normal">
-                              Project Name
+                              Enter your name
                             </FormLabel>
                             <FormControl>
                               <Input
