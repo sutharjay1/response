@@ -61,6 +61,8 @@ model Field {
 
 model Result {
   id        String   @id @default(cuid())
+  name      String
+  avatar    String
   projectId String
   fieldId   String?
   value     String?

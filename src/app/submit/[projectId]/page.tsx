@@ -18,6 +18,7 @@ import { FormElement } from "@/features/projects/types";
 import { VideoUploadButton } from "@/features/projects/video-upload-button";
 import { submitFieldResponse } from "@/features/submit/actions/submit-field-response";
 import { useVideo } from "@/features/submit/hooks/use-video";
+import { AvatarDropZone } from "@/features/submit/avatar-drop-zone";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SpinnerOne, Star } from "@mynaui/icons-react";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -25,6 +26,15 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
+import { cn } from "@/lib/utils";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 
 type Props = {
   params: Promise<{
@@ -32,15 +42,29 @@ type Props = {
   }>;
 };
 
+const basicInfoSchema = z.object({
+  name: z.string().min(1, { message: "Name is required" }),
+});
+
+type BasicInfo = z.infer<typeof basicInfoSchema>;
+
 const SubmitForm = ({ params }: Props) => {
   const { projectId } = React.use(params);
   const [formElements, setFormElements] = useState<FormElement[]>([]);
+  const [avatar, setAvatar] = useState<string>("");
   const { videoUrl } = useVideo();
 
   const { data: project } = useQuery({
     queryKey: ["currentProject", projectId],
     queryFn: () => getProjectById(projectId as string),
     enabled: !!projectId,
+  });
+
+  const form = useForm<BasicInfo>({
+    resolver: zodResolver(basicInfoSchema),
+    defaultValues: {
+      name: "",
+    },
   });
 
   const generateFormSchema = (elements: FormElement[]) => {
@@ -171,6 +195,8 @@ const SubmitForm = ({ params }: Props) => {
                   ? element.value
                   : "",
           checked: "checked" in element ? element.checked : false,
+          name: form.getValues("name"),
+          avatar,
         }));
 
         return submitFieldResponse(projectId, formattedData);
@@ -280,6 +306,43 @@ const SubmitForm = ({ params }: Props) => {
                 {project?.description}
               </p>
             )}
+          </div>
+        </CardHeader>
+        <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
+          <div className="flex flex-1 justify-center gap-1 text-center sm:text-left">
+            <AvatarDropZone
+              onAvatarChange={setAvatar}
+              id={project?.id}
+              setFormElements={setFormElements}
+            />
+            <Card className="w-ful l flex flex-1 items-center justify-start rounded-md shadow-none">
+              <CardContent className={cn("w-full cursor-pointer p-0")}>
+                <div className="flex flex-col items-start justify-start gap-1 text-sm text-muted-foreground">
+                  <Form {...form}>
+                    <form {...form}>
+                      <FormField
+                        control={form.control}
+                        name="name"
+                        render={({ field }) => (
+                          <FormItem className="flex w-full flex-col gap-3">
+                            <FormLabel className="text-xs font-normal">
+                              Project Name
+                            </FormLabel>
+                            <FormControl>
+                              <Input
+                                {...field}
+                                className="h-8 rounded-md border border-input bg-background px-3 py-2 text-xs font-normal text-muted-foreground shadow-none"
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </form>
+                  </Form>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </CardHeader>
         <form onSubmit={handleSubmit(onSubmit)}>
