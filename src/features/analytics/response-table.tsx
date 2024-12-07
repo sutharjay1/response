@@ -1,3 +1,5 @@
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -12,13 +14,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { format } from "date-fns";
-import { GetProjectAnalyticsType } from "../projects/actions/get-project-analytics";
 import { cn } from "@/lib/utils";
 import { Heart, HeartSolid } from "@mynaui/icons-react";
-import { Button } from "@/components/ui/button";
-import { addFeedbackToFavorite } from "./actions/add-feedback-to-favourite";
+import { format } from "date-fns";
 import { errorToast, successToast } from "../global/toast";
+import { GetProjectAnalyticsType } from "../projects/actions/get-project-analytics";
+import { addFeedbackToFavorite } from "./actions/add-feedback-to-favourite";
 
 const ProjectAnalyticsResponseTable = ({
   data,
@@ -50,7 +51,8 @@ const ProjectAnalyticsResponseTable = ({
         <Table className="w-full border-separate border-spacing-0">
           <TableHeader>
             <TableRow className="bg-muted/20">
-              <TableHead className="p-3">Field Name</TableHead>
+              <TableHead className="p-3">Avatar</TableHead>
+              <TableHead className="p-3">By</TableHead>
               <TableHead className="p-3">Value</TableHead>
               <TableHead className="p-3">Timestamp</TableHead>
               <TableHead className="p-3 text-right">Favorited</TableHead>
@@ -64,7 +66,15 @@ const ProjectAnalyticsResponseTable = ({
                   className="transition-colors hover:bg-muted/10"
                 >
                   <TableCell className="p-3 font-medium text-primary">
-                    {field.label}
+                    <Avatar className="h-8 w-8 rounded-xl">
+                      <AvatarImage src={result.avatar} alt={result.name} />
+                      <AvatarFallback className="rounded-xl px-3 py-2">
+                        {result.name?.charAt(0)}
+                      </AvatarFallback>
+                    </Avatar>
+                  </TableCell>
+                  <TableCell className="p-3 font-medium text-primary">
+                    {result.name}
                   </TableCell>
                   <TableCell className="p-3 text-right text-secondary">
                     {result.value}
