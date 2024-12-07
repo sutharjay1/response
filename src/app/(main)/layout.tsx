@@ -21,6 +21,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <Separator orientation="vertical" className="mr-2 h-4" />
               <BreadcrumbInfo />
             </div>
+
             <ProjectLink />
           </header>
           <div className="flex flex-1 flex-col gap-4 border-t border-zinc-200 p-4">
