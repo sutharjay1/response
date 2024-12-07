@@ -107,7 +107,7 @@ const feedbackData =   ${JSON.stringify(result)}.map((item,index) => ({
 
 
 
-console.log({feedbackData})
+
 
 
     function cn(...classes) {
@@ -240,7 +240,6 @@ console.log({feedbackData})
           console.error("Error uploading to Cloudinary", error);
           return;
         }
-        console.log("Script uploaded to Cloudinary:", result);
 
         if (result) {
           await db.project.update({

@@ -20,7 +20,7 @@ type FieldResponse = {
 
 export const submitFieldResponse = async (
   projectId: string,
-  formData: FieldResponse[],
+  formData: (FieldResponse & { name: string; avatar: string })[],
 ): Promise<{ success: boolean }> => {
   if (!formData || formData.length === 0) {
     throw new Error("Form data is empty or null");
@@ -45,6 +45,8 @@ export const submitFieldResponse = async (
             ? String(Boolean(response.checked))
             : response.value?.toString(),
         isFavorite: false,
+        name: response.name,
+        avatar: response.avatar,
       }));
 
     await db.result.createMany({
