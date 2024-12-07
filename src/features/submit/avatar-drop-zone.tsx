@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { File, PlusSquare, X } from "@mynaui/icons-react";
+import { EditOne } from "@mynaui/icons-react";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
@@ -66,10 +66,13 @@ export const AvatarDropZone: React.FC<ImageUploadDropZoneProps> = ({
           );
         }
 
-        if (response.success) {
+        if (response.success && response.data) {
           clearInterval(progressInterval);
           setUploadProgress(100);
-          successToast("Image uploaded successfully");
+          onAvatarChange(response.data.secure_url as string);
+          successToast("Image uploaded successfully", {
+            position: "top-center",
+          });
         } else {
           throw new Error(response.error || "Upload failed");
         }
@@ -83,7 +86,7 @@ export const AvatarDropZone: React.FC<ImageUploadDropZoneProps> = ({
         setIsUploading(false);
       }
     },
-    [id, setFormElements],
+    [id, setFormElements, onAvatarChange],
   );
 
   const { getRootProps, getInputProps, acceptedFiles, isDragActive } =
@@ -97,18 +100,18 @@ export const AvatarDropZone: React.FC<ImageUploadDropZoneProps> = ({
       disabled: isUploading,
     });
 
-  const removeFile = () => {
-    acceptedFiles[0].slice();
-  };
+  // const removeFile = () => {
+  //   acceptedFiles[0].slice();
+  // };
 
   useEffect(() => {
-    if (currentImage) {
+    if (currentImage && onAvatarChange) {
       onAvatarChange(currentImage);
     }
   }, [currentImage, onAvatarChange]);
 
   return (
-    <Card className="w-fit">
+    <Card className="flex h-full w-fit items-center justify-center">
       <CardContent className={cn("w-full cursor-pointer p-0")}>
         <div
           {...getRootProps()}
@@ -121,43 +124,40 @@ export const AvatarDropZone: React.FC<ImageUploadDropZoneProps> = ({
           <input {...getInputProps()} />
           {acceptedFiles[0] ? (
             <div className="flex w-full items-center justify-start space-x-4">
-              <div className="relative w-fit overflow-hidden rounded-lg border transition-all">
+              <div className="relative flex h-20 w-20 overflow-hidden rounded-xl border-4 border-background bg-muted shadow-sm shadow-black/10">
                 <Image
                   src={URL.createObjectURL(acceptedFiles[0])}
                   alt="Uploaded image"
-                  width={50}
-                  height={50}
+                  width={80}
+                  height={80}
                   className="rounded-md border border-input object-cover shadow"
                 />
-                <Button
-                  variant="secondary"
+                {/* <Button
+                  variant="outline"
                   size="icon"
-                  className="absolute right-2 top-2"
                   onClick={(e) => {
                     e.stopPropagation();
                     removeFile();
                   }}
+                  className="flex size-12 cursor-pointer items-end justify-normal rounded-sm border-0 bg-transparent text-sidebar hover:bg-transparent hover:opacity-80"
+                  aria-label="Change profile picture"
                 >
-                  <X className="h-4 w-4" />
-                </Button>
-              </div>
-              <div className="flex flex-col items-start justify-start gap-1 text-sm text-muted-foreground">
-                <div className="flex items-center">
-                  <File className="mr-2 h-4 w-4 text-primary" />
-                  <span className="font-medium">{acceptedFiles[0].name}</span>
-                </div>
-                <span>
-                  {(acceptedFiles[0].size / 1024 / 1024).toFixed(2)} MB
-                </span>
+                  <X
+                    size={16}
+                    strokeWidth={2}
+                    aria-hidden="true"
+                    className="absolute bottom-2 right-0 text-black"
+                  />
+                </Button> */}
               </div>
             </div>
           ) : (
             <>
-              <div className="relative flex size-20 items-center justify-center overflow-hidden rounded-xl border-4 border-background bg-muted shadow-sm shadow-black/10">
+              <div className="relative flex h-20 w-20 overflow-hidden rounded-xl border-4 border-background bg-muted shadow-sm shadow-black/10">
                 {currentImage && (
                   <Image
                     src={currentImage}
-                    className="h-full w-full border border-input object-cover shadow"
+                    className="rounded-md border border-input object-cover shadow"
                     width={80}
                     height={80}
                     alt="Profile image"
@@ -166,10 +166,10 @@ export const AvatarDropZone: React.FC<ImageUploadDropZoneProps> = ({
                 <Button
                   variant="outline"
                   size="icon"
-                  className="absolute flex size-12 cursor-pointer items-center justify-center rounded-sm border-0 bg-transparent text-sidebar hover:bg-transparent hover:opacity-0"
+                  className="absolute flex size-12 cursor-pointer items-center justify-center rounded-sm border-0 bg-transparent text-sidebar hover:bg-transparent"
                   aria-label="Change profile picture"
                 >
-                  <PlusSquare size={16} strokeWidth={2} aria-hidden="true" />
+                  <EditOne size={16} strokeWidth={2} aria-hidden="true" />
                 </Button>
                 <input
                   type="file"

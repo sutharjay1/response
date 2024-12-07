@@ -8,6 +8,14 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -17,8 +25,9 @@ import { getProjectById } from "@/features/projects/actions/get-projects";
 import { FormElement } from "@/features/projects/types";
 import { VideoUploadButton } from "@/features/projects/video-upload-button";
 import { submitFieldResponse } from "@/features/submit/actions/submit-field-response";
-import { useVideo } from "@/features/submit/hooks/use-video";
 import { AvatarDropZone } from "@/features/submit/avatar-drop-zone";
+import { useVideo } from "@/features/submit/hooks/use-video";
+import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SpinnerOne, Star } from "@mynaui/icons-react";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -26,15 +35,6 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
-import { cn } from "@/lib/utils";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
 
 type Props = {
   params: Promise<{
@@ -309,13 +309,13 @@ const SubmitForm = ({ params }: Props) => {
           </div>
         </CardHeader>
         <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
-          <div className="flex flex-1 justify-center gap-1 text-center sm:text-left">
+          <div className="flex flex-1 items-center justify-center gap-3 text-center sm:text-left">
             <AvatarDropZone
               onAvatarChange={setAvatar}
               id={project?.id}
               setFormElements={setFormElements}
             />
-            <Card className="w-ful l flex flex-1 items-center justify-start rounded-md shadow-none">
+            <Card className="w-ful l flex flex-1 items-center justify-start rounded-md border-0 bg-transparent shadow-none">
               <CardContent className={cn("w-full cursor-pointer p-0")}>
                 <div className="flex flex-col items-start justify-start gap-1 text-sm text-muted-foreground">
                   <Form {...form}>
@@ -324,14 +324,14 @@ const SubmitForm = ({ params }: Props) => {
                         control={form.control}
                         name="name"
                         render={({ field }) => (
-                          <FormItem className="flex w-full flex-col gap-3">
+                          <FormItem className="flex w-full flex-col gap-1">
                             <FormLabel className="text-xs font-normal">
                               Project Name
                             </FormLabel>
                             <FormControl>
                               <Input
                                 {...field}
-                                className="h-8 rounded-md border border-input bg-background px-3 py-2 text-xs font-normal text-muted-foreground shadow-none"
+                                className="h-8 w-full rounded-md border border-gray-300 bg-background px-3 py-2 text-xs font-normal text-muted-foreground shadow-none focus:border-indigo-500 focus:ring-indigo-500"
                               />
                             </FormControl>
                             <FormMessage />
@@ -375,7 +375,7 @@ const SubmitForm = ({ params }: Props) => {
                                 <Input
                                   id={`input-${element.id}`}
                                   {...field}
-                                  className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                  className="block w-full rounded-md border-gray-300 bg-background shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                 />
                                 {errors[element.id] && (
                                   <p className="mt-1 text-xs text-red-500">
@@ -404,7 +404,7 @@ const SubmitForm = ({ params }: Props) => {
                                 <Textarea
                                   id={`textarea-${element.id}`}
                                   {...field}
-                                  className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                  className="block w-full rounded-md border-gray-300 bg-background shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                   rows={4}
                                 />
                                 {errors[element.id] && (
@@ -429,7 +429,7 @@ const SubmitForm = ({ params }: Props) => {
                                   id={`checkbox-${element.id}`}
                                   checked={value}
                                   onCheckedChange={onChange}
-                                  className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                  className="h-4 w-4 rounded border-gray-300 bg-background text-indigo-600 focus:ring-indigo-500"
                                 />
                                 <Label
                                   htmlFor={`checkbox-${element.id}`}
