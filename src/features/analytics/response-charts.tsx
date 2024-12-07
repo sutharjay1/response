@@ -97,7 +97,7 @@ const ProjectAnalyticsCharts = ({
         return result.field?.checked ? 1 : 0;
       case "text":
       case "textarea":
-        return result.value ? result.value.length : 0;
+        return result.value ? 1 : 0;
       case "star":
         return result.value ? parseInt(result.value, 10) : 0;
       case "input":
