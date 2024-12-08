@@ -23,6 +23,7 @@ export async function createProject({
       data: {
         name,
         description,
+        banner: `https://avatar.vercel.sh/${name}`,
         user: {
           connect: {
             id: userId,
