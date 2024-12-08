@@ -424,14 +424,67 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
   const { isMobile } = useSidebar();
 
   return (
-    <div className="container w-full gap-6 space-x-9">
+    <div className="container relative h-screen w-full gap-6 space-x-9">
+      <div className="absolute bottom-6 left-0 right-0 z-50 flex w-full items-center justify-between rounded-full px-6 py-3">
+        <div className="flex items-center justify-center gap-2">
+          <Button
+            onClick={() => addField("input")}
+            variant="outline"
+            className="flex items-center gap-1 bg-blue-600 px-2 hover:bg-blue-100 md:gap-2 md:px-4"
+          >
+            <TypeBold className="h-6 w-6" />
+            Input
+          </Button>
+          <Button
+            onClick={() => addField("textarea")}
+            variant="outline"
+            className="flex items-center gap-1 bg-green-50 px-2 hover:bg-green-100 md:gap-2 md:px-4"
+          >
+            <Keyboard className="h-6 w-6" />
+            Textarea
+          </Button>
+          <Button
+            onClick={() => addField("checkbox")}
+            variant="outline"
+            className="flex items-center gap-1 bg-orange-50 px-2 hover:bg-orange-100 md:gap-2 md:px-4"
+          >
+            <CheckSquare className="h-6 w-6" />
+            Checkbox
+          </Button>
+          <Button
+            onClick={() => addField("star")}
+            variant="outline"
+            className="flex items-center gap-1 bg-orange-50 px-2 hover:bg-orange-100 md:gap-2 md:px-4"
+          >
+            <Star className="h-6 w-6" />
+            Star
+          </Button>
+          <Button
+            onClick={() => addField("image")}
+            variant="outline"
+            className="flex items-center gap-1 bg-orange-50 px-2 hover:bg-orange-100 md:gap-2 md:px-4"
+          >
+            <ImageIcon className="h-6 w-6" />
+            Image
+          </Button>
+          <Button
+            onClick={() => addField("video")}
+            variant="outline"
+            className="flex items-center gap-1 bg-orange-50 px-2 hover:bg-orange-100 md:gap-2 md:px-4"
+          >
+            <Video className="h-6 w-6" />
+            Video
+          </Button>
+        </div>
+      </div>
+
       <div
-        className="grid w-full gap-4"
+        className="mt-4 grid w-full gap-4"
         style={{
           gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
         }}
       >
-        <Card className="md:col-span-1">
+        <Card className="z-20 md:col-span-1">
           <CardHeader className="pt-6">
             <div className="flex items-center justify-between pb-3">
               <CardTitle>Form Builder</CardTitle>
@@ -443,7 +496,7 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
                 )}
               </CardTitle>
             </div>
-            <div className="mt-4 flex flex-wrap gap-2">
+            {/* <div className="mt-4 flex flex-wrap gap-2">
               <Button
                 onClick={() => addField("input")}
                 variant="outline"
@@ -492,7 +545,7 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
                 <Video className="h-6 w-6" />
                 Video
               </Button>
-            </div>
+            </div> */}
           </CardHeader>
           <CardContent className="p-4 pt-4 md:p-6 md:pt-6">
             <div className="space-y-4">
@@ -502,8 +555,7 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
             </div>
           </CardContent>
         </Card>
-
-        <Card className="mx-auto my-8 flex w-full items-center justify-center py-8 md:col-span-1">
+        <Card className="z-20 mx-auto my-8 flex w-full items-center justify-center py-8 md:col-span-1">
           <Card className="mx-auto my-8 w-full max-w-3xl overflow-hidden bg-background">
             <BannerUploadDropZone
               id={project?.id}
