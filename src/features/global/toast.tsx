@@ -21,7 +21,7 @@ type ToastOptions = {
 };
 
 const DEFAULT_DURATION = 3000;
-const DEFAULT_POSITION = "bottom-right";
+const DEFAULT_POSITION = "top-center";
 
 export const successToast = (message: string, options?: ToastOptions) => {
   toast.success(message, {

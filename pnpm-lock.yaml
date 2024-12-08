@@ -46,6 +46,9 @@ importers:
       "@radix-ui/react-slot":
         specifier: ^1.1.0
         version: 1.1.0(@types/react@18.3.12)(react@19.0.0-rc-66855b96-20241106)
+      "@radix-ui/react-switch":
+        specifier: ^1.1.1
+        version: 1.1.1(@types/react-dom@18.3.1)(@types/react@18.3.12)(react-dom@19.0.0-rc-66855b96-20241106(react@19.0.0-rc-66855b96-20241106))(react@19.0.0-rc-66855b96-20241106)
       "@radix-ui/react-tooltip":
         specifier: ^1.1.4
         version: 1.1.4(@types/react-dom@18.3.1)(@types/react@18.3.12)(react-dom@19.0.0-rc-66855b96-20241106(react@19.0.0-rc-66855b96-20241106))(react@19.0.0-rc-66855b96-20241106)
@@ -64,6 +67,9 @@ importers:
       date-fns:
         specifier: ^4.1.0
         version: 4.1.0
+      easyqrcodejs:
+        specifier: ^4.6.1
+        version: 4.6.1
       mini-svg-data-uri:
         specifier: ^1.4.4
         version: 1.4.4
@@ -100,6 +106,9 @@ importers:
       react-media-recorder:
         specifier: ^1.7.1
         version: 1.7.1
+      react-qr-code:
+        specifier: ^2.0.15
+        version: 2.0.15(react@19.0.0-rc-66855b96-20241106)
       recharts:
         specifier: ^2.13.3
         version: 2.13.3(react-dom@19.0.0-rc-66855b96-20241106(react@19.0.0-rc-66855b96-20241106))(react@19.0.0-rc-66855b96-20241106)
@@ -1196,6 +1205,22 @@ packages:
       react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
     peerDependenciesMeta:
       "@types/react":
+        optional: true
+
+  "@radix-ui/react-switch@1.1.1":
+    resolution:
+      {
+        integrity: sha512-diPqDDoBcZPSicYoMWdWx+bCPuTRH4QSp9J+65IvtdS0Kuzt67bI6n32vCj8q6NZmYW/ah+2orOtMwcX5eQwIg==,
+      }
+    peerDependencies:
+      "@types/react": "*"
+      "@types/react-dom": "*"
+      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+      react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+    peerDependenciesMeta:
+      "@types/react":
+        optional: true
+      "@types/react-dom":
         optional: true
 
   "@radix-ui/react-tooltip@1.1.4":
@@ -2420,6 +2445,12 @@ packages:
         integrity: sha512-8cAwm6md1YTiPpOvDULYJL4ZS6WfM5/cTeVVh4JsvyYZAoqlRVUpHL9Gr5Fy7HA6xcSZicUia3DeAgO3Us8E+Q==,
       }
     engines: { node: ">= 4.0.0" }
+
+  easyqrcodejs@4.6.1:
+    resolution:
+      {
+        integrity: sha512-J9C7UOJ67sZvu1Ei6JS/YHgmTVfl7jD+zPloxZGMtjGz+r9s0APJVxdPlGIYJsI9JEfgE6Q3ZfMEl/6+TL4BGA==,
+      }
 
   eazy-logger@4.0.1:
     resolution:
@@ -4463,6 +4494,12 @@ packages:
 
       (For a CapTP with native promises, see @endo/eventual-send and @endo/captp)
 
+  qr.js@0.0.0:
+    resolution:
+      {
+        integrity: sha512-c4iYnWb+k2E+vYpRimHqSu575b1/wKl4XFeJGpFmrJQz5I88v9aY2czh7s0w36srfCM1sXgC/xpoJz5dJfq+OQ==,
+      }
+
   queue-microtask@1.2.3:
     resolution:
       {
@@ -4532,6 +4569,14 @@ packages:
       {
         integrity: sha512-OIYA4pfGR1HbRm4aB/mv2EswDSBanh+NbUyUEEeIaHVpmsF3AOr4T0te4CgIn5ijja85A/KI+JimVoiQ93dNgA==,
       }
+
+  react-qr-code@2.0.15:
+    resolution:
+      {
+        integrity: sha512-MkZcjEXqVKqXEIMVE0mbcGgDpkfSdd8zhuzXEl9QzYeNcw8Hq2oVIzDLWuZN2PQBwM5PWjc2S31K8Q1UbcFMfw==,
+      }
+    peerDependencies:
+      react: "*"
 
   react-remove-scroll-bar@2.3.6:
     resolution:
@@ -6243,6 +6288,21 @@ snapshots:
     optionalDependencies:
       "@types/react": 18.3.12
 
+  "@radix-ui/react-switch@1.1.1(@types/react-dom@18.3.1)(@types/react@18.3.12)(react-dom@19.0.0-rc-66855b96-20241106(react@19.0.0-rc-66855b96-20241106))(react@19.0.0-rc-66855b96-20241106)":
+    dependencies:
+      "@radix-ui/primitive": 1.1.0
+      "@radix-ui/react-compose-refs": 1.1.0(@types/react@18.3.12)(react@19.0.0-rc-66855b96-20241106)
+      "@radix-ui/react-context": 1.1.1(@types/react@18.3.12)(react@19.0.0-rc-66855b96-20241106)
+      "@radix-ui/react-primitive": 2.0.0(@types/react-dom@18.3.1)(@types/react@18.3.12)(react-dom@19.0.0-rc-66855b96-20241106(react@19.0.0-rc-66855b96-20241106))(react@19.0.0-rc-66855b96-20241106)
+      "@radix-ui/react-use-controllable-state": 1.1.0(@types/react@18.3.12)(react@19.0.0-rc-66855b96-20241106)
+      "@radix-ui/react-use-previous": 1.1.0(@types/react@18.3.12)(react@19.0.0-rc-66855b96-20241106)
+      "@radix-ui/react-use-size": 1.1.0(@types/react@18.3.12)(react@19.0.0-rc-66855b96-20241106)
+      react: 19.0.0-rc-66855b96-20241106
+      react-dom: 19.0.0-rc-66855b96-20241106(react@19.0.0-rc-66855b96-20241106)
+    optionalDependencies:
+      "@types/react": 18.3.12
+      "@types/react-dom": 18.3.1
+
   "@radix-ui/react-tooltip@1.1.4(@types/react-dom@18.3.1)(@types/react@18.3.12)(react-dom@19.0.0-rc-66855b96-20241106(react@19.0.0-rc-66855b96-20241106))(react@19.0.0-rc-66855b96-20241106)":
     dependencies:
       "@radix-ui/primitive": 1.1.0
@@ -7005,6 +7065,8 @@ snapshots:
   easy-extender@2.3.4:
     dependencies:
       lodash: 4.17.21
+
+  easyqrcodejs@4.6.1: {}
 
   eazy-logger@4.0.1:
     dependencies:
@@ -8341,6 +8403,8 @@ snapshots:
 
   q@1.5.1: {}
 
+  qr.js@0.0.0: {}
+
   queue-microtask@1.2.3: {}
 
   random-word-slugs@0.1.7: {}
@@ -8378,6 +8442,12 @@ snapshots:
     dependencies:
       extendable-media-recorder: 6.6.10
       extendable-media-recorder-wav-encoder: 7.0.121
+
+  react-qr-code@2.0.15(react@19.0.0-rc-66855b96-20241106):
+    dependencies:
+      prop-types: 15.8.1
+      qr.js: 0.0.0
+      react: 19.0.0-rc-66855b96-20241106
 
   react-remove-scroll-bar@2.3.6(@types/react@18.3.12)(react@19.0.0-rc-66855b96-20241106):
     dependencies:

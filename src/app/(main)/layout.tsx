@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/features/dashboard/app-sidebar";
 import BreadcrumbInfo from "@/features/dashboard/breadcrumb-info";
-import ProjectLink from "@/features/dashboard/project-link";
+import ProjectLink from "@/features/projects/project-link";
 import { QueryProvider } from "@/providers/query-provider";
 
 export default function Layout({ children }: { children: React.ReactNode }) {

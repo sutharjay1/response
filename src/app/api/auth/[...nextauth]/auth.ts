@@ -64,6 +64,7 @@ export const authOptions: AuthOptions = {
                 },
               },
               scriptFile: "",
+              status: "DEV",
             },
           });
         }

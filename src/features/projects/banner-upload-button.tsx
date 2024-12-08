@@ -1,7 +1,8 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { CardContent } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 import { EditOne, SpinnerOne } from "@mynaui/icons-react";
 import Image from "next/image";
@@ -10,7 +11,6 @@ import { useDropzone } from "react-dropzone";
 import { errorToast, successToast } from "../global/toast";
 import { FormElement } from "../projects/types";
 import { uploadBannerToCloudinary } from "./actions/upload-banner";
-import { Progress } from "@/components/ui/progress";
 
 interface BannerUploadDropZoneProps {
   onAvatarChange: (avatar: string) => void;
@@ -114,31 +114,32 @@ export const BannerUploadDropZone: React.FC<BannerUploadDropZoneProps> = ({
     }
   }, [banner, onAvatarChange]);
 
-  console.log(banner);
-
   return (
-    <Card className="border-b-none flex h-full w-full items-center justify-center rounded-t-none bg-background p-0">
-      <CardContent className={cn("w-full cursor-pointer p-0")}>
-        <div
-          {...getRootProps()}
-          className={`flex w-full flex-col items-center justify-center rounded-t-lg transition-colors ${
-            isDragActive
-              ? "border-primary bg-primary/10"
-              : "border-muted-foreground/25 hover:bg-muted/10"
-          }`}
-        >
-          <input {...getInputProps()} />
-          {acceptedFiles[0] ? (
-            <div className="flex w-full items-center justify-start space-x-4">
-              <div className="relative flex h-20 w-full overflow-hidden rounded-t-xl border-4 border-background bg-muted shadow-sm shadow-black/10">
-                <Image
-                  src={banner ? banner : (acceptedFiles[0].path as string)}
-                  alt="Uploaded image"
-                  width={500}
-                  height={20}
-                  className="w-full rounded-md border border-input object-cover shadow"
-                />
-                {/* <Button
+    <CardContent
+      className={cn(
+        "border-b-none relative flex h-full w-full cursor-pointer items-center justify-center rounded-b-none bg-background p-0",
+      )}
+    >
+      <div
+        {...getRootProps()}
+        className={`flex w-full flex-col items-center justify-center rounded-t-lg transition-colors ${
+          isDragActive
+            ? "border-primary bg-primary/10"
+            : "border-muted-foreground/25 hover:bg-muted/10"
+        }`}
+      >
+        <input {...getInputProps()} />
+        {acceptedFiles[0] ? (
+          <div className="flex w-full items-center justify-start space-x-4">
+            <div className="relative flex h-20 w-full overflow-hidden rounded-t-xl border-4 border-background bg-muted shadow-sm shadow-black/10">
+              <Image
+                src={banner ? banner : (acceptedFiles[0].path as string)}
+                alt="Uploaded image"
+                width={500}
+                height={20}
+                className="w-full rounded-md border border-input object-cover shadow"
+              />
+              {/* <Button
                     variant="outline"
                     size="icon"
                     onClick={(e) => {
@@ -155,49 +156,48 @@ export const BannerUploadDropZone: React.FC<BannerUploadDropZoneProps> = ({
                         className="absolute bottom-2 right-0 text-black"
                     />
                     </Button> */}
-              </div>
-            </div>
-          ) : (
-            <>
-              <div className="relative flex h-20 w-full overflow-hidden rounded-xl border-4 border-background bg-muted shadow-sm shadow-black/10">
-                {currentImage && (
-                  <Image
-                    src={currentImage}
-                    className="h-20 w-full rounded-md border border-input object-cover shadow"
-                    width={500}
-                    height={20}
-                    alt="Profile image"
-                  />
-                )}
-                <Button
-                  variant="outline"
-                  size="icon"
-                  className="absolute flex size-12 cursor-pointer items-center justify-center rounded-sm border-0 bg-transparent text-sidebar hover:bg-transparent"
-                  aria-label="Change profile picture"
-                >
-                  <EditOne size={16} strokeWidth={2} aria-hidden="true" />
-                </Button>
-                <input
-                  type="file"
-                  className="hidden border border-input shadow"
-                  accept="image/*"
-                  aria-label="Upload profile picture"
-                />
-              </div>
-            </>
-          )}
-        </div>
-
-        {isUploading && (
-          <div className="mt-4 space-y-2">
-            <Progress value={uploadProgress} className="h-2 w-full" />
-            <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
-              <SpinnerOne className="h-4 w-4 animate-spin" />
-              {uploadProgress >= 90 ? "Processing..." : "Uploading..."}
             </div>
           </div>
+        ) : (
+          <>
+            <div className="flex h-20 w-full overflow-hidden rounded-t-xl border-4 border-background bg-muted shadow-sm shadow-black/10">
+              {currentImage && (
+                <Image
+                  src={currentImage}
+                  className="h-36 w-full rounded-t-md border border-input object-cover shadow"
+                  width={500}
+                  height={36}
+                  alt="Profile image"
+                />
+              )}
+              <Button
+                variant="secondary"
+                size="icon"
+                className="absolute right-6 top-6 m-4 flex cursor-pointer items-center justify-center border border-input bg-primary-foreground text-sidebar hover:bg-foreground"
+                aria-label="Change profile picture"
+              >
+                <EditOne size={16} strokeWidth={2} aria-hidden="true" />
+              </Button>
+              <input
+                type="file"
+                className="hidden border border-input shadow"
+                accept="image/*"
+                aria-label="Upload profile picture"
+              />
+            </div>
+          </>
         )}
-      </CardContent>
-    </Card>
+      </div>
+
+      {isUploading && (
+        <div className="mt-4 space-y-2">
+          <Progress value={uploadProgress} className="h-2 w-full" />
+          <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+            <SpinnerOne className="h-4 w-4 animate-spin" />
+            {uploadProgress >= 90 ? "Processing..." : "Uploading..."}
+          </div>
+        </div>
+      )}
+    </CardContent>
   );
 };

@@ -32,6 +32,7 @@ model Project {
   updatedAt   DateTime @updatedAt
 
   banner     String
+  status     Status  @default(DEV)
   scriptFile String?
 
   user    User     @relation("UserProjects", fields: [userId], references: [id], onDelete: Cascade)
@@ -85,4 +86,10 @@ enum FieldType {
   star
   image
   video
+}
+
+enum Status {
+  DEV
+  PROD
+  PREVIEW
 }
