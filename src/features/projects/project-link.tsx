@@ -39,7 +39,13 @@ const ProjectLink = () => {
 
   useEffect(() => {
     if (project) {
-      setEnableShare(project.status === "LIVE" ? true : false);
+      setEnableShare(
+        project.status === "LIVE"
+          ? true
+          : project.status === "DEV"
+            ? false
+            : false,
+      );
     }
   }, [project, setEnableShare]);
 
