@@ -57,6 +57,7 @@ export const authOptions: AuthOptions = {
           await db.project.create({
             data: {
               name: "My Project",
+              banner: `https://avatar.vercel.sh/${user.name}`,
               user: {
                 connect: {
                   id: newUser.id,

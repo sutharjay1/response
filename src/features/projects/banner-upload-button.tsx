@@ -3,30 +3,39 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { EditOne } from "@mynaui/icons-react";
+import { EditOne, SpinnerOne } from "@mynaui/icons-react";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { errorToast, successToast } from "../global/toast";
 import { FormElement } from "../projects/types";
-import { uploadSubmitAvatarToCloudinary } from "./actions/upload-image";
+import { uploadBannerToCloudinary } from "./actions/upload-banner";
+import { Progress } from "@/components/ui/progress";
 
-interface ImageUploadDropZoneProps {
+interface BannerUploadDropZoneProps {
   onAvatarChange: (avatar: string) => void;
   id?: string;
   setFormElements?: React.Dispatch<React.SetStateAction<FormElement[]>>;
+  banner: string;
 }
 
-export const AvatarDropZone: React.FC<ImageUploadDropZoneProps> = ({
+export const BannerUploadDropZone: React.FC<BannerUploadDropZoneProps> = ({
+  banner,
   onAvatarChange,
   id,
   setFormElements,
 }) => {
   const [isUploading, setIsUploading] = useState<boolean>(false);
-  const [, setUploadProgress] = useState<number>(0);
-  const [currentImage] = useState<string>(
-    `https://avatar.vercel.sh/${id}+${Date.now()}`,
+  const [uploadProgress, setUploadProgress] = useState<number>(0);
+  const [currentImage, setCurrentImage] = useState<string>(
+    `https://avatar.vercel.sh/${id}`,
   );
+
+  useEffect(() => {
+    if (banner) {
+      setCurrentImage(banner);
+    }
+  }, [banner, onAvatarChange]);
 
   const onDrop = useCallback(
     async (acceptedFiles: File[]) => {
@@ -50,17 +59,16 @@ export const AvatarDropZone: React.FC<ImageUploadDropZoneProps> = ({
         const formData = new FormData();
         formData.append("file", file);
 
-        const response = await uploadSubmitAvatarToCloudinary(
+        const response = await uploadBannerToCloudinary(
           formData,
           id!.toString(),
-          "image",
         );
 
-        if (setFormElements && response.data) {
+        if (setFormElements) {
           setFormElements((prevElements) =>
             prevElements.map((element) =>
               element.id === id
-                ? { ...element, value: response.data.secure_url! }
+                ? { ...element, value: response.data?.secure_url as string }
                 : element,
             ),
           );
@@ -101,17 +109,19 @@ export const AvatarDropZone: React.FC<ImageUploadDropZoneProps> = ({
     });
 
   useEffect(() => {
-    if (currentImage && onAvatarChange) {
-      onAvatarChange(currentImage);
+    if (banner && onAvatarChange) {
+      onAvatarChange(banner);
     }
-  }, [currentImage, onAvatarChange]);
+  }, [banner, onAvatarChange]);
+
+  console.log(banner);
 
   return (
-    <Card className="flex h-full w-fit items-center justify-center">
+    <Card className="border-b-none flex h-full w-full items-center justify-center rounded-t-none bg-background p-0">
       <CardContent className={cn("w-full cursor-pointer p-0")}>
         <div
           {...getRootProps()}
-          className={`flex flex-col items-center justify-center rounded-lg transition-colors ${
+          className={`flex w-full flex-col items-center justify-center rounded-t-lg transition-colors ${
             isDragActive
               ? "border-primary bg-primary/10"
               : "border-muted-foreground/25 hover:bg-muted/10"
@@ -120,42 +130,42 @@ export const AvatarDropZone: React.FC<ImageUploadDropZoneProps> = ({
           <input {...getInputProps()} />
           {acceptedFiles[0] ? (
             <div className="flex w-full items-center justify-start space-x-4">
-              <div className="relative flex h-20 w-20 overflow-hidden rounded-xl border-4 border-background bg-muted shadow-sm shadow-black/10">
+              <div className="relative flex h-20 w-full overflow-hidden rounded-t-xl border-4 border-background bg-muted shadow-sm shadow-black/10">
                 <Image
-                  src={URL.createObjectURL(acceptedFiles[0])}
+                  src={banner ? banner : (acceptedFiles[0].path as string)}
                   alt="Uploaded image"
-                  width={80}
-                  height={80}
-                  className="rounded-md border border-input object-cover shadow"
+                  width={500}
+                  height={20}
+                  className="w-full rounded-md border border-input object-cover shadow"
                 />
                 {/* <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    removeFile();
-                  }}
-                  className="flex size-12 cursor-pointer items-end justify-normal rounded-sm border-0 bg-transparent text-sidebar hover:bg-transparent hover:opacity-80"
-                  aria-label="Change profile picture"
-                >
-                  <X
-                    size={16}
-                    strokeWidth={2}
-                    aria-hidden="true"
-                    className="absolute bottom-2 right-0 text-black"
-                  />
-                </Button> */}
+                    variant="outline"
+                    size="icon"
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        removeFile();
+                    }}
+                    className="flex size-12 cursor-pointer items-end justify-normal rounded-sm border-0 bg-transparent text-sidebar hover:bg-transparent hover:opacity-80"
+                    aria-label="Change profile picture"
+                    >
+                    <X
+                        size={16}
+                        strokeWidth={2}
+                        aria-hidden="true"
+                        className="absolute bottom-2 right-0 text-black"
+                    />
+                    </Button> */}
               </div>
             </div>
           ) : (
             <>
-              <div className="relative flex h-20 w-20 overflow-hidden rounded-xl border-4 border-background bg-muted shadow-sm shadow-black/10">
+              <div className="relative flex h-20 w-full overflow-hidden rounded-xl border-4 border-background bg-muted shadow-sm shadow-black/10">
                 {currentImage && (
                   <Image
                     src={currentImage}
-                    className="rounded-md border border-input object-cover shadow"
-                    width={80}
-                    height={80}
+                    className="h-20 w-full rounded-md border border-input object-cover shadow"
+                    width={500}
+                    height={20}
                     alt="Profile image"
                   />
                 )}
@@ -178,7 +188,7 @@ export const AvatarDropZone: React.FC<ImageUploadDropZoneProps> = ({
           )}
         </div>
 
-        {/* {isUploading && (
+        {isUploading && (
           <div className="mt-4 space-y-2">
             <Progress value={uploadProgress} className="h-2 w-full" />
             <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
@@ -186,7 +196,7 @@ export const AvatarDropZone: React.FC<ImageUploadDropZoneProps> = ({
               {uploadProgress >= 90 ? "Processing..." : "Uploading..."}
             </div>
           </div>
-        )} */}
+        )}
       </CardContent>
     </Card>
   );

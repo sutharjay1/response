@@ -33,17 +33,22 @@ import { createForm } from "./actions/create-form";
 import { getProjectField } from "./actions/get-project-field";
 import { getProjectById } from "./actions/get-projects";
 import { removeField } from "./actions/remove-field";
+import { BannerUploadDropZone } from "./banner-upload-button";
 import { ImageUploadDropZone } from "./image-upload-button";
 import { FormElement } from "./types";
 
 const DynamicForm = ({ projectId }: { projectId: string }) => {
   const [formElements, setFormElements] = useState<FormElement[]>([]);
   const [isSaving, setIsSaving] = useState(false);
+  const [banner, setBanner] = useState<string>("");
 
   const { data: project } = useQuery({
     queryKey: ["currentProject", projectId],
     queryFn: () => getProjectById(projectId as string),
     enabled: !!projectId,
+    onSuccess: (data) => {
+      setBanner(data.banner);
+    },
   });
 
   const debouncedFormElements = useDebounce(formElements, 1000);
@@ -283,7 +288,7 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
                     handleChange(element.id, "label", e.target.value)
                   }
                   placeholder="Enter field label"
-                  className="mt-1 w-full transition-colors focus-visible:ring-1 md:w-full"
+                  className="mt-1 w-full border border-gray-300 bg-background transition-colors focus:border-indigo-500 focus:ring-indigo-500 focus-visible:ring-1 md:w-full"
                 />
               </div>
 
@@ -306,7 +311,7 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
                         handleChange(element.id, "value", e.target.value)
                       }
                       placeholder="Enter default value"
-                      className="w-full transition-colors focus-visible:ring-1 md:w-full"
+                      className="w-full border border-gray-300 bg-background transition-colors focus:border-indigo-500 focus:ring-indigo-500 focus-visible:ring-1 md:w-full"
                     />
                   ) : (
                     <Textarea
@@ -316,7 +321,7 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
                         handleChange(element.id, "value", e.target.value)
                       }
                       placeholder="Enter default value"
-                      className="mt-1 min-h-[100px] w-full transition-colors focus-visible:ring-1 md:w-full"
+                      className="mt-1 min-h-[100px] w-full border border-gray-300 bg-background transition-colors focus:border-indigo-500 focus:ring-indigo-500 focus-visible:ring-1 md:w-full"
                     />
                   )}
                 </div>
@@ -499,8 +504,14 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
         </Card>
 
         <Card className="mx-auto my-8 flex w-full items-center justify-center py-8 md:col-span-1">
-          <Card className="w-full max-w-md overflow-hidden bg-sidebar transition-all hover:shadow-md">
-            <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
+          <Card className="mx-auto my-8 w-full max-w-3xl overflow-hidden bg-background">
+            <BannerUploadDropZone
+              id={project?.id}
+              banner={banner}
+              onAvatarChange={setBanner}
+              setFormElements={setFormElements}
+            />
+            <CardHeader className="flex items-center gap-2 space-y-0 border-b px-6 py-5 sm:flex-row">
               <div className="grid flex-1 gap-1 text-center sm:text-left">
                 <h2 className="text-lg font-semibold text-primary">
                   {project?.name}
@@ -523,7 +534,7 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
                           <Input
                             value={element.value}
                             readOnly
-                            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                            className="block w-full rounded-md border border-input bg-background shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
                           />
                         </div>
                       );
@@ -533,7 +544,7 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
                           <Label>{element.label}</Label>
                           <Textarea
                             value={element.value}
-                            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                            className="block w-full rounded-md border border-input bg-background shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
                             readOnly
                           />
                         </div>
@@ -544,15 +555,9 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
                           key={element.id}
                           className="flex items-center space-x-2"
                         >
-                          {/* <input
-                            type="checkbox"
-                            checked={element.checked}
-                            readOnly
-                            className="mr-2 block w-fit rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                          /> */}
                           <Checkbox
                             checked={element.checked}
-                            className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                            className="h-4 w-4 rounded border-input text-primary focus:ring-primary"
                           />
                           <Label>{element.label}</Label>
                         </div>
@@ -567,15 +572,14 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
                                 <Button
                                   size="icon"
                                   key={rating}
-                                  variant={"ghost"}
+                                  variant="ghost"
                                 >
                                   <Star
-                                    key={rating}
                                     className={`h-6 w-6 ${
                                       parseInt(element.value) >=
                                       parseInt(rating)
                                         ? "text-yellow-500"
-                                        : "text-gray-300"
+                                        : "text-muted-foreground"
                                     }`}
                                     fill="currentColor"
                                   />
@@ -589,7 +593,6 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
                       return (
                         <div key={element.id} className="space-y-2">
                           <Label>{element.label}</Label>
-
                           <Image
                             src={
                               element.value ||
@@ -600,33 +603,6 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
                             width={200}
                             height={200}
                           />
-                        </div>
-                      );
-
-                    case "video":
-                      return (
-                        <div key={element.id} className="space-y-2">
-                          <Label>{element.label}</Label>
-
-                          <Card className="w-full max-w-md">
-                            <CardContent className="flex cursor-pointer flex-col items-center border-8 border-dashed border-[#7c533a] p-6">
-                              <div className="flex flex-col items-center justify-center">
-                                <div className="flex flex-col items-center justify-center text-center">
-                                  <Video className="mb-1 h-24 w-24 text-muted-foreground" />
-                                  <p className="mb-2 text-lg font-semibold">
-                                    Record a video
-                                  </p>
-                                  <p className="text-sm text-muted-foreground">
-                                    {status === "idle"
-                                      ? "Click to start recording"
-                                      : status === "recording"
-                                        ? "Recording in progress"
-                                        : "Video recorded"}
-                                  </p>
-                                </div>
-                              </div>
-                            </CardContent>
-                          </Card>
                         </div>
                       );
                     default:
