@@ -40,7 +40,7 @@ const ProjectLink = () => {
   useEffect(() => {
     if (project) {
       setEnableShare(
-        project.status === "LIVE"
+        project.status === "PROD"
           ? true
           : project.status === "DEV"
             ? false
@@ -99,7 +99,7 @@ const ProjectLink = () => {
               onCheckedChange={async (value) => {
                 const res = await updateProjectStatus(
                   project?.id,
-                  value ? "LIVE" : "DEV",
+                  value ? "PROD" : "DEV",
                 );
 
                 if (res) {
@@ -114,7 +114,7 @@ const ProjectLink = () => {
                     setProject({ ...project, status: "DEV" });
                     setEnableShare(false);
                   } else {
-                    setProject({ ...project, status: "LIVE" });
+                    setProject({ ...project, status: "PROD" });
                     setEnableShare(true);
                   }
                 }
