@@ -24,7 +24,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
             <ProjectLink />
           </header>
-          <div className="flex min-h-[92vh] flex-col gap-4 border-t border-zinc-200 p-4">
+          <div className="flex min-h-[90vh] flex-col gap-4 border-t border-zinc-200 p-4">
             {children}
           </div>
         </SidebarInset>

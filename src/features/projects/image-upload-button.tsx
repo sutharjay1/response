@@ -109,7 +109,7 @@ export const ImageUploadDropZone: React.FC<ImageUploadDropZoneProps> = ({
       <Card className="w-full">
         <CardContent
           className={cn(
-            "w-full cursor-pointer border-8 border-dashed border-[#7c533a]",
+            "w-full cursor-pointer rounded-lg border border-dashed border-[#7c533a]",
             acceptedFiles[0] ? "p-2" : "p-6",
           )}
         >

@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useSidebar } from "@/components/ui/sidebar";
 import { Textarea } from "@/components/ui/textarea";
 import { H2, P } from "@/components/ui/typography";
 import Hint from "@/features/global/hint";
@@ -43,10 +44,11 @@ type Props = {
 
 const IndividualProject = ({ params }: Props) => {
   const { projectId } = React.use(params);
-
   const [formElements, setFormElements] = useState<FormElement[]>([]);
   const [, setIsSaving] = useState(false);
   const [banner, setBanner] = useState<string>("");
+  const { state } = useSidebar();
+  const controls = useDragControls();
 
   const { data: project } = useQuery({
     queryKey: ["currentProject", projectId],
@@ -232,8 +234,6 @@ const IndividualProject = ({ params }: Props) => {
     }
   };
 
-  const controls = useDragControls();
-
   const renderFormElement = (element: FormElement, index: number) => {
     return (
       <Reorder.Item
@@ -397,14 +397,16 @@ const IndividualProject = ({ params }: Props) => {
                           onClick={() =>
                             handleChange(element.id, "value", rating)
                           }
+                          className="group"
                         >
                           <Star
                             key={rating}
-                            className={`h-6 w-6 ${
+                            className={cn(
+                              "h-6 w-6",
                               parseInt(element.value) >= parseInt(rating)
-                                ? "text-yellow-500"
-                                : "text-gray-300"
-                            }`}
+                                ? "text-yellow-500 group-hover:text-yellow-500"
+                                : "text-gray-300 group-hover:text-gray-400",
+                            )}
                             fill="currentColor"
                           />
                         </Button>
@@ -437,7 +439,7 @@ const IndividualProject = ({ params }: Props) => {
                       align="center"
                     >
                       <Card className="w-full">
-                        <CardContent className="cursor-pointer border-8 border-dashed border-[#7c533a] p-6">
+                        <CardContent className="cursor-pointer rounded-lg border border-dashed border-[#7c533a] p-6">
                           <div
                             className={`flex flex-col items-center justify-center rounded-lg transition-colors`}
                           >
@@ -466,8 +468,13 @@ const IndividualProject = ({ params }: Props) => {
   };
 
   return (
-    <div className="relative mx-auto flex w-full flex-col items-center overflow-hidden pb-12 sm:rounded-lg">
-      <div className="fixed bottom-4 z-50 w-full transform md:left-1/2 md:-translate-x-[40.1%]">
+    <div className="relative mx-auto flex w-full flex-col items-center overflow-y-auto pb-12 sm:rounded-lg">
+      <div
+        className={cn(
+          "fixed inset-x-0 bottom-4 z-50 w-full transform",
+          state === "expanded" ? "ml-[7.8rem]" : "ml-[2rem]",
+        )}
+      >
         <div className="hidden space-x-2 md:flex md:items-center md:justify-center">
           <div className="rounded-xl border border-input bg-background shadow-lg">
             <div className="flex flex-wrap items-center justify-center gap-2 p-2">
