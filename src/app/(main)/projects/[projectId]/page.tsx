@@ -472,7 +472,7 @@ const IndividualProject = ({ params }: Props) => {
       <div
         className={cn(
           "fixed inset-x-0 bottom-4 z-50 w-full transform",
-          state === "expanded" ? "ml-[7.8rem]" : "ml-[2rem]",
+          state === "expanded" ? "ml-[7.8rem]" : "ml-0",
         )}
       >
         <div className="hidden space-x-2 md:flex md:items-center md:justify-center">
