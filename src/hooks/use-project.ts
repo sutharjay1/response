@@ -16,5 +16,6 @@ export const useProject = create<ProjectState>()(
       },
     }),
     { name: "project", storage: createJSONStorage(() => localStorage) },
-  ),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ) as any,
 );

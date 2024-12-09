@@ -18,9 +18,12 @@ export const useBannerSearchHistory = create<BannerSearchHistoryState>(
     (set) => ({
       bannerSearchHistory: [],
       setBannerSearchHistory: (searchEntry: BannerSearchState) =>
-        set((state) => {
+        set((state: BannerSearchHistoryState) => {
           const historySet = new Map(
-            state.bannerSearchHistory.map((item) => [item.query, item]),
+            state.bannerSearchHistory.map((item: BannerSearchState) => [
+              item.query,
+              item,
+            ]),
           );
           historySet.set(searchEntry.query, searchEntry);
 
@@ -34,5 +37,6 @@ export const useBannerSearchHistory = create<BannerSearchHistoryState>(
       name: "banner-search-history",
       storage: createJSONStorage(() => localStorage),
     },
-  ),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ) as any,
 );
