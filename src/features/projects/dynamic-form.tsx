@@ -353,7 +353,7 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
                       <Button
                         size="icon"
                         key={rating}
-                        variant={"ghost"}
+                        variant="ghost"
                         onClick={() =>
                           handleChange(element.id, "value", rating)
                         }

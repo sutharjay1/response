@@ -26,7 +26,7 @@ const BreadcrumbInfo = () => {
                 size={16}
                 className="h-5 w-5 font-bold"
                 strokeWidth={2}
-              />{" "}
+              />
               Dashboard
             </BreadcrumbPage>
           </BreadcrumbLink>

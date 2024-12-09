@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import {
   Bell,
   CheckWaves,
@@ -7,6 +8,8 @@ import {
   InfoWaves,
 } from "@mynaui/icons-react";
 import { toast } from "sonner";
+
+type marginSide = "left" | "right" | "top" | "bottom";
 
 type ToastOptions = {
   description?: string;
@@ -18,12 +21,16 @@ type ToastOptions = {
     | "top-left"
     | "top-center"
     | "bottom-center";
+  margin?: {
+    [key in marginSide]?: string;
+  };
 };
 
 const DEFAULT_DURATION = 3000;
 const DEFAULT_POSITION = "top-center";
 
 export const successToast = (message: string, options?: ToastOptions) => {
+  const isMobile = window.innerWidth <= 768;
   toast.success(message, {
     description: options?.description,
     duration: options?.duration || DEFAULT_DURATION,
@@ -35,13 +42,16 @@ export const successToast = (message: string, options?: ToastOptions) => {
       backgroundColor: "#004014",
       color: "#56eda1",
       border: "none",
+      marginLeft: isMobile ? undefined : options?.margin?.left || "8rem",
     },
-    className:
+    className: cn(
       "rounded-xl shadow-lg flex items-center gap-2 py-2 text-sm font-medium",
+    ),
   });
 };
 
 export const errorToast = (message: string, options?: ToastOptions) => {
+  const isMobile = window.innerWidth <= 768;
   toast.error(message, {
     description: options?.description,
     duration: options?.duration || DEFAULT_DURATION,
@@ -53,6 +63,7 @@ export const errorToast = (message: string, options?: ToastOptions) => {
       backgroundColor: "#500000",
       color: "#ED5555",
       border: "none",
+      marginLeft: isMobile ? undefined : options?.margin?.left || "8rem",
     },
     className:
       "rounded-xl py-2 shadow-lg flex items-center gap-2 text-sm font-medium",
@@ -60,6 +71,7 @@ export const errorToast = (message: string, options?: ToastOptions) => {
 };
 
 export const infoToast = (message: string, options?: ToastOptions) => {
+  const isMobile = window.innerWidth <= 768;
   toast(message, {
     description: options?.description,
     duration: options?.duration || DEFAULT_DURATION,
@@ -75,6 +87,7 @@ export const infoToast = (message: string, options?: ToastOptions) => {
       backgroundColor: "#4338ca",
       color: "#a5b4fc",
       border: "none",
+      marginLeft: isMobile ? undefined : options?.margin?.left || "8rem",
     },
     className:
       "rounded-xl py-2 shadow-lg flex items-center gap-2 text-sm font-medium",
@@ -82,6 +95,7 @@ export const infoToast = (message: string, options?: ToastOptions) => {
 };
 
 export const warningToast = (message: string, options?: ToastOptions) => {
+  const isMobile = window.innerWidth <= 768;
   toast(message, {
     description: options?.description,
     duration: options?.duration || DEFAULT_DURATION,
@@ -97,6 +111,7 @@ export const warningToast = (message: string, options?: ToastOptions) => {
       backgroundColor: "rgb(245, 158, 11)",
       color: "white",
       border: "none",
+      marginLeft: isMobile ? undefined : options?.margin?.left || "8rem",
     },
     className:
       "rounded-xl py-2 shadow-lg flex items-center gap-2 text-sm font-medium",
@@ -107,6 +122,7 @@ export const copyToast = (
   message: string = "Copied to clipboard",
   options?: ToastOptions,
 ) => {
+  const isMobile = window.innerWidth <= 768;
   toast(message, {
     description: options?.description,
     duration: options?.duration || DEFAULT_DURATION,
@@ -118,6 +134,7 @@ export const copyToast = (
       backgroundColor: "rgb(17, 24, 39)",
       color: "white",
       border: "none",
+      marginLeft: isMobile ? undefined : options?.margin?.left || "8rem",
     },
     className:
       "rounded-xl py-2 shadow-lg flex items-center gap-2 text-sm font-medium",
@@ -125,6 +142,7 @@ export const copyToast = (
 };
 
 export const notificationToast = (message: string, options?: ToastOptions) => {
+  const isMobile = window.innerWidth <= 768;
   toast(message, {
     description: options?.description,
     duration: options?.duration || DEFAULT_DURATION,
@@ -136,6 +154,7 @@ export const notificationToast = (message: string, options?: ToastOptions) => {
       backgroundColor: "rgb(88, 28, 135)",
       color: "white",
       border: "none",
+      marginLeft: isMobile ? undefined : options?.margin?.left || "8rem",
     },
     className:
       "rounded-xl py-2 shadow-lg flex items-center gap-2 text-sm font-medium",

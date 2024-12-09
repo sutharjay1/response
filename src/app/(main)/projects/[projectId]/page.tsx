@@ -2,18 +2,12 @@
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useSidebar } from "@/components/ui/sidebar";
 import { Textarea } from "@/components/ui/textarea";
+import { H2, P } from "@/components/ui/typography";
 import Hint from "@/features/global/hint";
 import { errorToast, successToast } from "@/features/global/toast";
 import { createForm } from "@/features/projects/actions/create-form";
@@ -21,9 +15,11 @@ import { getProjectField } from "@/features/projects/actions/get-project-field";
 import { getProjectById } from "@/features/projects/actions/get-projects";
 import { removeField } from "@/features/projects/actions/remove-field";
 import { BannerUploadDropZone } from "@/features/projects/banner-upload-button";
+import { fieldTypes } from "@/features/projects/config";
 import { ImageUploadDropZone } from "@/features/projects/image-upload-button";
 import { FormElement } from "@/features/projects/types";
 import { useDebounce } from "@/hooks/use-debounce";
+import { cn } from "@/lib/utils";
 import {
   CheckSquare,
   ChevronDown,
@@ -36,7 +32,7 @@ import {
   X,
 } from "@mynaui/icons-react";
 import { useQuery } from "@tanstack/react-query";
-import Image from "next/image";
+import { Reorder, useDragControls } from "motion/react";
 import React, { useEffect, useState } from "react";
 
 type Props = {
@@ -49,7 +45,7 @@ const IndividualProject = ({ params }: Props) => {
   const { projectId } = React.use(params);
 
   const [formElements, setFormElements] = useState<FormElement[]>([]);
-  const [isSaving, setIsSaving] = useState(false);
+  const [, setIsSaving] = useState(false);
   const [banner, setBanner] = useState<string>("");
 
   const { data: project } = useQuery({
@@ -153,7 +149,11 @@ const IndividualProject = ({ params }: Props) => {
           projectId,
           fields,
         }).then(() => {
-          successToast("Form saved", {});
+          successToast("Form saved", {
+            margin: {
+              left: "8rem",
+            },
+          });
         });
       } catch (error) {
         console.error(error);
@@ -232,455 +232,302 @@ const IndividualProject = ({ params }: Props) => {
     }
   };
 
+  const controls = useDragControls();
+
   const renderFormElement = (element: FormElement, index: number) => {
     return (
-      <Card
-        className="group relative bg-sidebar transition-all hover:shadow"
+      <Reorder.Item
         key={element.id}
+        value={element}
+        dragListener={false}
+        dragControls={controls}
       >
-        <CardContent className="space-y-2 p-6">
-          <div className="mb-6 flex items-center justify-between gap-2">
-            <div className="flex items-center gap-3">
-              <Badge
-                icon={renderFormIcon(element.type)}
-                variant="default"
-                className="border border-input text-sm font-medium"
-              >
-                {element.type}
-              </Badge>
-            </div>
-
-            <div className="flex items-center gap-1">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => moveElement(index, "up")}
-                disabled={index === 0}
-                className="h-8 w-8 rounded-xl p-0 shadow"
-              >
-                <ChevronUp className="h-4 w-4" />
-                <span className="sr-only">Move up</span>
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => moveElement(index, "down")}
-                disabled={index === formElements.length - 1}
-                className="h-8 w-8 rounded-xl p-0 shadow"
-              >
-                <ChevronDown className="h-4 w-4" />
-                <span className="sr-only">Move down</span>
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => removeElement(element.id)}
-                className="h-8 w-8 rounded-xl p-0 text-destructive shadow hover:text-destructive/80"
-              >
-                <X className="h-4 w-4" />
-                <span className="sr-only">Remove element</span>
-              </Button>
-            </div>
-          </div>
-          <div className="mb-2 flex w-full items-center justify-between rounded-3xl">
-            <div className="w-full space-y-2">
-              <div className="flex flex-col space-y-2">
-                <Label
-                  htmlFor={`${element.id}-label`}
-                  className="text-sm font-medium"
+        <Card
+          className={cn(
+            "group relative bg-sidebar transition-all hover:shadow",
+            formElements.length - 1 === index && "mb-32",
+            "reorder-handle cursor-pointer",
+          )}
+          key={element.id}
+          onPointerDown={(e) => controls.start(e)}
+        >
+          <CardContent className="space-y-2 p-6">
+            <div className="mb-6 flex items-center justify-between gap-2">
+              <div className="flex items-center gap-3">
+                <Badge
+                  icon={renderFormIcon(element.type)}
+                  variant="default"
+                  className="border border-input text-sm font-medium"
                 >
-                  Label
-                </Label>
-                <Input
-                  id={`${element.id}-label`}
-                  value={element.label}
-                  onChange={(e) =>
-                    handleChange(element.id, "label", e.target.value)
-                  }
-                  placeholder="Enter field label"
-                  className="mt-1 w-full border border-gray-300 bg-background transition-colors focus:border-indigo-500 focus:ring-indigo-500 focus-visible:ring-1 md:w-full"
-                />
+                  {element.type}
+                </Badge>
               </div>
 
-              {(element.type === "input" || element.type === "textarea") && (
-                <div
-                  key={`${element.id}-value`}
-                  className="w-full gap-2 space-y-1"
+              <div className="flex items-center gap-1">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => moveElement(index, "up")}
+                  disabled={index === 0}
+                  className="inline-flex h-8 w-8 items-center rounded-xl border border-input bg-[#fff3ec]/80 p-0 text-xs font-semibold text-[#7c533a] transition-colors hover:bg-[#fff3ec]/80 hover:text-[#7c533a] focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
                 >
+                  <ChevronUp className="h-4 w-4" />
+                  <span className="sr-only">Move up</span>
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => moveElement(index, "down")}
+                  disabled={index === formElements.length - 1}
+                  className="inline-flex h-8 w-8 items-center rounded-xl border border-input bg-[#fff3ec]/80 p-0 text-xs font-semibold text-[#7c533a] transition-colors hover:bg-[#fff3ec]/80 hover:text-[#7c533a] focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                >
+                  <ChevronDown className="h-4 w-4" />
+                  <span className="sr-only">Move down</span>
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => removeElement(element.id)}
+                  className="inline-flex h-8 w-8 items-center rounded-xl border border-input bg-[#fff3ec]/80 p-0 text-xs font-semibold text-destructive shadow transition-colors hover:bg-[#fff3ec]/80 hover:text-destructive/80 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                >
+                  <X className="h-4 w-4" />
+                  <span className="sr-only">Remove element</span>
+                </Button>
+                {/* <Button
+                  variant="ghost"
+                  size="sm"
+                  onPointerDown={(e) => controls.start(e)}
+                  className="reh-8 w-8 rounded-xl p-0 text-destructive shadow hover:text-destructive/80"
+                >
+                  <Grid />
+                  <span className="sr-only">Reorder</span>
+                </Button> */}
+              </div>
+            </div>
+            <div className="mb-2 flex w-full items-center justify-between rounded-3xl">
+              <div className="w-full space-y-2">
+                <div className="flex flex-col space-y-2">
                   <Label
-                    htmlFor={`${element.id}-value`}
+                    htmlFor={`${element.id}-label`}
                     className="text-sm font-medium"
                   >
-                    Default Value
+                    Label
                   </Label>
-                  {element.type === "input" ? (
-                    <Input
-                      id={`${element.id}-value`}
-                      value={element.value}
-                      onChange={(e) =>
-                        handleChange(element.id, "value", e.target.value)
-                      }
-                      placeholder="Enter default value"
-                      className="w-full border border-gray-300 bg-background transition-colors focus:border-indigo-500 focus:ring-indigo-500 focus-visible:ring-1 md:w-full"
-                    />
-                  ) : (
-                    <Textarea
-                      id={`${element.id}-value`}
-                      value={element.value}
-                      onChange={(e) =>
-                        handleChange(element.id, "value", e.target.value)
-                      }
-                      placeholder="Enter default value"
-                      className="mt-1 min-h-[100px] w-full border border-gray-300 bg-background transition-colors focus:border-indigo-500 focus:ring-indigo-500 focus-visible:ring-1 md:w-full"
-                    />
-                  )}
-                </div>
-              )}
-
-              {element.type === "checkbox" && (
-                <div className="mt-1 flex items-center gap-2" key={element.id}>
-                  <Checkbox
-                    id={`checkbox-${element.id}`}
+                  <Input
+                    id={`${element.id}-label`}
+                    value={element.label}
                     onChange={(e) =>
-                      handleChange(
-                        element.id,
-                        "checked",
-                        (e.currentTarget as HTMLInputElement).checked,
-                      )
+                      handleChange(element.id, "label", e.target.value)
                     }
-                    checked={element.checked}
-                    className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                  />
-                  <span className="text-sm text-gray-600">Default state</span>
-                </div>
-              )}
-
-              {element.type === "star" && (
-                <div className="mt-4 flex items-center gap-2" key={element.id}>
-                  <Label className="text-sm font-medium">Default Rating</Label>
-                  <div className="flex">
-                    {(["1", "2", "3", "4", "5"] as const).map((rating) => (
-                      <Button
-                        size="icon"
-                        key={rating}
-                        variant={"ghost"}
-                        onClick={() =>
-                          handleChange(element.id, "value", rating)
-                        }
-                      >
-                        <Star
-                          key={rating}
-                          className={`h-6 w-6 ${
-                            parseInt(element.value) >= parseInt(rating)
-                              ? "text-yellow-500"
-                              : "text-gray-300"
-                          }`}
-                          fill="currentColor"
-                        />
-                      </Button>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {element.type === "image" && (
-                <div className="mt-2 flex items-center gap-2" key={element.id}>
-                  <ImageUploadDropZone
-                    handleChange={handleChange}
-                    id={element.id}
-                    setFormElements={setFormElements}
+                    placeholder="Enter field label"
+                    className="mt-1 w-full border border-gray-300 bg-background transition-colors focus:border-indigo-500 focus:ring-indigo-500 focus-visible:ring-1 md:w-full"
                   />
                 </div>
-              )}
 
-              {element.type === "video" && (
-                <div
-                  className="mt-2 flex w-full items-center gap-2"
-                  key={element.id}
-                >
-                  <Hint
-                    label="Customer can record a video"
-                    side="top"
-                    align="center"
+                {(element.type === "input" || element.type === "textarea") && (
+                  <div
+                    key={`${element.id}-value`}
+                    className="w-full gap-2 space-y-1"
                   >
-                    <Card className="w-full">
-                      <CardContent className="cursor-pointer border-8 border-dashed border-[#7c533a] p-6">
-                        <div
-                          className={`flex flex-col items-center justify-center rounded-lg transition-colors`}
-                        >
-                          <div className="flex flex-col items-center justify-center text-center">
-                            <Video className="mb-1 h-24 w-24 text-muted-foreground" />
-
-                            <p className="mb-2 text-lg font-semibold">
-                              Record a video
-                            </p>
-                            <p className="text-sm text-muted-foreground">
-                              Attach to accept a video
-                            </p>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </Hint>
-                </div>
-              )}
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-    );
-  };
-
-  const { isMobile } = useSidebar();
-
-  return (
-    <div className="container relative h-full w-full gap-6">
-      <div className="absolute bottom-2 left-0 right-1/2 z-50 flex w-full items-center justify-center rounded-full bg-black px-6 py-3">
-        <div className="flex items-center justify-center gap-2">
-          <Button
-            onClick={() => addField("input")}
-            variant="outline"
-            className="flex items-center gap-1 bg-blue-600 px-2 hover:bg-blue-100 md:gap-2 md:px-4"
-          >
-            <TypeBold className="h-6 w-6" />
-            Input
-          </Button>
-          <Button
-            onClick={() => addField("textarea")}
-            variant="outline"
-            className="flex items-center gap-1 bg-green-50 px-2 hover:bg-green-100 md:gap-2 md:px-4"
-          >
-            <Keyboard className="h-6 w-6" />
-            Textarea
-          </Button>
-          <Button
-            onClick={() => addField("checkbox")}
-            variant="outline"
-            className="flex items-center gap-1 bg-orange-50 px-2 hover:bg-orange-100 md:gap-2 md:px-4"
-          >
-            <CheckSquare className="h-6 w-6" />
-            Checkbox
-          </Button>
-          <Button
-            onClick={() => addField("star")}
-            variant="outline"
-            className="flex items-center gap-1 bg-orange-50 px-2 hover:bg-orange-100 md:gap-2 md:px-4"
-          >
-            <Star className="h-6 w-6" />
-            Star
-          </Button>
-          <Button
-            onClick={() => addField("image")}
-            variant="outline"
-            className="flex items-center gap-1 bg-orange-50 px-2 hover:bg-orange-100 md:gap-2 md:px-4"
-          >
-            <ImageIcon className="h-6 w-6" />
-            Image
-          </Button>
-          <Button
-            onClick={() => addField("video")}
-            variant="outline"
-            className="flex items-center gap-1 bg-orange-50 px-2 hover:bg-orange-100 md:gap-2 md:px-4"
-          >
-            <Video className="h-6 w-6" />
-            Video
-          </Button>
-        </div>
-      </div>
-
-      <div
-        className="mt-4 grid h-[85vh] w-full gap-4 overflow-y-scroll"
-        style={{
-          gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
-        }}
-      >
-        <Card className="z-20 md:col-span-1">
-          <CardHeader className="pt-6">
-            <div className="flex items-center justify-between pb-3">
-              <CardTitle>Form Builder</CardTitle>
-              <CardTitle>
-                {isSaving ? (
-                  <Badge variant="default">Saving...</Badge>
-                ) : (
-                  <Badge variant="default">Saved</Badge>
+                    <Label
+                      htmlFor={`${element.id}-value`}
+                      className="text-sm font-medium"
+                    >
+                      Default Value
+                    </Label>
+                    {element.type === "input" ? (
+                      <Input
+                        id={`${element.id}-value`}
+                        value={element.value}
+                        onChange={(e) =>
+                          handleChange(element.id, "value", e.target.value)
+                        }
+                        placeholder="Enter default value"
+                        className="w-full border border-gray-300 bg-background transition-colors focus:border-indigo-500 focus:ring-indigo-500 focus-visible:ring-1 md:w-full"
+                      />
+                    ) : (
+                      <Textarea
+                        id={`${element.id}-value`}
+                        value={element.value}
+                        onChange={(e) =>
+                          handleChange(element.id, "value", e.target.value)
+                        }
+                        placeholder="Enter default value"
+                        className="mt-1 min-h-[100px] w-full border border-gray-300 bg-background transition-colors focus:border-indigo-500 focus:ring-indigo-500 focus-visible:ring-1 md:w-full"
+                      />
+                    )}
+                  </div>
                 )}
-              </CardTitle>
-            </div>
-            {/* <div className="mt-4 flex flex-wrap gap-2">
-              <Button
-                onClick={() => addField("input")}
-                variant="outline"
-                className="flex items-center gap-1 bg-blue-600 px-2 hover:bg-blue-100 md:gap-2 md:px-4"
-              >
-                <TypeBold className="h-6 w-6" />
-                Input
-              </Button>
-              <Button
-                onClick={() => addField("textarea")}
-                variant="outline"
-                className="flex items-center gap-1 bg-green-50 px-2 hover:bg-green-100 md:gap-2 md:px-4"
-              >
-                <Keyboard className="h-6 w-6" />
-                Textarea
-              </Button>
-              <Button
-                onClick={() => addField("checkbox")}
-                variant="outline"
-                className="flex items-center gap-1 bg-orange-50 px-2 hover:bg-orange-100 md:gap-2 md:px-4"
-              >
-                <CheckSquare className="h-6 w-6" />
-                Checkbox
-              </Button>
-              <Button
-                onClick={() => addField("star")}
-                variant="outline"
-                className="flex items-center gap-1 bg-orange-50 px-2 hover:bg-orange-100 md:gap-2 md:px-4"
-              >
-                <Star className="h-6 w-6" />
-                Star
-              </Button>
-              <Button
-                onClick={() => addField("image")}
-                variant="outline"
-                className="flex items-center gap-1 bg-orange-50 px-2 hover:bg-orange-100 md:gap-2 md:px-4"
-              >
-                <ImageIcon className="h-6 w-6" />
-                Image
-              </Button>
-              <Button
-                onClick={() => addField("video")}
-                variant="outline"
-                className="flex items-center gap-1 bg-orange-50 px-2 hover:bg-orange-100 md:gap-2 md:px-4"
-              >
-                <Video className="h-6 w-6" />
-                Video
-              </Button>
-            </div> */}
-          </CardHeader>
-          <CardContent className="p-4 pt-4 md:p-6 md:pt-6">
-            <div className="space-y-4">
-              {formElements.map((element, index) =>
-                renderFormElement(element, index),
-              )}
+
+                {element.type === "checkbox" && (
+                  <div
+                    className="mt-1 flex items-center gap-2"
+                    key={element.id}
+                  >
+                    <Checkbox
+                      id={`checkbox-${element.id}`}
+                      onChange={(e) =>
+                        handleChange(
+                          element.id,
+                          "checked",
+                          (e.currentTarget as HTMLInputElement).checked,
+                        )
+                      }
+                      checked={element.checked}
+                      className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                    />
+                    <span className="text-sm text-gray-600">Default state</span>
+                  </div>
+                )}
+
+                {element.type === "star" && (
+                  <div
+                    className="mt-4 flex items-center gap-2"
+                    key={element.id}
+                  >
+                    <Label className="text-sm font-medium">
+                      Default Rating
+                    </Label>
+                    <div className="flex">
+                      {(["1", "2", "3", "4", "5"] as const).map((rating) => (
+                        <Button
+                          size="icon"
+                          key={rating}
+                          variant="ghost"
+                          onClick={() =>
+                            handleChange(element.id, "value", rating)
+                          }
+                        >
+                          <Star
+                            key={rating}
+                            className={`h-6 w-6 ${
+                              parseInt(element.value) >= parseInt(rating)
+                                ? "text-yellow-500"
+                                : "text-gray-300"
+                            }`}
+                            fill="currentColor"
+                          />
+                        </Button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {element.type === "image" && (
+                  <div
+                    className="mt-2 flex items-center gap-2"
+                    key={element.id}
+                  >
+                    <ImageUploadDropZone
+                      handleChange={handleChange}
+                      id={element.id}
+                      setFormElements={setFormElements}
+                    />
+                  </div>
+                )}
+
+                {element.type === "video" && (
+                  <div
+                    className="mt-2 flex w-full items-center gap-2"
+                    key={element.id}
+                  >
+                    <Hint
+                      label="Customer can record a video"
+                      side="top"
+                      align="center"
+                    >
+                      <Card className="w-full">
+                        <CardContent className="cursor-pointer border-8 border-dashed border-[#7c533a] p-6">
+                          <div
+                            className={`flex flex-col items-center justify-center rounded-lg transition-colors`}
+                          >
+                            <div className="flex flex-col items-center justify-center text-center">
+                              <Video className="mb-1 h-24 w-24 text-muted-foreground" />
+
+                              <p className="mb-2 text-lg font-semibold">
+                                Record a video
+                              </p>
+                              <p className="text-sm text-muted-foreground">
+                                Attach to accept a video
+                              </p>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </Hint>
+                  </div>
+                )}
+              </div>
             </div>
           </CardContent>
         </Card>
-        <Card className="z-20 mx-auto my-8 flex w-full items-center justify-center py-8 md:col-span-1">
-          <Card className="mx-auto my-8 w-full max-w-3xl overflow-hidden bg-background">
-            <BannerUploadDropZone
-              id={project?.id}
-              banner={banner}
-              onAvatarChange={setBanner}
-              setFormElements={setFormElements}
-            />
-            <CardHeader className="flex items-center gap-2 space-y-0 border-b px-6 py-5 sm:flex-row">
-              <div className="grid flex-1 gap-1 text-center sm:text-left">
-                <h2 className="text-lg font-semibold text-primary">
-                  {project?.name}
-                </h2>
-                <p className="text-sm text-muted-foreground">
-                  {project?.description || (
-                    <span className="text-destructive">No description</span>
-                  )}
-                </p>
-              </div>
-            </CardHeader>
-            <CardContent className="px-4 pt-4 sm:px-6">
-              <div className="space-y-6">
-                {formElements.map((element) => {
-                  switch (element.type) {
-                    case "input":
-                      return (
-                        <div key={element.id} className="space-y-2">
-                          <Label>{element.label}</Label>
-                          <Input
-                            value={element.value}
-                            readOnly
-                            className="block w-full rounded-md border border-input bg-background shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
-                          />
-                        </div>
-                      );
-                    case "textarea":
-                      return (
-                        <div key={element.id} className="space-y-2">
-                          <Label>{element.label}</Label>
-                          <Textarea
-                            value={element.value}
-                            className="block w-full rounded-md border border-input bg-background shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
-                            readOnly
-                          />
-                        </div>
-                      );
-                    case "checkbox":
-                      return (
-                        <div
-                          key={element.id}
-                          className="flex items-center space-x-2"
-                        >
-                          <Checkbox
-                            checked={element.checked}
-                            className="h-4 w-4 rounded border-input text-primary focus:ring-primary"
-                          />
-                          <Label>{element.label}</Label>
-                        </div>
-                      );
-                    case "star":
-                      return (
-                        <div key={element.id} className="space-y-2">
-                          <Label>{element.label}</Label>
-                          <div className="flex">
-                            {(["1", "2", "3", "4", "5"] as const).map(
-                              (rating) => (
-                                <Button
-                                  size="icon"
-                                  key={rating}
-                                  variant="ghost"
-                                >
-                                  <Star
-                                    className={`h-6 w-6 ${
-                                      parseInt(element.value) >=
-                                      parseInt(rating)
-                                        ? "text-yellow-500"
-                                        : "text-muted-foreground"
-                                    }`}
-                                    fill="currentColor"
-                                  />
-                                </Button>
-                              ),
-                            )}
-                          </div>
-                        </div>
-                      );
-                    case "image":
-                      return (
-                        <div key={element.id} className="space-y-2">
-                          <Label>{element.label}</Label>
-                          <Image
-                            src={
-                              element.value ||
-                              "https://res.cloudinary.com/cdn-feedback/image/upload/v1733229183/response/djqza3ehfpr3en6wbmsf.png"
-                            }
-                            alt="Image"
-                            className="w-full rounded-md border border-input shadow"
-                            width={200}
-                            height={200}
-                          />
-                        </div>
-                      );
-                    default:
-                      return null;
-                  }
-                })}
-              </div>
-            </CardContent>
-            <CardFooter className="flex items-center justify-between bg-muted/50 px-6 py-4">
-              <Button type="submit" className="w-full" disabled>
-                Submit Form
+      </Reorder.Item>
+    );
+  };
+
+  return (
+    <div className="relative mx-auto flex w-full flex-col items-center overflow-hidden pb-12 sm:rounded-lg">
+      <div className="fixed bottom-4 z-50 w-full transform md:left-1/2 md:-translate-x-[11.1%]">
+        <div className="hidden space-x-2 md:flex md:items-center md:justify-center">
+          <div className="rounded-xl border border-input bg-background shadow-lg">
+            <div className="flex flex-wrap items-center justify-center gap-2 p-2">
+              {fieldTypes.map(({ type, icon: Icon, label, bgClass }) => (
+                <Button
+                  key={type}
+                  onClick={() => addField(type)}
+                  variant="outline"
+                  className={`flex items-center gap-1 ${bgClass} px-3 py-2 text-sm transition-all duration-200 ease-in-out hover:scale-105`}
+                >
+                  <Icon className="mr-1 h-5 w-5" />
+                  {label}
+                </Button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="flex items-center justify-center space-x-2 md:hidden">
+          <div className="flex items-center justify-start gap-2">
+            {fieldTypes.map(({ type, icon: Icon, bgClass }) => (
+              <Button
+                key={type}
+                onClick={() => addField(type)}
+                variant="outline"
+                className={`flex items-center gap-1 ${bgClass} px-3 py-2 text-sm transition-all duration-200 ease-in-out hover:scale-105`}
+              >
+                <Icon className="mr-1 h-5 w-5" />
               </Button>
-            </CardFooter>
-          </Card>
-        </Card>
+            ))}
+          </div>
+        </div>
       </div>
+
+      <Card className="z-20 w-full max-w-screen-sm space-y-4 border-none pt-6 shadow-none md:col-span-1">
+        <BannerUploadDropZone
+          banner={banner}
+          onAvatarChange={setBanner}
+          id={projectId}
+          setFormElements={setFormElements}
+        />
+        <CardHeader className="flex flex-col items-center justify-center space-y-1 p-6">
+          <CardTitle>
+            <H2 className="border-none p-0 pb-0">{project?.name}</H2>
+            <P className="[&:not(:first-child)]:mt-0">{project?.description}</P>
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="w-full border-none px-0 shadow-none">
+          <Reorder.Group
+            axis="y"
+            values={formElements}
+            onReorder={setFormElements}
+            className="space-y-4"
+          >
+            {formElements.map((element, index) =>
+              renderFormElement(element, index),
+            )}
+          </Reorder.Group>
+        </CardContent>
+      </Card>
     </div>
   );
 };
