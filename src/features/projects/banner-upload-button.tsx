@@ -189,7 +189,7 @@ export const BannerUploadDropZone: React.FC<BannerUploadDropZoneProps> = ({
     }
   };
 
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [searchResults, setSearchResults] = useState<UnsplashReturnType[]>([]);
 
   const { mutateAsync, isLoading } = useMutation({

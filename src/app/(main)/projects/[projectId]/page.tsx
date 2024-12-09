@@ -467,16 +467,24 @@ const IndividualProject = ({ params }: Props) => {
 
   return (
     <div className="relative mx-auto flex w-full flex-col items-center overflow-hidden pb-12 sm:rounded-lg">
-      <div className="fixed bottom-4 z-50 w-full transform md:left-1/2 md:-translate-x-[11.1%]">
+      <div className="fixed bottom-4 z-50 w-full transform md:left-1/2 md:-translate-x-[40.1%]">
         <div className="hidden space-x-2 md:flex md:items-center md:justify-center">
           <div className="rounded-xl border border-input bg-background shadow-lg">
             <div className="flex flex-wrap items-center justify-center gap-2 p-2">
-              {fieldTypes.map(({ type, icon: Icon, label, bgClass }) => (
+              {fieldTypes.map(({ type, icon: Icon, label }) => (
                 <Button
                   key={type}
                   onClick={() => addField(type)}
                   variant="outline"
-                  className={`flex items-center gap-1 ${bgClass} px-3 py-2 text-sm transition-all duration-200 ease-in-out hover:scale-105`}
+                  className={cn(
+                    "flex items-center gap-1 px-3 py-2 text-sm transition-all duration-200 ease-in-out hover:scale-105",
+                    type === "input" && "bg-blue-50 hover:bg-blue-100",
+                    type === "textarea" && "bg-yellow-50 hover:bg-yellow-100",
+                    type === "checkbox" && "bg-green-50 hover:bg-green-100",
+                    type === "star" && "bg-yellow-50 hover:bg-yellow-100",
+                    type === "image" && "bg-violet-50 hover:bg-violet-100",
+                    type === "video" && "bg-red-50 hover:bg-red-100",
+                  )}
                 >
                   <Icon className="mr-1 h-5 w-5" />
                   {label}
@@ -488,12 +496,20 @@ const IndividualProject = ({ params }: Props) => {
 
         <div className="flex items-center justify-center space-x-2 md:hidden">
           <div className="flex items-center justify-start gap-2">
-            {fieldTypes.map(({ type, icon: Icon, bgClass }) => (
+            {fieldTypes.map(({ type, icon: Icon }) => (
               <Button
                 key={type}
                 onClick={() => addField(type)}
                 variant="outline"
-                className={`flex items-center gap-1 ${bgClass} px-3 py-2 text-sm transition-all duration-200 ease-in-out hover:scale-105`}
+                className={cn(
+                  "flex items-center gap-1 px-3 py-2 text-sm transition-all duration-200 ease-in-out hover:scale-105",
+                  type === "input" && "bg-blue-50 hover:bg-blue-100",
+                  type === "textarea" && "bg-yellow-50 hover:bg-yellow-100",
+                  type === "checkbox" && "bg-green-50 hover:bg-green-100",
+                  type === "star" && "bg-yellow-50 hover:bg-yellow-100",
+                  type === "image" && "bg-violet-50 hover:bg-violet-100",
+                  type === "video" && "bg-red-50 hover:bg-red-100",
+                )}
               >
                 <Icon className="mr-1 h-5 w-5" />
               </Button>

@@ -7,41 +7,42 @@ import {
   Video,
 } from "@mynaui/icons-react";
 
-export const fieldTypes = [
+export type ButtonFieldType = {
+  type: "input" | "textarea" | "checkbox" | "star" | "image" | "video";
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  icon: any;
+  label: string;
+};
+
+export const fieldTypes: ButtonFieldType[] = [
   {
     type: "input",
     icon: TypeBold,
     label: "Input",
-    bgClass: "bg-blue-50 hover:bg-blue-100",
   },
   {
     type: "textarea",
     icon: Keyboard,
     label: "Textarea",
-    bgClass: "bg-green-50 hover:bg-green-100",
   },
   {
     type: "checkbox",
     icon: CheckSquare,
     label: "Checkbox",
-    bgClass: "bg-orange-50 hover:bg-orange-100",
   },
   {
     type: "star",
     icon: Star,
     label: "Star",
-    bgClass: "bg-purple-50 hover:bg-purple-100",
   },
   {
     type: "image",
     icon: Image,
     label: "Image",
-    bgClass: "bg-pink-50 hover:bg-pink-100",
   },
   {
     type: "video",
     icon: Video,
     label: "Video",
-    bgClass: "bg-teal-50 hover:bg-teal-100",
   },
 ] as const;
