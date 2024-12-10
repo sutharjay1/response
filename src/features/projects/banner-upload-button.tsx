@@ -49,7 +49,7 @@ export const BannerUploadDropZone: React.FC<BannerUploadDropZoneProps> = ({
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const [uploadProgress, setUploadProgress] = useState<number>(0);
   const [currentImage, setCurrentImage] = useState<string>(
-    `https://avatar.vercel.sh/${id}`,
+    "https://images.unsplash.com/photo-1533158326339-7f3cf2404354?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w2ODQ2MTh8MHwxfHNlYXJjaHwzfHxhcnR8ZW58MHx8fHwxNzMzODUwNTI2fDA&ixlib=rb-4.0.3&q=80&w=1080",
   );
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
