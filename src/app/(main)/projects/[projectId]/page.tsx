@@ -37,13 +37,20 @@ import { Reorder, useDragControls } from "motion/react";
 import { useEffect, useState } from "react";
 
 type Props = {
-  params: {
+  params: Promise<{
     projectId: string;
-  };
+  }>;
 };
 
 const IndividualProject = ({ params }: Props) => {
-  const { projectId } = params;
+  const [projectId, setProjectId] = useState<string>("");
+
+  useEffect(() => {
+    params.then((data) => {
+      setProjectId(data.projectId);
+    });
+  }, [params]);
+
   const [formElements, setFormElements] = useState<FormElement[]>([]);
   const [, setIsSaving] = useState(false);
   const [banner, setBanner] = useState<string>("");

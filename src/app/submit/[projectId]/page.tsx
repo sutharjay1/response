@@ -37,9 +37,9 @@ import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
 
 type Props = {
-  params: {
+  params: Promise<{
     projectId: string;
-  };
+  }>;
 };
 
 const basicInfoSchema = z.object({
@@ -49,7 +49,14 @@ const basicInfoSchema = z.object({
 type BasicInfo = z.infer<typeof basicInfoSchema>;
 
 const SubmitForm = ({ params }: Props) => {
-  const { projectId } = params;
+  const [projectId, setProjectId] = useState<string>("");
+
+  useEffect(() => {
+    params.then((data) => {
+      setProjectId(data.projectId);
+    });
+  }, [params]);
+
   const [formElements, setFormElements] = useState<FormElement[]>([]);
   const [avatar, setAvatar] = useState<string>("");
   const { videoUrl } = useVideo();
