@@ -7,14 +7,22 @@ import ProjectAnalyticsResponseTable from "@/features/analytics/response-table";
 import { errorToast } from "@/features/global/toast";
 import { getProjectAnalytics } from "@/features/projects/actions/get-project-analytics";
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 type Props = {
-  params: { projectId: string };
+  params: Promise<{
+    projectId: string;
+  }>;
 };
 
 const ProjectAnalytics = ({ params }: Props) => {
-  const { projectId } = params;
+  const [projectId, setProjectId] = useState<string>("");
+
+  useEffect(() => {
+    params.then((data) => {
+      setProjectId(data.projectId);
+    });
+  }, [params]);
 
   const { data, isLoading, isInitialLoading } = useQuery({
     queryKey: ["projectFields", projectId],
