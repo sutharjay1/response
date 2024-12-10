@@ -34,16 +34,16 @@ import {
 } from "@mynaui/icons-react";
 import { useQuery } from "@tanstack/react-query";
 import { Reorder, useDragControls } from "motion/react";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 type Props = {
-  params: Promise<{
+  params: {
     projectId: string;
-  }>;
+  };
 };
 
 const IndividualProject = ({ params }: Props) => {
-  const { projectId } = React.use(params);
+  const { projectId } = params;
   const [formElements, setFormElements] = useState<FormElement[]>([]);
   const [, setIsSaving] = useState(false);
   const [banner, setBanner] = useState<string>("");

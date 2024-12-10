@@ -7,15 +7,16 @@ import { deleteProject } from "@/features/projects/actions/delete-project";
 import { SpinnerOne } from "@mynaui/icons-react";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import React from "react";
 import { toast } from "sonner";
 
 type Props = {
-  params: Promise<{ projectId: string }>;
+  params: {
+    projectId: string;
+  };
 };
 
 const ProjectSettings = ({ params }: Props) => {
-  const { projectId } = React.use(params);
+  const { projectId } = params;
   const router = useRouter();
 
   const { mutateAsync: deleteProjectMutation, isLoading } = useMutation({
