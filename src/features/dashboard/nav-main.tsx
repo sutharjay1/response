@@ -21,7 +21,7 @@ import {
 type NavItem = {
   title: string;
   url: string;
-  icon: React.ReactNode | JSX.Element;
+  icon: React.ReactNode;
   isActive?: boolean;
   items?: {
     title: string;
