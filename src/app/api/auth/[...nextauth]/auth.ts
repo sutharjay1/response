@@ -59,7 +59,7 @@ export const authOptions: AuthOptions = {
               name: "Feedback Submission Form",
               description:
                 "Share your thoughts or suggestions to help us improve. Your feedback is valuable and helps us provide a better experience.",
-              banner: `https://avatar.vercel.sh/${user.name}`,
+              banner: `https://res.cloudinary.com/cdn-feedback/image/upload/v1733862248/response/default-banner.jpg`,
               user: {
                 connect: {
                   id: newUser.id,
