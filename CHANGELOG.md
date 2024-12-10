@@ -2,64 +2,6 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-### 0.1.10 (2024-12-10)
-
-
-### Features
-
-* **app:** Add Banner for Forms ([535fffe](https://github.com/sutharjay1/response/commit/535fffed5038a48544ad74fda092d4953bb95c77))
-* **app:** Added embedded script support for feedback rendering ([1fba230](https://github.com/sutharjay1/response/commit/1fba2300d1417a794c03668f206980cb49b032d4))
-* **app:** Added OG Meta ([c0a1936](https://github.com/sutharjay1/response/commit/c0a193662d5758c0a0725db21d7c605472ce47c8))
-* **app:** Added support for unsplash images for banner ([8c3ccfc](https://github.com/sutharjay1/response/commit/8c3ccfc21d9afe4a83090287e2deb112f2a43a07))
-* **app:** Added Unsplash banner upload feat ([d483bde](https://github.com/sutharjay1/response/commit/d483bde8f16ca41edf1e3ecc78656ff63d74eec2))
-* **app:** Charts and Review(star) feature added ([2eb24a5](https://github.com/sutharjay1/response/commit/2eb24a5fe6f7db724d4e1fd0b232fa486104811a))
-* **app:** Dynamic Form && Form Submission ([8b60c84](https://github.com/sutharjay1/response/commit/8b60c8442886ed78bdb80592403a87ef43a79d64))
-* **app:** dynamic form auto save ([33d6bf2](https://github.com/sutharjay1/response/commit/33d6bf245c3f2cf1b4ee83ce127ea680523f8504))
-* **app:** Form Edit && Form Submit && Form Analytics && UI Update ([0df144a](https://github.com/sutharjay1/response/commit/0df144adf761c2cecad8c750ae49d2dddbe0fc69))
-* **app:** Image in form with cloudinary upload ([06ee6b9](https://github.com/sutharjay1/response/commit/06ee6b99754cefca0ec623a4215d7d2b4936b296))
-* **app:** init ([82e31d9](https://github.com/sutharjay1/response/commit/82e31d9a2a24636eb4f74ef5543ff1204c6fd358))
-* **app:** Project CRUD && Dynamic Form Create ([7f4b376](https://github.com/sutharjay1/response/commit/7f4b376dae915147e654abec4914d4d10d43a9bd))
-* **app:** share and form saving ([137ac7c](https://github.com/sutharjay1/response/commit/137ac7cdf9b2072dbebf273b8229d29c8df49ee6))
-* **app:** Updated Form UX and Added Unsplash Integration ([324272c](https://github.com/sutharjay1/response/commit/324272c6ed7020d408c1529abf3b5d2c844d688d))
-* **app:** v2 Landing Page ([a263f57](https://github.com/sutharjay1/response/commit/a263f57f7bed3864b0ad6ffcf411b20f6388c30f))
-* **app:** v2 Landing Page v2 Landing Page ([e347134](https://github.com/sutharjay1/response/commit/e347134e70e9b1b7e4add0bd60d6b7372859bf42))
-* **app:** Video Record Field ([640843f](https://github.com/sutharjay1/response/commit/640843fc3ef0f25dac42bfa4132f3e18acaee9b7))
-
-
-### Bug Fixes
-
-* **app:** Added Avatar & Name in Analytics route ([632faa9](https://github.com/sutharjay1/response/commit/632faa97e2756b8f3509b33406da49807cdf9496))
-* **app:** added image props in /submit ([ad44510](https://github.com/sutharjay1/response/commit/ad445105b0a2410b2385108cafc21b1dab60b71c))
-* **app:** Bug fix ([2ea0c1e](https://github.com/sutharjay1/response/commit/2ea0c1e7a217b7104146a42ba9758d554c760417))
-* **app:** Bug fix and improvement ([9a9cc90](https://github.com/sutharjay1/response/commit/9a9cc9013aca4d8382af81f7d8fa4d85938f31cf))
-* **app:** Bug fix and improvement Bug fix and improvement ([ba9423d](https://github.com/sutharjay1/response/commit/ba9423d4d0cd0425cde23e0a864f9a695e9500ac))
-* **app:** Bug fix: Form Edit Fixed ([1136aca](https://github.com/sutharjay1/response/commit/1136aca6eaf5a74be26f76519d7502b147021ec1))
-* **app:** Bug fixes and UI Improvement ([e8b1a1b](https://github.com/sutharjay1/response/commit/e8b1a1b89afeb6fdde8551b8253fb9008c1e3635))
-* **app:** Bugs fix ([833dc7b](https://github.com/sutharjay1/response/commit/833dc7bf8d50bb0e7cfa37fbbc5cb60db6b2a4cb))
-* **app:** Bugs fix and improvement ([97de329](https://github.com/sutharjay1/response/commit/97de3293cd8527a3f8f953924670b091b3fa4bdc))
-* **app:** Bugs fix and improvement ([8f9ceb3](https://github.com/sutharjay1/response/commit/8f9ceb37249b5c3a2348349acb006ee39ec6d617))
-* **app:** Bugs fix and improvement ([e0f626e](https://github.com/sutharjay1/response/commit/e0f626e3eaef5218638ace4703db9e82b2ae9f85))
-* **app:** Bugs fix and improvement ([65537d3](https://github.com/sutharjay1/response/commit/65537d39e52044a8a9c2ed5100e9cc8513d00a81))
-* **app:** Bugs fix and improvement ([c85df96](https://github.com/sutharjay1/response/commit/c85df969828439e9c3bae59c8d28351393edfb38))
-* **app:** Bugs fix and improvement ([cf530d2](https://github.com/sutharjay1/response/commit/cf530d29d8317515875f431904c8b2aef4a67ab5))
-* **app:** Change icon lib to mynau ([b970cd5](https://github.com/sutharjay1/response/commit/b970cd536a0a2c0091877b6401885ce425aa9b2d))
-* **app:** Change icon lib to mynaui ([944754d](https://github.com/sutharjay1/response/commit/944754d5294ce0ef436512f4300ba603ea41a4a8))
-* **app:** Chart type change to line ([e829c28](https://github.com/sutharjay1/response/commit/e829c2855d9d8480ef79e4266cd2d9bee9c62356))
-* **app:** Embedded Script fix ([9678b79](https://github.com/sutharjay1/response/commit/9678b7928ec79aed1e4272a1b3ca11ed9821a6a3))
-* **app:** Embedded Script fs module removed ([6eb05eb](https://github.com/sutharjay1/response/commit/6eb05eb27d30dedbdd278f1c2f21d1a6e2eefcfc))
-* **app:** fix ([fa8b848](https://github.com/sutharjay1/response/commit/fa8b848f752b65ad63f6868d93aaf0bbb13f323a))
-* **app:** Fix skeleton ui and charts analytics ([bb2dfd8](https://github.com/sutharjay1/response/commit/bb2dfd8e4a06515d9af535208e78e0c6c72af0b5))
-* **app:** font and ui component fix ([1658a4c](https://github.com/sutharjay1/response/commit/1658a4c14b638ae720653a41b7f5d4c1260d941a))
-* **app:** Form UI Update ([7ce5f41](https://github.com/sutharjay1/response/commit/7ce5f41d5c6a4ceeda7813abc961b64c4881c8a2))
-* **app:** Icon fix and improvement ([de7df4e](https://github.com/sutharjay1/response/commit/de7df4eb4c395c41b9378d31189cd305d3389782))
-* **app:** icons fix ([2f1a633](https://github.com/sutharjay1/response/commit/2f1a6335bf322374fbb7725721d02fa754fc1e33))
-* **app:** Improvement ([168134f](https://github.com/sutharjay1/response/commit/168134fd64ca0ca4e88cfc7776185e7fbe02def9))
-* **app:** UI - margin fix ([b5a260d](https://github.com/sutharjay1/response/commit/b5a260d6c03d091ba151b475dba74902874b1e0f))
-* **app:** UI fix for checkbox and update ([b399a38](https://github.com/sutharjay1/response/commit/b399a387b21d31073ea27f5434c32a2869f40e91))
-* **app:** Upgrade Project link component with status field ([48f117a](https://github.com/sutharjay1/response/commit/48f117a0fadc95c1681fabf1321f8d992cec1067))
-* **app:** Upload Image Button UI fix  Upload Image Button UI fix ([d1d6b83](https://github.com/sutharjay1/response/commit/d1d6b839c2c614f75a3a5849c06b718be6db760a))
-* **app:** Zustand persist incompatibility fix ([e250f3c](https://github.com/sutharjay1/response/commit/e250f3c2cabc502bff477e79c62b535647705d5f))
-
 ### 0.1.9 (2024-12-10)
 
 
