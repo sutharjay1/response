@@ -23,9 +23,10 @@ import { z } from "zod";
 import { errorToast, successToast } from "../global/toast";
 import { FormElement } from "../projects/types";
 import { getUnsplashImage } from "./actions/get-unsplash-image";
-import { uploadBannerToCloudinary } from "./actions/upload-banner";
+import { uploadBannerToCloudinary } from "./actions/upload-banner-raw";
 import { useBannerSearchHistory } from "./hooks/use-banner-search-history";
 import { UnsplashReturnType } from "./types/unsplash-return-type";
+import { uploadUnsplashBanner } from "./actions/upload-banner-url";
 
 interface BannerUploadDropZoneProps {
   onAvatarChange: (avatar: string) => void;
@@ -89,7 +90,6 @@ export const BannerUploadDropZone: React.FC<BannerUploadDropZoneProps> = ({
         formData.append("file", file);
 
         const response = await uploadBannerToCloudinary({
-          type: "raw",
           data: formData,
           id: id as string,
         });
@@ -152,9 +152,8 @@ export const BannerUploadDropZone: React.FC<BannerUploadDropZoneProps> = ({
     }, 500);
 
     try {
-      const response = await uploadBannerToCloudinary({
-        type: "url",
-        data: url,
+      const response = await uploadUnsplashBanner({
+        url,
         id: id as string,
       });
 
@@ -162,7 +161,7 @@ export const BannerUploadDropZone: React.FC<BannerUploadDropZoneProps> = ({
         setFormElements((prevElements) =>
           prevElements.map((element) =>
             element.id === id
-              ? { ...element, value: response.data?.secure_url as string }
+              ? { ...element, value: response.data?.banner as string }
               : element,
           ),
         );
@@ -171,7 +170,7 @@ export const BannerUploadDropZone: React.FC<BannerUploadDropZoneProps> = ({
       if (response.success && response.data) {
         clearInterval(progressInterval);
         setUploadProgress(100);
-        onAvatarChange(response.data.secure_url as string);
+        onAvatarChange(response.data.banner as string);
         successToast("Image uploaded successfully", {
           position: "top-center",
         });
