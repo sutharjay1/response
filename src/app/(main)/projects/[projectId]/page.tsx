@@ -532,10 +532,12 @@ const IndividualProject = ({ params }: Props) => {
           id={projectId}
           setFormElements={setFormElements}
         />
-        <CardHeader className="flex flex-col items-center justify-center space-y-1 p-6">
+        <CardHeader className="flex flex-col items-center justify-center space-y-1 px-0 py-4">
           <CardTitle>
             <H2 className="border-none p-0 pb-0">{project?.name}</H2>
-            <P className="[&:not(:first-child)]:mt-0">{project?.description}</P>
+            <P className="leading-normal [&:not(:first-child)]:mt-0">
+              {project?.description}
+            </P>
           </CardTitle>
         </CardHeader>
         <CardContent className="w-full border-none px-0 shadow-none">

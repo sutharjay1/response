@@ -72,6 +72,7 @@ export default async function RootLayout({
           >
             <TooltipProvider>
               <Toaster />
+
               {children}
             </TooltipProvider>
           </ThemeProvider>

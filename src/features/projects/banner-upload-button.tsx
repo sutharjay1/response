@@ -5,11 +5,11 @@ import { Input } from "@/components/ui/input";
 import {
   Modal,
   ModalContent,
-  ModalDescription,
   ModalHeader,
   ModalTitle,
 } from "@/components/ui/modal";
 import { Progress } from "@/components/ui/progress";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -200,8 +200,7 @@ export const BannerUploadDropZone: React.FC<BannerUploadDropZoneProps> = ({
       }
       return getUnsplashImage(query, page);
     },
-
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       if (data && data.success && Array.isArray(data.results)) {
         const newResults =
           page === 1 ? data.results : [...searchResults, ...data.results];
@@ -341,97 +340,90 @@ export const BannerUploadDropZone: React.FC<BannerUploadDropZoneProps> = ({
         </Button>
 
         <Modal open={open} onOpenChange={setOpen}>
-          <ModalContent
-            closeClassName="top-2 mt-3 mr-3  "
-            className={cn(
-              "h-32 w-full px-0 py-2",
-              "flex flex-col gap-0 p-0 sm:max-h-[min(640px,80vh)] sm:max-w-lg [&>button:last-child]:top-3.5",
-            )}
-          >
-            <ModalHeader className="contents space-y-0 text-left">
-              <ModalTitle className="border-b border-border px-4 py-2 text-base">
+          <ModalContent className="h-[32rem] max-w-3xl gap-0 p-0">
+            <ModalHeader className="p-4 pb-2">
+              <ModalTitle>Search Images</ModalTitle>
+            </ModalHeader>
+
+            <div className="border-t p-4">
+              <div className="relative">
                 <Form {...form}>
                   <form onSubmit={(e) => e.preventDefault()}>
                     <FormField
                       control={form.control}
                       name="query"
                       render={({ field }) => (
-                        <FormItem className="relative flex w-full items-center">
+                        <FormItem className="flex w-full items-center">
                           <Input
                             placeholder="Search for an image"
                             {...field}
-                            className="border-0 border-transparent pr-10 focus:border-transparent focus:ring-0"
+                            className="border-0 border-transparent pl-8 pr-10 font-aeonik font-medium text-primary placeholder:pl-4 focus:border-transparent focus:ring-0"
                             onKeyDown={handleKeyDown}
                           />
-                          <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center text-muted-foreground/80 peer-disabled:opacity-50">
-                            <Search className="mr-2 h-6 w-6 shrink-0 opacity-80" />
-                          </div>
+                          <Search className="absolute top-0 ml-1 mt-0 h-6 w-6 text-muted-foreground" />
                         </FormItem>
                       )}
                     />
                   </form>
                 </Form>
-              </ModalTitle>
-            </ModalHeader>
-
-            <div className="h-32 overflow-y-auto px-4">
-              <ModalDescription asChild>
-                <Group heading="Search Results">
-                  {isLoading
-                    ? Array.from({ length: 4 }).map((_, index) => (
-                        <div key={index} className="aspect-[4/3]">
-                          <Skeleton className="h-16 w-full" />
-                        </div>
-                      ))
-                    : searchResults?.map((image, index) => (
-                        <div
-                          key={index}
-                          className="h-40 w-full overflow-hidden rounded-md"
-                          onClick={() => {
-                            handleSelectNewBanner(image.urls.regular);
-                            setOpen(false);
-                          }}
-                        >
-                          <Image
-                            src={image.urls.regular}
-                            alt={`Search result ${index}`}
-                            width={120}
-                            height={28}
-                            className="h-full w-full object-cover"
-                          />
-                        </div>
-                      ))}
-                </Group>
-              </ModalDescription>
-              {page < totalPages && (
-                <Button
-                  onClick={handleLoadMore}
-                  disabled={isLoading}
-                  className="mt-4 w-full"
-                >
-                  {isLoading ? "Loading..." : "Load More"}
-                </Button>
-              )}
+              </div>
             </div>
+
+            <ScrollArea className="h-64 border-t">
+              {isLoading && (
+                <div className="grid grid-cols-3 gap-4 p-4 md:grid-cols-3">
+                  {Array.from({ length: 6 }).map((_, index) => (
+                    <div
+                      key={index}
+                      className="group relative aspect-square overflow-hidden rounded-lg bg-muted"
+                    >
+                      <Skeleton className="absolute inset-0" />
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              <div className="grid grid-cols-3 gap-4 p-4 md:grid-cols-3">
+                {searchResults.map((image, index) => (
+                  <button
+                    key={index}
+                    onClick={() => {
+                      handleSelectNewBanner(image.urls.regular);
+                      setOpen(false);
+                    }}
+                    className="group relative aspect-square overflow-hidden rounded-lg border bg-muted outline-none transition-colors hover:border-accent-foreground/20 hover:bg-accent focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
+                    <Image
+                      src={image.urls.regular}
+                      alt={`Search result ${index + 1}`}
+                      fill
+                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      sizes="(min-width: 768px) 33vw, 50vw"
+                    />
+                    <div className="absolute inset-x-0 bottom-0 p-4">
+                      <div className="rounded-full bg-black/50 px-3 py-1 text-xs text-white opacity-0 transition-opacity group-hover:opacity-100">
+                        Select Image
+                      </div>
+                    </div>
+                  </button>
+                ))}
+              </div>
+              <div className="flex w-full items-center justify-center pb-3">
+                {page < totalPages && searchResults.length > 0 && (
+                  <Button
+                    onClick={handleLoadMore}
+                    disabled={isLoading}
+                    className="mt-4 w-fit px-6"
+                  >
+                    {isLoading ? "Loading..." : "Load More"}
+                  </Button>
+                )}
+              </div>
+            </ScrollArea>
           </ModalContent>
         </Modal>
       </>
     </div>
   );
 };
-
-interface GroupProps {
-  heading: string;
-  children: React.ReactNode;
-}
-
-function Group({ heading, children }: GroupProps) {
-  return (
-    <div className="space-y-4">
-      <div className="text-primary/90">
-        <h2 className="text-sm font-medium text-muted-foreground">{heading}</h2>
-      </div>
-      <div className="h-42 grid grid-rows-2 gap-4">{children}</div>
-    </div>
-  );
-}

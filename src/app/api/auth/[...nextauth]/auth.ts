@@ -1,7 +1,7 @@
-import { AuthOptions } from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
-import GitHubProvider from "next-auth/providers/github";
 import { db } from "@/db";
+import { AuthOptions } from "next-auth";
+import GitHubProvider from "next-auth/providers/github";
+import GoogleProvider from "next-auth/providers/google";
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -56,13 +56,46 @@ export const authOptions: AuthOptions = {
 
           await db.project.create({
             data: {
-              name: "My Project",
+              name: "Feedback Submission Form",
+              description:
+                "Share your thoughts or suggestions to help us improve. Your feedback is valuable and helps us provide a better experience.",
               banner: `https://avatar.vercel.sh/${user.name}`,
               user: {
                 connect: {
                   id: newUser.id,
                 },
               },
+              fields: {
+                createMany: {
+                  data: [
+                    {
+                      label: "Name",
+                      type: "input",
+                      value: "",
+                      order: 0,
+                    },
+                    {
+                      label: "Description",
+                      type: "textarea",
+                      value: "",
+                      order: 1,
+                    },
+                    {
+                      label: "Rating",
+                      type: "star",
+                      value: "0",
+                      order: 2,
+                    },
+                    {
+                      label: "Profile Image",
+                      type: "image",
+                      value: "",
+                      order: 3,
+                    },
+                  ],
+                },
+              },
+
               scriptFile: "",
               status: "DEV",
             },
