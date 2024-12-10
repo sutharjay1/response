@@ -13,13 +13,13 @@ import Hint from "@/features/global/hint";
 import { errorToast, successToast } from "@/features/global/toast";
 import { createForm } from "@/features/projects/actions/create-form";
 import { getProjectField } from "@/features/projects/actions/get-project-field";
-import { getProjectById } from "@/features/projects/actions/get-projects";
 import { removeField } from "@/features/projects/actions/remove-field";
 import { BannerUploadDropZone } from "@/features/projects/banner-upload-button";
 import { fieldTypes } from "@/features/projects/config";
 import { ImageUploadDropZone } from "@/features/projects/image-upload-button";
 import { FormElement } from "@/features/projects/types";
 import { useDebounce } from "@/hooks/use-debounce";
+import { useProject } from "@/hooks/use-project";
 import { cn } from "@/lib/utils";
 import {
   CheckSquare,
@@ -51,20 +51,13 @@ const IndividualProject = ({ params }: Props) => {
     });
   }, [params]);
 
+  const { project } = useProject();
+
   const [formElements, setFormElements] = useState<FormElement[]>([]);
   const [, setIsSaving] = useState(false);
-  const [banner, setBanner] = useState<string>("");
+  const [banner, setBanner] = useState<string>(project?.banner || "");
   const { state } = useSidebar();
   const controls = useDragControls();
-
-  const { data: project } = useQuery({
-    queryKey: ["currentProject", projectId],
-    queryFn: () => getProjectById(projectId as string),
-    enabled: !!projectId,
-    onSuccess: (data) => {
-      setBanner(data.banner);
-    },
-  });
 
   const debouncedFormElements = useDebounce(formElements, 1000);
 
