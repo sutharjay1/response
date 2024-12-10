@@ -26,8 +26,8 @@ export async function uploadSubmitAvatarToCloudinary(
         `data:${file.type};base64,${base64File}`,
         {
           resource_type: "auto",
-          folder: "response/image",
-          public_id: `response_${id}_${file.name}`,
+          folder: "response/avatar",
+          public_id: `response_avatar_${id}_${file.name}`,
           overwrite: true,
           use_filename: true,
           unique_filename: false,

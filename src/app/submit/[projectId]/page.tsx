@@ -323,13 +323,13 @@ const SubmitForm = ({ params }: Props) => {
           </div>
         </CardHeader>
         <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
-          <div className="flex flex-1 items-center justify-center gap-3 text-center sm:text-left">
+          <div className="flex w-full items-center justify-center gap-3 text-center">
             <AvatarDropZone
               onAvatarChange={setAvatar}
-              id={project?.id}
+              id={projectId as string}
               setFormElements={setFormElements}
             />
-            <Card className="w-ful l flex flex-1 items-center justify-start rounded-md border-0 bg-transparent shadow-none">
+            <Card className="flex w-full items-center justify-start rounded-md border-0 bg-transparent shadow-none">
               <CardContent className={cn("w-full cursor-pointer p-0")}>
                 <div className="flex flex-col items-start justify-start gap-1 text-sm text-muted-foreground">
                   <Form {...form}>
@@ -339,13 +339,13 @@ const SubmitForm = ({ params }: Props) => {
                         name="name"
                         render={({ field }) => (
                           <FormItem className="flex w-full flex-col gap-1">
-                            <FormLabel className="text-xs font-normal">
+                            <FormLabel className="font-normal sm:text-left">
                               Enter your name
                             </FormLabel>
                             <FormControl>
                               <Input
                                 {...field}
-                                className="h-8 w-full rounded-md border border-gray-300 bg-background px-3 py-2 text-xs font-normal text-muted-foreground shadow-none focus:border-indigo-500 focus:ring-indigo-500"
+                                className="h-8 w-full rounded-md border border-gray-300 bg-background px-3 py-2 font-normal shadow-none focus:border-indigo-500 focus:ring-indigo-500"
                               />
                             </FormControl>
                             <FormMessage />
