@@ -11,27 +11,33 @@ import { authOptions } from "./api/auth/[...nextauth]/auth";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Response - Streamlined Feedback for Better Experiences",
+  title: "Response - Instant Feedback for Rapid Product Improvement",
   description:
-    "Response is a dynamic feedback platform empowering teams to collect, analyze, and act on user feedback effortlessly. Whether it's video or text responses, Response integrates seamlessly with your workflow, offering an embedded script feature for easy deployment. Unlock actionable insights to improve products and foster meaningful user engagement.",
+    "Response is a lightning-fast feedback platform that empowers teams to collect, analyze, and act on user insights in real-time. With video and text responses, plus an easy-to-use embedded script, Response helps you understand and solve user issues at unprecedented speed.",
   keywords: [
-    "feedback management",
-    "user feedback",
+    "instant feedback",
+    "rapid product improvement",
+    "user insights",
     "video responses",
-    "text responses",
-    "embedded script",
-    "user engagement",
+    "text feedback",
+    "embedded feedback script",
+    "real-time analysis",
+    "user experience",
     "SaaS",
-    "development",
+    "agile development",
   ],
   authors: [{ name: "Response Team" }],
   creator: "Jay Suthar",
   openGraph: {
-    title: "Response - Your Feedback System",
-    description: "Collect feedback easily with video or text on Response.",
+    title: "Response - From Feedback to Features at Light Speed",
+    description:
+      "Collect, analyze, and implement user feedback faster than ever with Response. Video and text options for rich, instant insights.",
     images: [
       {
-        url: "https://res.cloudinary.com/cdn-feedback/image/upload/v1733506409/response/response-no-border.png",
+        url: "https://res.cloudinary.com/cdn-feedback/image/upload/v1733506409/response/response-og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Response - Instant Feedback Platform",
       },
     ],
     url: "https://response.sutharjay.com",
@@ -39,12 +45,17 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Response - Your Feedback System",
-    description: "Collect feedback easily with video or text on Response.",
+    title: "Response - Accelerate Your Product Evolution",
+    description:
+      "Turn user feedback into product improvements at breakneck speed. Video and text responses for comprehensive insights.",
     images: [
-      "https://res.cloudinary.com/cdn-feedback/image/upload/v1733506409/response/response-no-border.png",
+      "https://res.cloudinary.com/cdn-feedback/image/upload/v1733506409/response/response-twitter-card.png",
     ],
+    creator: "@JaySuthar",
   },
+  viewport: "width=device-width, initial-scale=1",
+  robots: "index, follow",
+  themeColor: "#FF6B6B",
 };
 
 export default async function RootLayout({

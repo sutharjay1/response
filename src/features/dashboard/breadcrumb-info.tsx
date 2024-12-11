@@ -23,7 +23,13 @@ import {
 } from "@/components/ui/modal";
 import { useProject } from "@/hooks/use-project";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { At, ChartBarTwo, FolderTwo, SpinnerOne } from "@mynaui/icons-react";
+import {
+  At,
+  BoundingBox,
+  ChartBarTwo,
+  FolderTwo,
+  SpinnerOne,
+} from "@mynaui/icons-react";
 import { useMutation } from "@tanstack/react-query";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -187,6 +193,22 @@ const BreadcrumbInfo = () => {
                   strokeWidth={2}
                 />
                 Analytics
+              </BreadcrumbPage>
+            </BreadcrumbItem>
+          </>
+        )}
+
+        {pathname?.includes("/hall-of-frame") && (
+          <>
+            <BreadcrumbSeparator className="hidden md:block" />
+            <BreadcrumbItem>
+              <BreadcrumbPage className="flex items-center gap-2">
+                <BoundingBox
+                  size={16}
+                  className="h-5 w-5 font-bold"
+                  strokeWidth={2}
+                />
+                Hall of Frame
               </BreadcrumbPage>
             </BreadcrumbItem>
           </>
