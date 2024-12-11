@@ -9,35 +9,30 @@ import { getServerSession } from "next-auth";
 import { Toaster } from "sonner";
 import { authOptions } from "./api/auth/[...nextauth]/auth";
 import "./globals.css";
+import { CSPostHogProvider } from "@/providers/posthog-provider";
 
 export const metadata: Metadata = {
-  title: "Response - Instant Feedback for Rapid Product Improvement",
+  title: "Response - Streamlined Feedback for Better Experiences",
   description:
-    "Response is a lightning-fast feedback platform that empowers teams to collect, analyze, and act on user insights in real-time. With video and text responses, plus an easy-to-use embedded script, Response helps you understand and solve user issues at unprecedented speed.",
+    "Response is a dynamic feedback platform empowering teams to collect, analyze, and act on user feedback effortlessly. Whether it's video or text responses, Response integrates seamlessly with your workflow, offering an embedded script feature for easy deployment. Unlock actionable insights to improve products and foster meaningful user engagement.",
   keywords: [
-    "instant feedback",
-    "rapid product improvement",
-    "user insights",
+    "feedback management",
+    "user feedback",
     "video responses",
-    "text feedback",
-    "embedded feedback script",
-    "real-time analysis",
-    "user experience",
+    "text responses",
+    "embedded script",
+    "user engagement",
     "SaaS",
-    "agile development",
+    "development",
   ],
   authors: [{ name: "Response Team" }],
   creator: "Jay Suthar",
   openGraph: {
-    title: "Response - From Feedback to Features at Light Speed",
-    description:
-      "Collect, analyze, and implement user feedback faster than ever with Response. Video and text options for rich, instant insights.",
+    title: "Response - Your Feedback System",
+    description: "Collect feedback easily with video or text on Response.",
     images: [
       {
-        url: "https://res.cloudinary.com/cdn-feedback/image/upload/v1733506409/response/response-og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Response - Instant Feedback Platform",
+        url: "https://res.cloudinary.com/cdn-feedback/image/upload/v1733506409/response/response-no-border.png",
       },
     ],
     url: "https://response.sutharjay.com",
@@ -45,17 +40,12 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Response - Accelerate Your Product Evolution",
-    description:
-      "Turn user feedback into product improvements at breakneck speed. Video and text responses for comprehensive insights.",
+    title: "Response - Your Feedback System",
+    description: "Collect feedback easily with video or text on Response.",
     images: [
-      "https://res.cloudinary.com/cdn-feedback/image/upload/v1733506409/response/response-twitter-card.png",
+      "https://res.cloudinary.com/cdn-feedback/image/upload/v1733506409/response/response-no-border.png",
     ],
-    creator: "@JaySuthar",
   },
-  viewport: "width=device-width, initial-scale=1",
-  robots: "index, follow",
-  themeColor: "#FF6B6B",
 };
 
 export default async function RootLayout({
@@ -67,28 +57,30 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body
-        className={cn(
-          "min-h-screen w-full scroll-smooth bg-background text-foreground antialiased",
-          geistSans.variable,
-          geistSans.className,
-        )}
-      >
-        <ClientProvider session={session}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="light"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <TooltipProvider>
-              <Toaster />
+      <CSPostHogProvider>
+        <body
+          className={cn(
+            "min-h-screen w-full scroll-smooth bg-background text-foreground antialiased",
+            geistSans.variable,
+            geistSans.className,
+          )}
+        >
+          <ClientProvider session={session}>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="light"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <TooltipProvider>
+                <Toaster />
 
-              {children}
-            </TooltipProvider>
-          </ThemeProvider>
-        </ClientProvider>
-      </body>
+                {children}
+              </TooltipProvider>
+            </ThemeProvider>
+          </ClientProvider>
+        </body>
+      </CSPostHogProvider>
     </html>
   );
 }
