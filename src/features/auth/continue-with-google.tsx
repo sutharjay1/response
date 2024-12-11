@@ -6,7 +6,7 @@ import { BrandGoogleSolid } from "@mynaui/icons-react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { toast } from "sonner";
+import { errorToast } from "../global/toast";
 
 const ContinueWithGoogle = () => {
   const router = useRouter();
@@ -31,17 +31,7 @@ const ContinueWithGoogle = () => {
       }
     } catch (error) {
       console.error("Google login error:", error);
-      toast.error("Google login failed", {
-        description: "Please try again",
-        duration: 3000,
-        position: "bottom-left",
-        style: {
-          backgroundColor: "rgba(255, 0, 0, 0.2)",
-          borderColor: "rgba(255, 0, 0, 0.4)",
-          color: "white",
-        },
-        className: "border-[1px]",
-      });
+      errorToast("Something went wrong. Please try again.");
     } finally {
       setIsLoggingIn(false);
     }

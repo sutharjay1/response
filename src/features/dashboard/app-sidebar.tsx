@@ -101,7 +101,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton size="lg" asChild className="bg-background">
+            <SidebarMenuButton
+              asChild
+              size="lg"
+              className="rounded-xl bg-background"
+            >
               <ProjectDropDown />
             </SidebarMenuButton>
           </SidebarMenuItem>

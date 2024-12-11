@@ -10,18 +10,21 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { errorToast, successToast } from "@/features/global/toast";
+import {
+  errorToast,
+  loadingToast,
+  successToast,
+} from "@/features/global/toast";
 import { useProject } from "@/hooks/use-project";
 import { useUser } from "@/hooks/use-user";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { SpinnerOne } from "@mynaui/icons-react";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { generateSlug } from "random-word-slugs";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 import { z } from "zod";
 import { createProject } from "./actions/create-project";
-import { SpinnerOne } from "@mynaui/icons-react";
 
 const projectSchema = z.object({
   name: z
@@ -101,8 +104,8 @@ const ProjectForm = () => {
       return;
     }
 
-    const loadId = toast.loading("Creating project...", {
-      position: "bottom-right",
+    const { dismissToast } = loadingToast("Creating project...", {
+      position: "top-center",
     });
 
     try {
@@ -125,7 +128,7 @@ const ProjectForm = () => {
         });
       }
     } finally {
-      toast.dismiss(loadId);
+      dismissToast();
     }
   };
   return (
