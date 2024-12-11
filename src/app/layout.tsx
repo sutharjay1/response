@@ -3,6 +3,7 @@ import { geistSans } from "@/features/font";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import ClientProvider from "@/providers/client-provider";
+import { CSPostHogProvider } from "@/providers/posthog-provider";
 import { ThemeProvider } from "@/providers/theme-provider";
 import type { Metadata } from "next";
 import { getServerSession } from "next-auth";
@@ -56,28 +57,30 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body
-        className={cn(
-          "min-h-screen w-full scroll-smooth bg-background text-foreground antialiased",
-          geistSans.variable,
-          geistSans.className,
-        )}
-      >
-        <ClientProvider session={session}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="light"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <TooltipProvider>
-              <Toaster />
+      <CSPostHogProvider>
+        <body
+          className={cn(
+            "min-h-screen w-full scroll-smooth bg-background text-foreground antialiased",
+            geistSans.variable,
+            geistSans.className,
+          )}
+        >
+          <ClientProvider session={session}>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="light"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <TooltipProvider>
+                <Toaster />
 
-              {children}
-            </TooltipProvider>
-          </ThemeProvider>
-        </ClientProvider>
-      </body>
+                {children}
+              </TooltipProvider>
+            </ThemeProvider>
+          </ClientProvider>
+        </body>
+      </CSPostHogProvider>
     </html>
   );
 }
