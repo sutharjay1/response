@@ -303,13 +303,19 @@ const SubmitForm = ({ params }: Props) => {
   return (
     <div className="flex min-h-screen items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
       <Card className="w-full max-w-md overflow-hidden bg-sidebar hover:shadow-md">
-        <Image
-          src={project?.banner as string}
-          className="h-36 w-full rounded-t-md border border-input object-cover shadow"
-          width={500}
-          height={36}
-          alt="Profile image"
-        />
+        <div
+          className={`flex w-full flex-col items-center justify-center rounded-lg transition-colors`}
+        >
+          <div className="relative flex h-40 w-full overflow-hidden rounded-xl rounded-b-none border-4 border-background bg-muted shadow-sm shadow-primary/20">
+            <Image
+              src={project?.banner as string}
+              alt="card cover"
+              fill
+              className="h-full w-full object-cover"
+            />
+          </div>
+        </div>
+
         <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
           <div className="grid flex-1 gap-1 text-center sm:text-left">
             <h2 className="text-lg font-semibold text-primary">

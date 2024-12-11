@@ -62,7 +62,7 @@ const BreadcrumbInfo = () => {
   });
 
   useEffect(() => {
-    if (project) {
+    if (project && form) {
       form.reset({
         projectId: project.id,
         name: project.name,
