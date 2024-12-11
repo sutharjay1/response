@@ -1,10 +1,10 @@
 "use client";
 
+import { CircularProgressBar } from "@/components/ellipse-progress";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
-import { Pencil, SpinnerOne } from "@mynaui/icons-react";
+import { Pencil } from "@mynaui/icons-react";
 import Image from "next/image";
 import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
@@ -102,12 +102,6 @@ export const AvatarDropZone: React.FC<AvatarDropZoneProps> = ({
     disabled: isUploading,
   });
 
-  // useEffect(() => {
-  //   if (currentImage && onAvatarChange) {
-  //     onAvatarChange(currentImage);
-  //   }
-  // }, [currentImage, onAvatarChange]);
-
   return (
     <Card className="w-fit">
       {isUploading ? (
@@ -118,11 +112,14 @@ export const AvatarDropZone: React.FC<AvatarDropZoneProps> = ({
           )}
         >
           <div className="space-y-2">
-            <Progress value={uploadProgress} className="h-2 w-full" />
-            <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
-              <SpinnerOne className="h-4 w-4 animate-spin" />
-              {uploadProgress >= 90 ? "Processing..." : "Uploading..."}
-            </div>
+            <CircularProgressBar
+              value={uploadProgress}
+              max={100}
+              min={0}
+              gaugePrimaryColor="#f3f2f1"
+              gaugeSecondaryColor="rgba(0, 0, 0, 0.1)"
+              className="size-2 h-2 w-2"
+            />
           </div>
         </div>
       ) : (
