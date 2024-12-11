@@ -9,7 +9,6 @@ import { getServerSession } from "next-auth";
 import { Toaster } from "sonner";
 import { authOptions } from "./api/auth/[...nextauth]/auth";
 import "./globals.css";
-import { CSPostHogProvider } from "@/providers/posthog-provider";
 
 export const metadata: Metadata = {
   title: "Response - Streamlined Feedback for Better Experiences",
@@ -57,30 +56,28 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <CSPostHogProvider>
-        <body
-          className={cn(
-            "min-h-screen w-full scroll-smooth bg-background text-foreground antialiased",
-            geistSans.variable,
-            geistSans.className,
-          )}
-        >
-          <ClientProvider session={session}>
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="light"
-              enableSystem
-              disableTransitionOnChange
-            >
-              <TooltipProvider>
-                <Toaster />
+      <body
+        className={cn(
+          "min-h-screen w-full scroll-smooth bg-background text-foreground antialiased",
+          geistSans.variable,
+          geistSans.className,
+        )}
+      >
+        <ClientProvider session={session}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="light"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <TooltipProvider>
+              <Toaster />
 
-                {children}
-              </TooltipProvider>
-            </ThemeProvider>
-          </ClientProvider>
-        </body>
-      </CSPostHogProvider>
+              {children}
+            </TooltipProvider>
+          </ThemeProvider>
+        </ClientProvider>
+      </body>
     </html>
   );
 }

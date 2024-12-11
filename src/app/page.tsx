@@ -28,7 +28,6 @@ import {
 } from "@mynaui/icons-react";
 import Image from "next/image";
 import Link from "next/link";
-import posthog from "posthog-js";
 
 const featuresData = [
   {
@@ -121,8 +120,6 @@ const reviews = [
 ] as const;
 
 export default function Home() {
-  posthog.capture("my event", { property: "value" });
-
   return (
     <div className="min-h-screen bg-background">
       <Nav />
