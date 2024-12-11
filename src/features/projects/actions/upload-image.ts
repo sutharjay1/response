@@ -27,7 +27,7 @@ export async function uploadToCloudinary(
         {
           resource_type: "auto",
           folder: "response/image",
-          public_id: `response_${id}_${file.name}`,
+          public_id: `response_${type}_${id}_${file.name}`,
           overwrite: true,
           use_filename: true,
           unique_filename: false,
