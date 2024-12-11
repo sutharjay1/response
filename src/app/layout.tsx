@@ -3,7 +3,7 @@ import { geistSans } from "@/features/font";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import ClientProvider from "@/providers/client-provider";
-import { CSPostHogProvider } from "@/providers/posthog-provider";
+import { CSPostHogProvider } from "@/providers/post-hog-provider";
 import { ThemeProvider } from "@/providers/theme-provider";
 import type { Metadata } from "next";
 import { getServerSession } from "next-auth";
