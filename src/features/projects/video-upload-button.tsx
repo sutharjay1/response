@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { Video } from "@mynaui/icons-react";
 import React, { useCallback, useState } from "react";
 import { ReactMediaRecorder } from "react-media-recorder";
-import { toast } from "sonner";
+import { errorToast, successToast } from "../global/toast";
 import { useVideo } from "../submit/hooks/use-video";
 import { uploadToCloudinary } from "./actions/upload-image";
 import { FormElement } from "./types";
@@ -39,7 +39,7 @@ export const VideoUploadButton: React.FC<VideoUploadFieldProps> = ({
 
         const maxSize = 10 * 1024 * 1024;
         if (blob.size > maxSize) {
-          toast.error("Video is too large. Max size is 10MB.");
+          errorToast("Video size exceeds the maximum limit of 10MB");
           return null;
         }
 
@@ -74,14 +74,14 @@ export const VideoUploadButton: React.FC<VideoUploadFieldProps> = ({
             onChange(videoUrl);
           }
 
-          toast.success("Video uploaded and saved successfully");
+          successToast("Video uploaded successfully");
           return videoUrl;
         } else {
           throw new Error(uploadResponse.error || "Upload failed");
         }
       } catch (error) {
         console.error("Upload error:", error);
-        toast.error("Video upload failed");
+        errorToast("Something went wrong. Please try again.");
         return null;
       } finally {
         setIsUploading(false);

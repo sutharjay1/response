@@ -2,13 +2,16 @@
 
 import { Button } from "@/components/ui/button";
 import { P } from "@/components/ui/typography";
-import { errorToast, successToast } from "@/features/global/toast";
+import {
+  errorToast,
+  loadingToast,
+  successToast,
+} from "@/features/global/toast";
 import { deleteProject } from "@/features/projects/actions/delete-project";
 import { SpinnerOne } from "@mynaui/icons-react";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { toast } from "sonner";
 
 type Props = {
   params: Promise<{
@@ -43,8 +46,8 @@ const ProjectSettings = ({ params }: Props) => {
   });
 
   const handleDeleteProject = async () => {
-    const loadId = toast.loading("Deleting project...", {
-      position: "bottom-right",
+    const { dismissToast } = loadingToast("Deleting project...", {
+      position: "top-center",
     });
 
     try {
@@ -70,7 +73,7 @@ const ProjectSettings = ({ params }: Props) => {
         });
       }
     } finally {
-      toast.dismiss(loadId);
+      dismissToast();
     }
   };
 

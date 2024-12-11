@@ -22,7 +22,8 @@ import { cn } from "@/lib/utils";
 import { Check, ChevronUpDown } from "@mynaui/icons-react";
 import { Project } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
-import { getProjectById, getProjects } from "../projects/actions/get-projects";
+import { useEffect } from "react";
+import { getProjects } from "../projects/actions/get-projects";
 
 export function ProjectDropDown({ className }: { className?: string }) {
   const { user } = useUser();
@@ -35,14 +36,22 @@ export function ProjectDropDown({ className }: { className?: string }) {
     enabled: !!user?.id,
   });
 
-  const { data: currentProject, isLoading: loadingCurrentProject } = useQuery({
-    queryKey: ["currentProject", project?.id],
-    queryFn: () => getProjectById(project?.id as string),
-    enabled: !!project?.id,
-  });
+  useEffect(() => {
+    if (!loadingProjects && projects?.length) {
+      const activeProject = projects.find((p) => p.id === project?.id);
+      if (activeProject) {
+        setProject(activeProject);
+      } else {
+        setProject(projects[0]);
+      }
+    }
+  }, [loadingProjects, projects, project?.id, setProject]);
 
   const handleSelectProject = (projectId: string) => {
-    setProject(projects?.find((p) => p.id === projectId) as Project);
+    const selectedProject = projects?.find((p) => p.id === projectId);
+    if (selectedProject) {
+      setProject(selectedProject);
+    }
   };
 
   return (
@@ -58,23 +67,21 @@ export function ProjectDropDown({ className }: { className?: string }) {
               )}
             >
               <Avatar className="h-8 w-8 rounded-xl">
-                {loadingCurrentProject ? (
+                {loadingProjects ? (
                   <Skeleton className="h-8 w-8 rounded-xl" />
                 ) : (
                   <AvatarFallback className="rounded-xl px-3 py-2">
-                    {currentProject?.name
-                      ? currentProject.name[0].toUpperCase()
-                      : "?"}
+                    {project?.name ? project.name[0].toUpperCase() : "?"}
                   </AvatarFallback>
                 )}
               </Avatar>
               <div className="grid flex-1 items-center text-left text-sm leading-tight">
-                {loadingCurrentProject ? (
+                {loadingProjects ? (
                   <Skeleton className="h-4 w-32" />
                 ) : (
                   <>
                     <span className="truncate font-semibold">
-                      {currentProject?.name || "Select Workspace"}
+                      {project?.name || "Select Workspace"}
                     </span>
                     <span className="truncate text-xs text-muted-foreground">
                       Project
@@ -89,9 +96,8 @@ export function ProjectDropDown({ className }: { className?: string }) {
           <DropdownMenuContent
             className="w-72"
             side={isMobile ? "bottom" : "right"}
-            align="end"
             alignOffset={20}
-            sideOffset={4}
+            sideOffset={6}
           >
             <DropdownMenuLabel>Projects</DropdownMenuLabel>
             <DropdownMenuSeparator />
@@ -102,20 +108,20 @@ export function ProjectDropDown({ className }: { className?: string }) {
                 ))}
               </div>
             ) : (
-              projects?.map((workspace: Project) => (
+              projects?.map((proj: Project) => (
                 <DropdownMenuItem
-                  key={workspace.id}
+                  key={proj.id}
                   className="flex w-full items-center px-2 py-1.5"
-                  onSelect={() => handleSelectProject(workspace.id)}
+                  onSelect={() => handleSelectProject(proj.id)}
                 >
                   <Avatar className="mr-2 h-8 w-8 rounded-xl">
                     <AvatarFallback className="rounded-xl px-3 py-2">
-                      {workspace.name[0].toUpperCase()}
+                      {proj.name[0].toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
                   <div className="flex w-full items-center justify-between">
-                    <span className="truncate">{workspace.name}</span>
-                    {workspace.id === currentProject?.id && (
+                    <span className="truncate">{proj.name}</span>
+                    {proj.id === project?.id && (
                       <Check className="ml-auto h-4 w-4" />
                     )}
                   </div>

@@ -6,6 +6,7 @@ import {
   DangerTriangle,
   DangerWaves,
   InfoWaves,
+  SpinnerOne,
 } from "@mynaui/icons-react";
 import { toast } from "sonner";
 
@@ -48,6 +49,38 @@ export const successToast = (message: string, options?: ToastOptions) => {
       "rounded-xl shadow-lg flex items-center gap-2 py-2 text-sm font-medium",
     ),
   });
+};
+
+export const loadingToast = (message: string, options?: ToastOptions) => {
+  const isMobile = window.innerWidth <= 768;
+  const toastId = toast.loading(message, {
+    description: options?.description,
+    duration: options?.duration || DEFAULT_DURATION,
+    position: options?.position || DEFAULT_POSITION,
+    icon: (
+      <SpinnerOne
+        className="h-5 w-5 font-semibold text-[#0e0d0c]"
+        size={16}
+        strokeWidth={1.08}
+        color="#0e0d0c"
+      />
+    ),
+    style: {
+      backgroundColor: "#f7f7f7",
+      color: "#0e0d0c",
+      border: "none",
+      marginLeft: isMobile ? undefined : options?.margin?.left || "8rem",
+    },
+    className:
+      "rounded-xl py-2 shadow-lg flex items-center gap-2 text-sm font-medium",
+  });
+
+  return {
+    id: toastId,
+    dismissToast: function () {
+      toast.dismiss(this.id);
+    },
+  };
 };
 
 export const errorToast = (message: string, options?: ToastOptions) => {

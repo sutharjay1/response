@@ -21,6 +21,7 @@ import {
   ModalTitle,
   ModalTrigger,
 } from "@/components/ui/modal";
+import { Textarea } from "@/components/ui/textarea";
 import { useProject } from "@/hooks/use-project";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -32,7 +33,7 @@ import {
 } from "@mynaui/icons-react";
 import { useMutation } from "@tanstack/react-query";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { errorToast, successToast } from "../global/toast";
@@ -54,11 +55,21 @@ const BreadcrumbInfo = () => {
   const form = useForm<TRenameProject>({
     resolver: zodResolver(renameProjectSchema),
     defaultValues: {
-      projectId: project?.id || "",
-      name: project?.name || "",
-      description: project?.description || "",
+      projectId: project?.id as string,
+      name: project?.name as string,
+      description: project?.description as string,
     },
   });
+
+  useEffect(() => {
+    if (project) {
+      form.reset({
+        projectId: project.id,
+        name: project.name,
+        description: project.description || "",
+      });
+    }
+  }, [project, form.reset, form]);
 
   const { mutateAsync, isLoading } = useMutation({
     mutationFn: async (data: TRenameProject) =>
@@ -106,9 +117,9 @@ const BreadcrumbInfo = () => {
           <BreadcrumbPage className="flex items-center gap-2">
             <Modal open={onOpen} onOpenChange={setOnOpen}>
               <ModalTrigger asChild>
-                <Button variant="ghost">
+                <Button variant="ghost" className="w-fit truncate">
                   <At size={16} className="h-5 w-5 font-bold" strokeWidth={2} />
-                  <span className="rounded-lg px-2 py-0.5 text-sm text-muted-foreground hover:bg-accent">
+                  <span className="cursor-pointer truncate rounded-lg px-2 py-0.5 text-sm hover:bg-accent hover:text-primary">
                     {project?.name}
                   </span>
                 </Button>
@@ -122,7 +133,10 @@ const BreadcrumbInfo = () => {
                 </ModalDescription>
 
                 <Form {...form}>
-                  <form onSubmit={form.handleSubmit(onSubmit)}>
+                  <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="space-y-2"
+                  >
                     <FormField
                       control={form.control}
                       name="name"
@@ -132,7 +146,8 @@ const BreadcrumbInfo = () => {
                           <Input
                             disabled={isLoading}
                             {...field}
-                            className="border-0 border-transparent pr-10 placeholder:pl-4 focus:border-transparent focus:ring-0"
+                            value={field.value || ""}
+                            className="border-transparent bg-muted shadow-none"
                           />
                         </FormItem>
                       )}
@@ -143,16 +158,17 @@ const BreadcrumbInfo = () => {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Description</FormLabel>
-                          <Input
+                          <Textarea
                             disabled={isLoading}
                             {...field}
-                            className="border-0 border-transparent pr-10 placeholder:pl-4 focus:border-transparent focus:ring-0"
+                            value={field.value || ""}
+                            className="border-transparent bg-muted shadow-none"
                           />
                         </FormItem>
                       )}
                     />
                     <ModalFooter>
-                      <div className="flex flex-col space-x-0 space-y-2 sm:flex-row sm:space-x-2 sm:space-y-0">
+                      <div className="flex flex-col gap-2 sm:flex-row">
                         <Button
                           type="submit"
                           className="w-full"
