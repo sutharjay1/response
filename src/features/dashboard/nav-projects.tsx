@@ -35,7 +35,10 @@ export function NavProjects({
       <SidebarMenu>
         {projects.map((item) => (
           <SidebarMenuItem key={item.name}>
-            <SidebarMenuButton asChild>
+            <SidebarMenuButton
+              asChild
+              className="rounded-lg px-2 py-0.5 text-sm hover:bg-accent hover:text-primary"
+            >
               <a href={item.url}>
                 {item.icon}
                 <span>{item.name}</span>
@@ -73,12 +76,6 @@ export function NavProjects({
             </DropdownMenu>
           </SidebarMenuItem>
         ))}
-        <SidebarMenuItem>
-          <SidebarMenuButton>
-            <DotsVertical className="h-5 w-5 font-semibold" strokeWidth={2} />
-            <span>More</span>
-          </SidebarMenuButton>
-        </SidebarMenuItem>
       </SidebarMenu>
     </SidebarGroup>
   );

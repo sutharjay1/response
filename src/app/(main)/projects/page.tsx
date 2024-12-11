@@ -13,6 +13,7 @@ import { getProjects } from "@/features/projects/actions/get-projects";
 import { useUser } from "@/hooks/use-user";
 import {
   ArrowLongRight,
+  BoundingBox,
   Calendar,
   ChartBarTwo,
   CogOne,
@@ -109,6 +110,22 @@ const Projects = () => {
                         strokeWidth={2}
                       />
                       <span className="sr-only">Open menu</span>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="rounded-xl px-2 py-1.5"
+                      asChild
+                    >
+                      <Link
+                        href={`/hall-of-frame/${project.id}`}
+                        className="cursor-pointer"
+                      >
+                        <BoundingBox
+                          className="h-5 w-5 font-semibold"
+                          strokeWidth={2}
+                        />
+                        <span className="sr-only">Hall of Frame</span>
+                      </Link>
                     </Button>
                     <Button
                       variant="outline"

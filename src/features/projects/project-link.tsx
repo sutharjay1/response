@@ -49,7 +49,14 @@ const ProjectLink = () => {
     }
   }, [project, setEnableShare]);
 
-  if (!pathname.startsWith("/projects") || !project?.id) return null;
+  if (
+    !(
+      pathname.startsWith("/projects") || pathname.startsWith("/hall-of-frame")
+    ) ||
+    !project?.id
+  ) {
+    return null;
+  }
 
   const shareLink = `${window.location.origin}/submit/${project.id}`;
 
