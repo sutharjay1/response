@@ -39,4 +39,3 @@ yarn-error.log*
 next-env.d.ts 
 /.env
 /index.html
-/src/features
