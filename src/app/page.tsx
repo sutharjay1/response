@@ -332,9 +332,9 @@ export default function Home() {
         </div>
       </div>
 
-      <footer className="relative mx-2 overflow-hidden rounded-t-3xl bg-[#201e1d] px-4 py-8 text-sidebar sm:px-6 lg:px-8">
+      <footer className="relative mx-2 mb-2 overflow-hidden rounded-3xl bg-[#201e1d] px-4 py-8 text-sidebar sm:px-6 lg:px-8">
         <div className="relative z-10 h-60 w-full text-center">
-          <div className="absolute left-1/2 -translate-x-1/2 translate-y-[22%] text-[278px] font-bold leading-none">
+          <div className="absolute left-1/2 -translate-x-1/2 translate-y-[140%] text-[108px] font-bold leading-none md:translate-y-[22%] md:text-[278px]">
             <span className="select-none bg-gradient-to-b from-transparent to-neutral-700/50 bg-clip-text text-transparent">
               response
             </span>
@@ -345,7 +345,7 @@ export default function Home() {
         </div>
 
         <div className="container absolute left-0 right-0 top-0 z-50 mx-auto mt-6 flex w-full max-w-5xl flex-col items-center">
-          <div className="mt-4 flex w-full items-center justify-between gap-6">
+          <div className="mt-4 flex w-full flex-col items-center justify-around gap-6 md:flex-row">
             <Logo />
             <nav className="flex w-fit flex-wrap items-center justify-center gap-5 gap-y-3 lg:flex-nowrap lg:gap-12">
               <span

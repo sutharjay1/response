@@ -13,17 +13,12 @@ const navLinks = [
 
 export function Nav() {
   return (
-    <nav className="flex w-full items-center justify-between p-4 md:px-8">
+    <nav className="flex w-full items-center justify-between p-4">
       <div className="flex items-center gap-2">
         <Logo show />
       </div>
 
-      <div
-        className="hidden md:flex"
-        style={{
-          gap: "0.5rem",
-        }}
-      >
+      <div className="hidden md:flex md:gap-x-2">
         {navLinks.map((link) => (
           <Link
             key={link.label}
