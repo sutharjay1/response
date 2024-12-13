@@ -59,7 +59,7 @@ const SubmitForm = ({ params }: Props) => {
   }, [params]);
 
   const [formElements, setFormElements] = useState<FormElement[]>([]);
-  const [avatar, setAvatar] = useState<string>("");
+  const [avatar, setAvatar] = useState<string>("https://avatar.vercel.sh/form");
   const { videoUrl } = useVideo();
 
   const { data: project } = useQuery({
@@ -307,7 +307,9 @@ const SubmitForm = ({ params }: Props) => {
         <div className="flex w-full flex-col items-center justify-center transition-colors md:rounded-lg">
           <div className="relative flex h-40 w-full overflow-hidden rounded-b-none border-background bg-muted shadow-sm shadow-primary/20 md:rounded-xl md:border-4">
             <Image
-              src={project?.banner as string}
+              src={
+                project?.banner || `https://avatar.vercel.sh/${project?.name}`
+              }
               alt="card cover"
               fill
               className="h-full w-full object-cover"

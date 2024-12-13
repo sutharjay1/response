@@ -336,7 +336,11 @@ const IndividualProject = ({ params }: Props) => {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => removeElement(element.id)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  removeElement(element.id);
+                }}
                 className="inline-flex h-8 w-8 items-center rounded-xl border border-input bg-[#fff3ec]/80 p-0 text-xs font-semibold text-destructive shadow transition-colors hover:bg-[#fff3ec]/80 hover:text-destructive/80 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
               >
                 <X className="h-4 w-4" />
@@ -509,7 +513,7 @@ const IndividualProject = ({ params }: Props) => {
       <div
         className={cn(
           "fixed inset-x-0 bottom-4 z-50 w-full transform",
-          state === "expanded" ? "ml-[7.8rem]" : "ml-0",
+          state === "expanded" ? "ml-0" : "ml-[7.8rem]",
         )}
       >
         <div className="hidden space-x-2 md:flex md:items-center md:justify-center">
@@ -539,25 +543,27 @@ const IndividualProject = ({ params }: Props) => {
         </div>
 
         <div className="flex items-center justify-center space-x-2 md:hidden">
-          <div className="flex items-center justify-start gap-2">
-            {fieldTypes.map(({ type, icon: Icon }) => (
-              <Button
-                key={type}
-                onClick={() => addField(type)}
-                variant="outline"
-                className={cn(
-                  "flex items-center gap-1 px-3 py-2 text-sm transition-all duration-200 ease-in-out hover:scale-105",
-                  type === "input" && "bg-blue-50 hover:bg-blue-100",
-                  type === "textarea" && "bg-yellow-50 hover:bg-yellow-100",
-                  type === "checkbox" && "bg-green-50 hover:bg-green-100",
-                  type === "star" && "bg-yellow-50 hover:bg-yellow-100",
-                  type === "image" && "bg-violet-50 hover:bg-violet-100",
-                  type === "video" && "bg-red-50 hover:bg-red-100",
-                )}
-              >
-                <Icon className="mr-1 h-5 w-5" />
-              </Button>
-            ))}
+          <div className="rounded-xl border border-input bg-background shadow-lg">
+            <div className="flex items-center justify-start gap-2 p-2">
+              {fieldTypes.map(({ type, icon: Icon }) => (
+                <Button
+                  key={type}
+                  onClick={() => addField(type)}
+                  variant="outline"
+                  className={cn(
+                    "flex items-center gap-1 px-3 py-2 text-sm transition-all duration-200 ease-in-out hover:scale-105",
+                    type === "input" && "bg-blue-50 hover:bg-blue-100",
+                    type === "textarea" && "bg-yellow-50 hover:bg-yellow-100",
+                    type === "checkbox" && "bg-green-50 hover:bg-green-100",
+                    type === "star" && "bg-yellow-50 hover:bg-yellow-100",
+                    type === "image" && "bg-violet-50 hover:bg-violet-100",
+                    type === "video" && "bg-red-50 hover:bg-red-100",
+                  )}
+                >
+                  <Icon className="mr-1 h-5 w-5" />
+                </Button>
+              ))}
+            </div>
           </div>
         </div>
       </div>

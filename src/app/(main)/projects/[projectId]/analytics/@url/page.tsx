@@ -33,26 +33,15 @@ const ProjectURL = () => {
 
   useEffect(() => {
     if (isScriptGenerated) {
-      (async () => {
-        try {
-          await refetch();
-          successToast("Script generated successfully", {
-            duration: 5000,
-            position: "top-center",
-          });
-        } catch (error: unknown) {
-          errorToast(
-            (error as { message: string }).message || "Failed to refresh data",
-            {
-              position: "top-center",
-            },
-          );
-        } finally {
-          setIsScriptGenerated(false);
-        }
-      })();
+      refetch().then(() => {
+        successToast("Script generated successfully", {
+          duration: 5000,
+          position: "top-center",
+        });
+        setIsScriptGenerated(false);
+      });
     }
-  }, [isScriptGenerated, setIsScriptGenerated, refetch]);
+  }, [isScriptGenerated, refetch, setIsScriptGenerated]);
 
   return (
     <>

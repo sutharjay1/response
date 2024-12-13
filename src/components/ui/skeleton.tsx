@@ -7,7 +7,7 @@ function Skeleton({
   return (
     <div
       className={cn(
-        "animate-shine rounded-lg bg-gradient-to-r from-primary/20 via-primary/10 to-primary/20 bg-[length:200%_100%]",
+        "animate-shine rounded-lg bg-gradient-to-r from-primary/30 via-transparent to-primary/30 bg-[length:200%_100%]",
         className,
       )}
       {...props}
