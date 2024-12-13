@@ -27,7 +27,8 @@ import {
   DndContext,
   DragEndEvent,
   KeyboardSensor,
-  PointerSensor,
+  MouseSensor,
+  TouchSensor,
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
@@ -35,7 +36,6 @@ import {
   arrayMove,
   rectSortingStrategy,
   SortableContext,
-  sortableKeyboardCoordinates,
   useSortable,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
@@ -61,19 +61,17 @@ type Props = {
 
 const IndividualProject = ({ params }: Props) => {
   const [projectId, setProjectId] = useState<string>("");
+  const [formElements, setFormElements] = useState<FormElement[]>([]);
+  const [, setIsSaving] = useState(false);
+  const { project } = useProject();
+  const { state } = useSidebar();
+  const [banner, setBanner] = useState<string>(project?.banner || "");
 
   useEffect(() => {
     params.then((data) => {
       setProjectId(data.projectId);
     });
   }, [params]);
-
-  const { project } = useProject();
-
-  const [formElements, setFormElements] = useState<FormElement[]>([]);
-  const [, setIsSaving] = useState(false);
-  const [banner, setBanner] = useState<string>(project?.banner || "");
-  const { state } = useSidebar();
 
   const debouncedFormElements = useDebounce(formElements, 1000);
 
@@ -250,12 +248,11 @@ const IndividualProject = ({ params }: Props) => {
     }
   };
 
-  const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    }),
-  );
+  const mouseSensor = useSensor(MouseSensor);
+  const touchSensor = useSensor(TouchSensor);
+  const keyboardSensor = useSensor(KeyboardSensor);
+
+  const sensors = useSensors(mouseSensor, touchSensor, keyboardSensor);
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
