@@ -1,5 +1,6 @@
 "use client";
 
+import { BlurFade } from "@/components/ui/blur";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -301,12 +302,10 @@ const SubmitForm = ({ params }: Props) => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
-      <Card className="w-full max-w-md overflow-hidden bg-sidebar hover:shadow-md">
-        <div
-          className={`flex w-full flex-col items-center justify-center rounded-lg transition-colors`}
-        >
-          <div className="relative flex h-40 w-full overflow-hidden rounded-xl rounded-b-none border-4 border-background bg-muted shadow-sm shadow-primary/20">
+    <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-200 sm:px-6 md:py-12 lg:px-8">
+      <Card className="mx-auto w-full max-w-3xl overflow-hidden bg-sidebar hover:shadow-md">
+        <div className="flex w-full flex-col items-center justify-center transition-colors md:rounded-lg">
+          <div className="relative flex h-40 w-full overflow-hidden rounded-b-none border-background bg-muted shadow-sm shadow-primary/20 md:rounded-xl md:border-4">
             <Image
               src={project?.banner as string}
               alt="card cover"
@@ -376,129 +375,156 @@ const SubmitForm = ({ params }: Props) => {
               </div>
             ) : (
               <div className="space-y-6">
-                {formElements.map((element) => {
+                {formElements.map((element, index) => {
                   switch (element.type) {
                     case "input":
                       return (
-                        <div key={element.id} className="space-y-2">
-                          <Label
-                            htmlFor={`input-${element.id}`}
-                            className="block text-sm font-medium"
-                          >
-                            {element.label}
-                          </Label>
-                          <Controller
-                            name={element.id.toString()}
-                            control={control}
-                            render={({ field }) => (
-                              <>
-                                <Input
-                                  id={`input-${element.id}`}
-                                  {...field}
-                                  className="block w-full rounded-md border-gray-300 bg-background shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                                />
-                                {errors[element.id] && (
-                                  <p className="mt-1 text-xs text-red-500">
-                                    {errors[element.id]?.message as string}
-                                  </p>
-                                )}
-                              </>
-                            )}
-                          />
-                        </div>
+                        <BlurFade
+                          inView={true}
+                          key={element.id}
+                          className="space-y-2"
+                          delay={0.1 * index}
+                        >
+                          <div key={element.id} className="space-y-2">
+                            <Label
+                              htmlFor={`input-${element.id}`}
+                              className="block text-sm font-medium"
+                            >
+                              {element.label}
+                            </Label>
+                            <Controller
+                              name={element.id.toString()}
+                              control={control}
+                              render={({ field }) => (
+                                <>
+                                  <Input
+                                    id={`input-${element.id}`}
+                                    {...field}
+                                    className="block w-full rounded-md border-gray-300 bg-background shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                  />
+                                  {errors[element.id] && (
+                                    <p className="mt-1 text-xs text-red-500">
+                                      {errors[element.id]?.message as string}
+                                    </p>
+                                  )}
+                                </>
+                              )}
+                            />
+                          </div>
+                        </BlurFade>
                       );
                     case "textarea":
                       return (
-                        <div key={element.id} className="space-y-2">
-                          <Label
-                            htmlFor={`textarea-${element.id}`}
-                            className="block text-sm font-medium"
-                          >
-                            {element.label}
-                          </Label>
-                          <Controller
-                            name={element.id.toString()}
-                            control={control}
-                            render={({ field }) => (
-                              <>
-                                <Textarea
-                                  id={`textarea-${element.id}`}
-                                  {...field}
-                                  className="block w-full rounded-md border-gray-300 bg-background shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                                  rows={4}
-                                />
-                                {errors[element.id] && (
-                                  <p className="mt-1 text-xs text-red-500">
-                                    {errors[element.id]?.message as string}
-                                  </p>
-                                )}
-                              </>
-                            )}
-                          />
-                        </div>
+                        <BlurFade
+                          inView={true}
+                          key={element.id}
+                          className="space-y-2"
+                          delay={0.1 * index}
+                        >
+                          <div key={element.id} className="space-y-2">
+                            <Label
+                              htmlFor={`textarea-${element.id}`}
+                              className="block text-sm font-medium"
+                            >
+                              {element.label}
+                            </Label>
+                            <Controller
+                              name={element.id.toString()}
+                              control={control}
+                              render={({ field }) => (
+                                <>
+                                  <Textarea
+                                    id={`textarea-${element.id}`}
+                                    {...field}
+                                    className="block w-full rounded-md border-gray-300 bg-background shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                    rows={4}
+                                  />
+                                  {errors[element.id] && (
+                                    <p className="mt-1 text-xs text-red-500">
+                                      {errors[element.id]?.message as string}
+                                    </p>
+                                  )}
+                                </>
+                              )}
+                            />
+                          </div>
+                        </BlurFade>
                       );
                     case "checkbox":
                       return (
-                        <div key={element.id} className="space-y-2">
-                          <Controller
-                            name={element.id.toString()}
-                            control={control}
-                            render={({ field: { value, onChange } }) => (
-                              <div className="flex items-center">
-                                <Checkbox
-                                  id={`checkbox-${element.id}`}
-                                  checked={value}
-                                  onCheckedChange={onChange}
-                                  className="h-4 w-4 rounded border-gray-300 bg-background text-indigo-600 focus:ring-indigo-500"
-                                />
-                                <Label
-                                  htmlFor={`checkbox-${element.id}`}
-                                  className="ml-2 block text-sm"
-                                >
-                                  {element.label}
-                                </Label>
-                                {errors[element.id] && (
-                                  <p className="ml-2 text-xs text-red-500">
-                                    {errors[element.id]?.message as string}
-                                  </p>
-                                )}
-                              </div>
-                            )}
-                          />
-                        </div>
+                        <BlurFade
+                          inView={true}
+                          key={element.id}
+                          className="space-y-2"
+                          delay={0.1 * index}
+                        >
+                          <div key={element.id} className="space-y-2">
+                            <Controller
+                              name={element.id.toString()}
+                              control={control}
+                              render={({ field: { value, onChange } }) => (
+                                <div className="flex items-center">
+                                  <Checkbox
+                                    id={`checkbox-${element.id}`}
+                                    checked={value}
+                                    onCheckedChange={onChange}
+                                    className="h-4 w-4 rounded border-gray-300 bg-background text-indigo-600 focus:ring-indigo-500"
+                                  />
+                                  <Label
+                                    htmlFor={`checkbox-${element.id}`}
+                                    className="ml-2 block text-sm"
+                                  >
+                                    {element.label}
+                                  </Label>
+                                  {errors[element.id] && (
+                                    <p className="ml-2 text-xs text-red-500">
+                                      {errors[element.id]?.message as string}
+                                    </p>
+                                  )}
+                                </div>
+                              )}
+                            />
+                          </div>
+                        </BlurFade>
                       );
                     case "star":
                       return (
-                        <div key={element.id} className="space-y-2">
-                          <Label
-                            className="block text-sm font-medium"
-                            htmlFor={`star-${element.id}`}
-                          >
-                            {element.label}
-                          </Label>
-                          <Controller
-                            name={element.id.toString()}
-                            control={control}
-                            render={({ field: { onChange, value } }) => (
-                              <div className="flex items-center">
-                                {(["1", "2", "3", "4", "5"] as const).map(
-                                  (rating) => (
-                                    <Button
-                                      key={rating}
-                                      id={`star-${element.id}`}
-                                      type="button"
-                                      variant="ghost"
-                                      size="icon"
-                                      onClick={() => {
-                                        onChange(rating);
-                                      }}
-                                      className={`p-1 ${
-                                        value >= rating
-                                          ? "text-yellow-500"
-                                          : "text-gray-300"
-                                      }`}
-                                    >
-                                      {/* <Star
+                        <BlurFade
+                          inView={true}
+                          key={element.id}
+                          className="space-y-2"
+                          delay={0.1 * index}
+                        >
+                          <div key={element.id} className="space-y-2">
+                            <Label
+                              className="block text-sm font-medium"
+                              htmlFor={`star-${element.id}`}
+                            >
+                              {element.label}
+                            </Label>
+                            <Controller
+                              name={element.id.toString()}
+                              control={control}
+                              render={({ field: { onChange, value } }) => (
+                                <div className="flex items-center">
+                                  {(["1", "2", "3", "4", "5"] as const).map(
+                                    (rating) => (
+                                      <Button
+                                        key={rating}
+                                        id={`star-${element.id}`}
+                                        type="button"
+                                        variant="ghost"
+                                        size="icon"
+                                        onClick={() => {
+                                          onChange(rating);
+                                        }}
+                                        className={`p-1 ${
+                                          value >= rating
+                                            ? "text-yellow-500"
+                                            : "text-gray-300"
+                                        }`}
+                                      >
+                                        {/* <Star
                                         className="h-5 w-5"
                                         fill={
                                           value >= rating
@@ -506,81 +532,96 @@ const SubmitForm = ({ params }: Props) => {
                                             : "none"
                                         }
                                       /> */}
-                                      <Star
-                                        className="h-6 w-6 font-semibold"
-                                        strokeWidth={2}
-                                        fill={
-                                          value >= rating
-                                            ? "currentColor"
-                                            : "none"
-                                        }
-                                      />
-                                    </Button>
-                                  ),
-                                )}
+                                        <Star
+                                          className="h-6 w-6 font-semibold"
+                                          strokeWidth={2}
+                                          fill={
+                                            value >= rating
+                                              ? "currentColor"
+                                              : "none"
+                                          }
+                                        />
+                                      </Button>
+                                    ),
+                                  )}
 
-                                {errors[element.id] && (
-                                  <p className="ml-2 text-xs text-red-500">
-                                    {errors[element.id]?.message as string}
-                                  </p>
-                                )}
-                              </div>
-                            )}
-                          />
-                        </div>
+                                  {errors[element.id] && (
+                                    <p className="ml-2 text-xs text-red-500">
+                                      {errors[element.id]?.message as string}
+                                    </p>
+                                  )}
+                                </div>
+                              )}
+                            />
+                          </div>
+                        </BlurFade>
                       );
 
                     case "image":
                       return (
-                        <div key={element.id} className="space-y-2">
-                          <Label
-                            className="block text-sm font-medium"
-                            htmlFor={`star-${element.id}`}
-                          >
-                            {element.label}
-                          </Label>
+                        <BlurFade
+                          inView={true}
+                          key={element.id}
+                          className="space-y-2"
+                          delay={0.1 * index}
+                        >
+                          <div key={element.id} className="space-y-2">
+                            <Label
+                              className="block text-sm font-medium"
+                              htmlFor={`star-${element.id}`}
+                            >
+                              {element.label}
+                            </Label>
 
-                          <Controller
-                            name={element.id.toString()}
-                            control={control}
-                            render={() => (
-                              <Image
-                                src={
-                                  element.value ||
-                                  "https://res.cloudinary.com/cdn-feedback/image/upload/v1733229183/response/djqza3ehfpr3en6wbmsf.png"
-                                }
-                                alt="Image"
-                                className="w-full rounded-md border border-input shadow"
-                                width={200}
-                                height={200}
-                              />
-                            )}
-                          />
-                        </div>
+                            <Controller
+                              name={element.id.toString()}
+                              control={control}
+                              render={() => (
+                                <Image
+                                  src={
+                                    element.value ||
+                                    "https://res.cloudinary.com/cdn-feedback/image/upload/v1733229183/response/djqza3ehfpr3en6wbmsf.png"
+                                  }
+                                  alt="Image"
+                                  className="w-full rounded-md border border-input shadow"
+                                  width={200}
+                                  height={200}
+                                />
+                              )}
+                            />
+                          </div>
+                        </BlurFade>
                       );
 
                     case "video":
                       return (
-                        <div key={element.id} className="space-y-2">
-                          <Label
-                            className="block text-sm font-medium"
-                            htmlFor={`video-${element.id}`}
-                          >
-                            {element.label}
-                          </Label>
+                        <BlurFade
+                          inView={true}
+                          key={element.id}
+                          className="space-y-2"
+                          delay={0.1 * index}
+                        >
+                          <div key={element.id} className="space-y-2">
+                            <Label
+                              className="block text-sm font-medium"
+                              htmlFor={`video-${element.id}`}
+                            >
+                              {element.label}
+                            </Label>
 
-                          <Controller
-                            name={element.id.toString()}
-                            control={control}
-                            render={({ field: { onChange } }) => (
-                              <VideoUploadButton
-                                id={element.id}
-                                setFormElements={setFormElements}
-                                onChange={onChange}
-                              />
-                            )}
-                          />
-                        </div>
+                            <Controller
+                              name={element.id.toString()}
+                              control={control}
+                              render={({ field: { onChange } }) => (
+                                <VideoUploadButton
+                                  id={element.id}
+                                  setFormElements={setFormElements}
+                                  onChange={onChange}
+                                />
+                              )}
+                            />
+                          </div>
+                        </BlurFade>
                       );
                     default:
                       return null;

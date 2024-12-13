@@ -1,6 +1,10 @@
 {
-  "extends": ["next/core-web-vitals", "next/typescript"],
-  "plugins": ["boundaries"],
+  "extends": [
+    "next/core-web-vitals",
+    "next/typescript",
+    "plugin:eslint-plugin-next-on-pages/recommended"
+  ],
+  "plugins": ["boundaries", "eslint-plugin-next-on-pages"],
   "settings": {
     "boundaries/include": ["src/**/*"],
     "boundaries/elements": [

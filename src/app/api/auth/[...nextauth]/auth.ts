@@ -100,6 +100,10 @@ export const authOptions: AuthOptions = {
               status: "DEV",
             },
           });
+
+          // await sendWelcomeEmail({
+          //   user: newUser,
+          // });
         }
 
         return true;
