@@ -11,10 +11,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint:check": "eslint .",
-    "lint:fix": "eslint --fix .",
-    "pages:build": "npx @cloudflare/next-on-pages",
-    "preview": "npm run pages:build && wrangler pages dev",
-    "deploy": "npm run pages:build && wrangler pages deploy"
+    "lint:fix": "eslint --fix ."
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
