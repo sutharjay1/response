@@ -27,7 +27,7 @@ export function ReviewCard({
           width="32"
           height="32"
           alt={name}
-          src={avatar}
+          src={avatar || `https://avatar.vercel.sh/${name}`}
         />
         <div className="flex flex-col">
           <figcaption className="text-sm font-medium dark:text-white">

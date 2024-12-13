@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/modal";
 import { Textarea } from "@/components/ui/textarea";
 import { useProject } from "@/hooks/use-project";
+import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   At,
@@ -105,15 +106,15 @@ const BreadcrumbInfo = () => {
   return (
     <Breadcrumb>
       <BreadcrumbList>
-        <BreadcrumbItem className="hidden md:block">
+        <BreadcrumbItem>
           <BreadcrumbLink href="/dashboard">
             <BreadcrumbPage className="flex items-center gap-2">
               <FolderTwo
                 size={16}
-                className="h-5 w-5 font-bold"
+                className="hidden h-5 w-5 font-bold md:flex"
                 strokeWidth={2}
               />
-              Dashboard
+              <span className="hidden md:flex">Dashboard</span>
             </BreadcrumbPage>
           </BreadcrumbLink>
         </BreadcrumbItem>
@@ -121,10 +122,31 @@ const BreadcrumbInfo = () => {
         <BreadcrumbItem>
           <BreadcrumbPage className="flex items-center gap-2">
             <Modal open={onOpen} onOpenChange={setOnOpen}>
-              <ModalTrigger asChild>
-                <Button variant="ghost" className="w-fit truncate">
+              <ModalTrigger asChild className="">
+                {/* <Button variant="ghost" className="w-fit  text-ellipsis overflow-hidden truncate">
                   <At size={16} className="h-5 w-5 font-bold" strokeWidth={2} />
-                  <span className="cursor-pointer truncate rounded-lg px-2 py-0.5 text-sm hover:bg-accent hover:text-primary">
+                  <span
+                    className={cn(
+                      "cursor-pointer truncate  rounded-lg px-2 py-0.5 text-sm hover:bg-accent hover:text-primary text-ellipsis overflow-hidden ",
+                      pathname.startsWith("/projects")
+                        ? "flex "
+                        : "hidden lg:flex",
+                    )}
+                  >
+                    {project?.name}
+                  </span>
+                </Button> */}
+                <Button
+                  variant="ghost"
+                  className="inline-flex w-3/5 max-w-full" // Added max-w-full to ensure width constraint
+                >
+                  <At size={16} className="h-5 w-5 font-bold" strokeWidth={2} />
+                  <span
+                    className={cn(
+                      "w-full max-w-full cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap px-2 py-0.5 text-sm hover:bg-accent hover:text-primary",
+                      // pathname.startsWith("/projects") ? "flex" : "hidden lg:flex"
+                    )}
+                  >
                     {project?.name}
                   </span>
                 </Button>
