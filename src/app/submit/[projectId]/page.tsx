@@ -307,7 +307,7 @@ const SubmitForm = ({ params }: Props) => {
   return (
     <div className="flex min-h-[90vh] flex-1 flex-col rounded-xl bg-[#f3f2f1] shadow-inner sm:px-6 md:m-4 md:py-12 lg:px-8">
       <Card className="mx-auto w-full max-w-2xl overflow-hidden border border-[#7c533a]/10 bg-sidebar">
-        <div className="flex w-full flex-col items-center justify-center rounded-lg p-2 transition-colors">
+        <div className="flex w-full flex-col items-center justify-center rounded-lg p-1 transition-colors">
           <div className="relative flex h-40 w-full overflow-hidden rounded-xl border-4 border-background bg-muted md:shadow-sm md:shadow-primary/20">
             <Image
               src={
