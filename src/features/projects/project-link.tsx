@@ -23,7 +23,7 @@ import {
 } from "@mynaui/icons-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import QrCode from "react-qr-code";
 import Hint from "../global/hint";
 import { successToast } from "../global/toast";
@@ -35,7 +35,6 @@ const ProjectLink = () => {
   const { project, setProject } = useProject();
   const [isLoading, setIsLoading] = useState(false);
   const [enableShare, setEnableShare] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (project) {
@@ -57,16 +56,13 @@ const ProjectLink = () => {
   ) {
     return null;
   }
-
   const shareLink = `${window.location.origin}/submit/${project.id}`;
 
-  const handleCopy = () => {
-    if (inputRef.current) {
-      navigator.clipboard.writeText(inputRef.current.value);
-      setCopied(true);
-      successToast("Copied to clipboard", { duration: 1500 });
-      setTimeout(() => setCopied(false), 2000);
-    }
+  const handleCopyToClipboard = (shareLink: string) => {
+    navigator.clipboard.writeText(shareLink);
+    setCopied(true);
+    successToast("Copied to clipboard", { duration: 1500 });
+    setTimeout(() => setCopied(false), 2000);
   };
 
   const handleDownloadQrCode = () => {
@@ -194,7 +190,7 @@ const ProjectLink = () => {
                       "flex w-full items-center gap-2 transition-all",
                       copied && "text-green-500",
                     )}
-                    onClick={handleCopy}
+                    onClick={() => handleCopyToClipboard(shareLink)}
                   >
                     {copied ? (
                       <>

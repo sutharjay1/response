@@ -25,12 +25,13 @@ import { generateSlug } from "random-word-slugs";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { createProject } from "./actions/create-project";
+import { Textarea } from "@/components/ui/textarea";
 
 const projectSchema = z.object({
   name: z
     .string()
     .min(1, { message: "Project name is required" })
-    .max(20, { message: "Project name is too long" }),
+    .max(50, { message: "Project name is too long" }),
   description: z
     .string()
     .max(100, { message: "Description is too long" })
@@ -163,7 +164,7 @@ const ProjectForm = () => {
             <FormItem>
               <FormLabel>Description</FormLabel>
               <FormControl>
-                <Input
+                <Textarea
                   {...field}
                   placeholder="Description (optional)"
                   className="border-transparent bg-muted shadow-none"
