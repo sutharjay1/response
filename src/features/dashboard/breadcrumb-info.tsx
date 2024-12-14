@@ -123,28 +123,11 @@ const BreadcrumbInfo = () => {
           <BreadcrumbPage className="flex items-center gap-2">
             <Modal open={onOpen} onOpenChange={setOnOpen}>
               <ModalTrigger asChild className="">
-                {/* <Button variant="ghost" className="w-fit  text-ellipsis overflow-hidden truncate">
-                  <At size={16} className="h-5 w-5 font-bold" strokeWidth={2} />
-                  <span
-                    className={cn(
-                      "cursor-pointer truncate  rounded-lg px-2 py-0.5 text-sm hover:bg-accent hover:text-primary text-ellipsis overflow-hidden ",
-                      pathname.startsWith("/projects")
-                        ? "flex "
-                        : "hidden lg:flex",
-                    )}
-                  >
-                    {project?.name}
-                  </span>
-                </Button> */}
-                <Button
-                  variant="ghost"
-                  className="inline-flex w-3/5 max-w-full" // Added max-w-full to ensure width constraint
-                >
+                <Button variant="ghost" className="inline-flex w-fit">
                   <At size={16} className="h-5 w-5 font-bold" strokeWidth={2} />
                   <span
                     className={cn(
                       "w-full max-w-full cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap px-2 py-0.5 text-sm hover:bg-accent hover:text-primary",
-                      // pathname.startsWith("/projects") ? "flex" : "hidden lg:flex"
                     )}
                   >
                     {project?.name}
@@ -211,7 +194,7 @@ const BreadcrumbInfo = () => {
                           <Button
                             type="button"
                             className="w-full"
-                            variant={"outline"}
+                            variant="outline"
                           >
                             Cancel
                           </Button>

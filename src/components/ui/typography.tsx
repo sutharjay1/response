@@ -132,12 +132,50 @@ export function P({
   return (
     <p
       className={cn(
-        "leading-7 text-zinc-400 [&:not(:first-child)]:mt-4",
+        "leading-7 text-muted-foreground [&:not(:first-child)]:mt-4",
         inter.className,
         className,
       )}
     >
       {children}
     </p>
+  );
+}
+
+export function TLarge({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <div className={cn("text-lg font-semibold", className)}>{children}</div>
+  );
+}
+
+export function TSmall({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <small className={cn("text-sm font-medium leading-none", className)}>
+      {children}
+    </small>
+  );
+}
+
+export function TMuted({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <p className={cn("text-sm text-muted-foreground", className)}>{children}</p>
   );
 }
