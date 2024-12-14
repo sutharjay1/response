@@ -176,7 +176,7 @@ const ProjectForm = () => {
           )}
         />
 
-        <div className="mt-4 flex flex-1 gap-x-2 sm:flex-row sm:gap-x-2 sm:space-y-0 md:justify-end">
+        <div className="mt-6 flex flex-1 gap-x-2 sm:flex-row sm:gap-x-2 sm:space-y-0 md:justify-end">
           <Button
             variant="shine"
             className="w-fit sm:order-1 md:w-min md:self-center"

@@ -124,8 +124,9 @@ const ProjectLink = () => {
       }
     } catch (error) {
       console.error(error);
+      setIsLoading(false);
     } finally {
-      setIsLoading(true);
+      setIsLoading(false);
     }
   };
 

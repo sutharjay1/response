@@ -20,6 +20,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { P, TLarge } from "@/components/ui/typography";
 import { errorToast, successToast } from "@/features/global/toast";
 import { getProjectField } from "@/features/projects/actions/get-project-field";
 import { getProjectById } from "@/features/projects/actions/get-projects";
@@ -301,11 +302,13 @@ const SubmitForm = ({ params }: Props) => {
     submitFormMutation(updatedElements);
   };
 
+  // relative flex min-h-svh flex-1 flex-col border border-[#7c533a]/10 bg-background peer-data-[variant=inset]:min-h-[calc(100svh-theme(spacing.4))] md:peer-data-[variant=inset]:m-2 md:peer-data-[state=collapsed]:peer-data-[variant=inset]:ml-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-200 sm:px-6 md:py-12 lg:px-8">
-      <Card className="mx-auto w-full max-w-3xl overflow-hidden bg-sidebar hover:shadow-md">
-        <div className="flex w-full flex-col items-center justify-center transition-colors md:rounded-lg">
-          <div className="relative flex h-40 w-full overflow-hidden rounded-b-none border-background bg-muted shadow-sm shadow-primary/20 md:rounded-xl md:border-4">
+    <div className="flex min-h-[90vh] flex-1 flex-col rounded-xl bg-[#f3f2f1] shadow-inner sm:px-6 md:m-4 md:py-12 lg:px-8">
+      <Card className="mx-auto w-full max-w-2xl overflow-hidden border border-[#7c533a]/10 bg-sidebar">
+        <div className="flex w-full flex-col items-center justify-center rounded-lg p-2 transition-colors">
+          <div className="relative flex h-40 w-full overflow-hidden rounded-xl border-4 border-background bg-muted md:shadow-sm md:shadow-primary/20">
             <Image
               src={
                 project?.banner || `https://avatar.vercel.sh/${project?.name}`
@@ -317,15 +320,15 @@ const SubmitForm = ({ params }: Props) => {
           </div>
         </div>
 
-        <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
-          <div className="grid flex-1 gap-1 text-center sm:text-left">
-            <h2 className="text-lg font-semibold text-primary">
+        <CardHeader className="flex items-center gap-2 space-y-0 border-b px-4 py-5 sm:flex-row">
+          <div className="grid flex-1 gap-1 text-left">
+            <TLarge className="text-lg font-semibold text-primary md:text-3xl">
               {project?.name}
-            </h2>
+            </TLarge>
             {project?.description && (
-              <p className="text-sm text-muted-foreground">
+              <P className="text-base text-muted-foreground [&:not(:first-child)]:mt-0">
                 {project?.description}
-              </p>
+              </P>
             )}
           </div>
         </CardHeader>
@@ -345,8 +348,8 @@ const SubmitForm = ({ params }: Props) => {
                         control={form.control}
                         name="name"
                         render={({ field }) => (
-                          <FormItem className="flex w-full flex-col gap-1">
-                            <FormLabel className="font-normal sm:text-left">
+                          <FormItem className="flex w-full flex-col items-start justify-start gap-1">
+                            <FormLabel className="font-normal">
                               Enter your name
                             </FormLabel>
                             <FormControl>
