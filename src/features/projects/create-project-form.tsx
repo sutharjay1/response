@@ -34,7 +34,7 @@ const projectSchema = z.object({
     .max(50, { message: "Project name is too long" }),
   description: z
     .string()
-    .max(100, { message: "Description is too long" })
+    .max(1500, { message: "Description is too long" })
     .optional(),
 });
 
