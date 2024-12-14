@@ -52,7 +52,7 @@ const HallOfFrame = ({ params }: Props) => {
       <div
         className={cn(
           "fixed inset-x-0 bottom-4 z-50 hidden w-full transform",
-          state === "expanded" ? "ml-0" : "ml-[7.8rem]",
+          state === "expanded" ? "ml-[7.8rem]" : "ml-0",
         )}
       >
         <div className="flex items-center justify-center space-x-2 md:hidden">
