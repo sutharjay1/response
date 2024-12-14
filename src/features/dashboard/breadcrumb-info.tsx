@@ -62,21 +62,6 @@ const BreadcrumbInfo = () => {
     },
   });
 
-  useEffect(() => {
-    if (
-      project &&
-      form &&
-      (form.getValues("name") !== project.name ||
-        form.getValues("description") !== project.description)
-    ) {
-      form.reset({
-        projectId: project.id,
-        name: project.name,
-        description: project.description || "",
-      });
-    }
-  }, [project, form]);
-
   const { mutateAsync, isLoading } = useMutation({
     mutationFn: async (data: TRenameProject) =>
       renameProject({
@@ -136,11 +121,11 @@ const BreadcrumbInfo = () => {
               </ModalTrigger>
               <ModalContent className="max-w-md">
                 <ModalHeader>
-                  <ModalTitle>Edit Board Title</ModalTitle>
+                  <ModalTitle>Edit Project Title</ModalTitle>
+                  <ModalDescription>
+                    Enter a new title for your project
+                  </ModalDescription>
                 </ModalHeader>
-                <ModalDescription>
-                  Enter a new title for your board
-                </ModalDescription>
 
                 <Form {...form}>
                   <form
