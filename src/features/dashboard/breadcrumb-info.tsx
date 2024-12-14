@@ -34,7 +34,7 @@ import {
 } from "@mynaui/icons-react";
 import { useMutation } from "@tanstack/react-query";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { errorToast, successToast } from "../global/toast";
@@ -56,16 +56,16 @@ const BreadcrumbInfo = () => {
   const form = useForm<TRenameProject>({
     resolver: zodResolver(renameProjectSchema),
     defaultValues: {
-      projectId: project?.id as string,
-      name: project?.name as string,
-      description: project?.description as string,
+      projectId: project?.id || "",
+      name: project?.name || "",
+      description: project?.description || "",
     },
   });
 
   const { mutateAsync, isLoading } = useMutation({
     mutationFn: async (data: TRenameProject) =>
       renameProject({
-        projectId: project?.id as string,
+        projectId: project?.id || "",
         name: data.name,
         description: data.description || "",
       }),
@@ -96,10 +96,12 @@ const BreadcrumbInfo = () => {
             <BreadcrumbPage className="flex items-center gap-2">
               <FolderTwo
                 size={16}
-                className="hidden h-5 w-5 font-bold md:flex"
+                className="h-5 w-5 font-bold md:flex"
                 strokeWidth={2}
               />
-              <span className="hidden md:flex">Dashboard</span>
+              {pathname.startsWith("/projects") && (
+                <span className="hidden md:flex">Dashboard</span>
+              )}
             </BreadcrumbPage>
           </BreadcrumbLink>
         </BreadcrumbItem>
@@ -110,13 +112,17 @@ const BreadcrumbInfo = () => {
               <ModalTrigger asChild className="">
                 <Button variant="ghost" className="inline-flex w-fit">
                   <At size={16} className="h-5 w-5 font-bold" strokeWidth={2} />
-                  <span
-                    className={cn(
-                      "w-full max-w-full cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap px-2 py-0.5 text-sm hover:bg-accent hover:text-primary",
-                    )}
-                  >
-                    {project?.name}
-                  </span>
+                  {(pathname.startsWith("/projects") ||
+                    pathname.endsWith("/analytics")) && (
+                    <span
+                      className={cn(
+                        "w-full max-w-full cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap px-2 py-0.5 text-sm hover:bg-accent hover:text-primary",
+                        "hidden md:flex",
+                      )}
+                    >
+                      {project?.name}
+                    </span>
+                  )}
                 </Button>
               </ModalTrigger>
               <ModalContent className="max-w-md">
@@ -141,7 +147,7 @@ const BreadcrumbInfo = () => {
                           <Input
                             disabled={isLoading}
                             {...field}
-                            value={field.value || ""}
+                            value={field.value}
                             className="border-transparent bg-muted shadow-none"
                           />
                         </FormItem>
@@ -156,7 +162,7 @@ const BreadcrumbInfo = () => {
                           <Textarea
                             disabled={isLoading}
                             {...field}
-                            value={field.value || ""}
+                            value={field.value}
                             className="border-transparent bg-muted shadow-none"
                           />
                         </FormItem>
