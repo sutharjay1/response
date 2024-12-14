@@ -513,7 +513,7 @@ const IndividualProject = ({ params }: Props) => {
       <div
         className={cn(
           "fixed inset-x-0 bottom-4 z-50 w-full transform",
-          state === "expanded" ? "ml-0" : "ml-[7.8rem]",
+          state === "expanded" ? "ml-[7.8rem]" : "ml-0",
         )}
       >
         <div className="hidden space-x-2 md:flex md:items-center md:justify-center">
@@ -584,7 +584,7 @@ const IndividualProject = ({ params }: Props) => {
             <CardHeader className="flex flex-col items-center justify-center space-y-1 px-0 py-4">
               <CardTitle>
                 <H2 className="border-none p-0 pb-0">{project?.name}</H2>
-                <P className="leading-normal [&:not(:first-child)]:mt-0">
+                <P className="text-base leading-normal [&:not(:first-child)]:mt-0">
                   {project?.description}
                 </P>
               </CardTitle>

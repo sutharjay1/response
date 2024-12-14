@@ -295,32 +295,30 @@ export const BannerUploadDropZone: React.FC<BannerUploadDropZoneProps> = ({
           }`}
         >
           <div className="flex h-fit w-full flex-col items-center justify-center rounded-lg transition-colors">
-            <div className="relative flex h-40 h-full w-full overflow-hidden rounded-xl border-4 border-background bg-muted p-1 shadow-sm shadow-primary/20">
-              <div className="relative flex h-40 w-full overflow-hidden rounded-xl border-4 border-background bg-muted">
-                {currentImage && (
-                  <Image
-                    src={currentImage}
-                    alt="card cover"
-                    fill
-                    className="h-full w-full object-cover"
-                  />
-                )}
-                <Button
-                  variant="outline"
-                  size="icon"
-                  className="absolute m-2 bg-sidebar font-normal"
-                >
-                  <input
-                    type="file"
-                    className="hidden border border-input"
-                    accept="image/*"
-                    aria-label="Upload profile picture"
-                    {...getInputProps()}
-                  />
-                  <Pencil />
-                </Button>
-              </div>
-            </div>{" "}
+            <div className="relative flex h-40 w-full overflow-hidden rounded-xl border-4 border-background bg-muted">
+              {currentImage && (
+                <Image
+                  src={currentImage}
+                  alt="card cover"
+                  fill
+                  className="h-full w-full object-cover"
+                />
+              )}
+              <Button
+                variant="outline"
+                size="icon"
+                className="absolute m-2 bg-sidebar font-normal"
+              >
+                <input
+                  type="file"
+                  className="hidden border border-input"
+                  accept="image/*"
+                  aria-label="Upload profile picture"
+                  {...getInputProps()}
+                />
+                <Pencil />
+              </Button>
+            </div>
           </div>
         </div>
       )}
@@ -330,7 +328,7 @@ export const BannerUploadDropZone: React.FC<BannerUploadDropZoneProps> = ({
           variant="outline"
           size="icon"
           onClick={() => setOpen(true)}
-          className="absolute right-0 top-0 m-2 bg-sidebar font-normal"
+          className="absolute right-1.5 top-1 m-2 font-normal"
         >
           <Image
             src={

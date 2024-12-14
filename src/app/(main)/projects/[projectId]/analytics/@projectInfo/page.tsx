@@ -4,6 +4,15 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import {
+  Modal,
+  ModalContent,
+  ModalDescription,
+  ModalFooter,
+  ModalHeader,
+  ModalTitle,
+  ModalTrigger,
+} from "@/components/ui/modal";
 import { Skeleton } from "@/components/ui/skeleton";
 import { generateEmbeddedFile } from "@/features/analytics/actions/generate-embedded-file";
 import { errorToast } from "@/features/global/toast";
@@ -11,12 +20,70 @@ import { getProjectAnalytics } from "@/features/projects/actions/get-project-ana
 import { useGenerateFile } from "@/hooks/use-generate-file";
 import { useProject } from "@/hooks/use-project";
 import { useUser } from "@/hooks/use-user";
-import { At, InfoWaves } from "@mynaui/icons-react";
+import {
+  At,
+  Infinity,
+  InfoWaves,
+  MoveHorizontalSolid,
+  MoveVerticalSolid,
+} from "@mynaui/icons-react";
 import { useQuery } from "@tanstack/react-query";
+
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import Image from "next/image";
+import { useState } from "react";
+
+type LayoutType = "horizontal" | "vertical" | "infinite-scroll";
+
+const layoutTypeItems = [
+  {
+    type: "horizontal",
+    title: "Horizontal",
+    description: "Spread your content across the page width",
+    icon: (
+      <MoveHorizontalSolid
+        className="opacity-60"
+        size={16}
+        strokeWidth={2}
+        aria-hidden="true"
+      />
+    ),
+  },
+  {
+    type: "vertical",
+    title: "Vertical",
+    description: "Arrange content in a single, scrollable column",
+    icon: (
+      <MoveVerticalSolid
+        className="opacity-60"
+        size={16}
+        strokeWidth={2}
+        aria-hidden="true"
+      />
+    ),
+  },
+  {
+    type: "infinite-scroll",
+    title: "Infinite Scroll",
+    description: "Continuously load more content as you scroll",
+    icon: (
+      <Infinity
+        className="opacity-60"
+        size={16}
+        strokeWidth={2}
+        aria-hidden="true"
+      />
+    ),
+  },
+] as const;
 
 const ProjectAnalyticsInfo = () => {
   const { project } = useProject();
   const { user } = useUser();
+
+  const [layoutType, setLayoutType] = useState<LayoutType>("horizontal");
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { setIsScriptGenerated } = useGenerateFile();
 
@@ -36,6 +103,22 @@ const ProjectAnalyticsInfo = () => {
     },
     enabled: Boolean(project?.id),
   });
+
+  const handleGenerateScript = (type: LayoutType) => {
+    switch (type) {
+      case "horizontal": {
+        generateEmbeddedFile(project?.id as string).then((filePath) => {
+          if (filePath) {
+            setIsScriptGenerated(true);
+            setIsModalOpen(true);
+          } else {
+            setIsModalOpen(true);
+          }
+        });
+        break;
+      }
+    }
+  };
 
   if (isLoading || isInitialLoading) {
     return (
@@ -97,19 +180,88 @@ const ProjectAnalyticsInfo = () => {
               </div>
             </div>
           </div>
-          <Button
-            variant="outline"
-            className="w-full gap-2 md:w-fit"
-            onClick={() => {
-              generateEmbeddedFile(project?.id as string).then((filePath) => {
-                if (filePath) {
-                  setIsScriptGenerated(true);
-                }
-              });
-            }}
-          >
-            Generate Embedded File
-          </Button>
+
+          <Modal open={isModalOpen} onOpenChange={setIsModalOpen}>
+            <ModalTrigger asChild>
+              <Button variant="outline">Generate Embedded File ✨</Button>
+            </ModalTrigger>
+
+            <ModalContent className="lg:max-w-[60rem]">
+              <ModalHeader>
+                <ModalTitle className="text-xl font-bold">
+                  Generate Embedded File
+                </ModalTitle>
+                <ModalDescription className="text-muted-foreground">
+                  Choose a layout type for your embedded file generation
+                </ModalDescription>
+              </ModalHeader>
+
+              <div className="mx-auto mt-4 w-full max-w-5xl md:mt-0">
+                <RadioGroup
+                  value={layoutType}
+                  onValueChange={(value) => setLayoutType(value as LayoutType)}
+                  className="grid grid-cols-1 gap-4 md:grid-cols-3"
+                >
+                  {layoutTypeItems.map((layout) => (
+                    <Card
+                      key={layout.title}
+                      className={`relative cursor-pointer overflow-hidden border transition-all hover:bg-input/10 ${
+                        layoutType === layout.type
+                          ? "border border-input bg-input/15"
+                          : "border-input"
+                      }`}
+                    >
+                      <div className="p-2">
+                        <Image
+                          src={"https://avatar.vercel.sh/" + user?.name}
+                          alt={layout.title}
+                          width={382}
+                          height={216}
+                          className="h-32 w-full rounded-lg object-cover grayscale-[50%] transition-all group-hover:grayscale-0"
+                        />
+                      </div>
+                      <div className="p-6">
+                        <h3 className="mb-2 text-lg font-bold text-primary">
+                          {layout.title} Layout
+                        </h3>
+                        <p className="mb-4 text-sm text-muted-foreground">
+                          {layout.description}
+                        </p>
+                        <label className="relative flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-input px-3 py-2 text-center shadow-sm transition-colors">
+                          <RadioGroupItem
+                            value={layout.type}
+                            id={layout.type}
+                            className="sr-only"
+                          />
+                          <Label
+                            htmlFor={layout.type}
+                            className={`cursor-pointer ${
+                              layoutType === layout.type
+                                ? "font-semibold text-primary"
+                                : "text-muted-foreground"
+                            }`}
+                          >
+                            {layoutType === layout.type ? "Selected" : "Select"}{" "}
+                            {layout.title}
+                          </Label>
+                        </label>
+                      </div>
+                    </Card>
+                  ))}
+                </RadioGroup>
+              </div>
+
+              <ModalFooter className="mt-4 md:mt-0">
+                <Button
+                  variant="default"
+                  className="w-full md:w-fit"
+                  onClick={() => handleGenerateScript(layoutType)}
+                >
+                  Generate Embedded File
+                </Button>
+              </ModalFooter>
+            </ModalContent>
+          </Modal>
         </Card>
       </div>
     </>

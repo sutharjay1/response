@@ -5,7 +5,7 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
-import { P } from "@/components/ui/typography";
+import { TSmall } from "@/components/ui/typography";
 import ContinueWithGoogle from "@/features/auth/continue-with-google";
 import { geistSans } from "@/features/font";
 import Logo from "@/features/global/logo";
@@ -28,7 +28,7 @@ const SignIn = () => {
           <ContinueWithGoogle />
         </CardContent>
         <CardFooter className="flex items-center justify-between bg-muted/50 px-6 py-4">
-          <P className="text-xs text-muted-foreground">
+          <TSmall className="text-xs text-muted-foreground">
             By continuing, you agree to our{" "}
             <Button
               asChild
@@ -46,7 +46,7 @@ const SignIn = () => {
               <Link href="#">Privacy Policy</Link>
             </Button>
             .
-          </P>
+          </TSmall>
         </CardFooter>
       </Card>
     </main>

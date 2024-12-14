@@ -16,7 +16,7 @@ const ProjectURL = () => {
   const { isScriptGenerated, setIsScriptGenerated } = useGenerateFile();
 
   const { data, isLoading, isInitialLoading, refetch } = useQuery({
-    queryKey: ["projectFields", project?.id],
+    queryKey: ["generate-script", project?.id],
     queryFn: async () => {
       if (!project?.id) {
         throw new Error("Project ID is required");

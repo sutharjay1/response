@@ -25,7 +25,7 @@ const ProjectAnalytics = ({ params }: Props) => {
   }, [params]);
 
   const { data, isLoading, isInitialLoading } = useQuery({
-    queryKey: ["projectFields", projectId],
+    queryKey: ["analytics", projectId],
     queryFn: async () => {
       if (!projectId) {
         throw new Error("Project ID is required");

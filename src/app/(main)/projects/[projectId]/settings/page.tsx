@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { P } from "@/components/ui/typography";
+import { TLarge, TSmall } from "@/components/ui/typography";
 import {
   errorToast,
   loadingToast,
@@ -82,12 +82,14 @@ const ProjectSettings = ({ params }: Props) => {
       <h2 className="text-xl font-semibold text-destructive">Danger Zone</h2>
       <div className="space-y-4">
         <div>
-          <h3 className="font-medium">Permanently delete this project</h3>
-          <P className="text-sm text-muted-foreground [&:not(:first-child)]:mt-0">
+          <TLarge className="font-medium">
+            Permanently delete this project
+          </TLarge>
+          <TSmall className="text-base text-muted-foreground [&:not(:first-child)]:mt-0">
             Permanently remove your project and all of its contents from the
             response platform. This action is not reversible — please continue
             with caution.
-          </P>
+          </TSmall>
         </div>
         <Button
           variant="destructive"
