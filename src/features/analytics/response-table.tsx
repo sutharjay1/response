@@ -53,8 +53,8 @@ const ProjectAnalyticsResponseTable = ({
             <TableRow className="bg-muted/20">
               <TableHead className="p-3">Avatar</TableHead>
               <TableHead className="p-3">By</TableHead>
-              <TableHead className="p-3">Value</TableHead>
-              <TableHead className="p-3">Timestamp</TableHead>
+              <TableHead className="p-3 text-center">Value</TableHead>
+              <TableHead className="p-3 text-right">Timestamp</TableHead>
               <TableHead className="p-3 text-right">Favorited</TableHead>
             </TableRow>
           </TableHeader>
@@ -76,13 +76,13 @@ const ProjectAnalyticsResponseTable = ({
                   <TableCell className="p-3 font-medium text-primary">
                     {result.name}
                   </TableCell>
-                  <TableCell className="p-3 text-right text-secondary">
+                  <TableCell className="p-3 text-center">
                     {result.value}
                   </TableCell>
-                  <TableCell className="p-3 text-muted-foreground">
+                  <TableCell className="p-3 text-right text-muted-foreground">
                     {format(new Date(result.createdAt), "MMM dd, yy HH:mm")}
                   </TableCell>
-                  <TableCell className="p-3 text-center text-muted-foreground">
+                  <TableCell className="p-3 text-right text-muted-foreground">
                     <Button
                       variant={result.isFavorite ? "default" : "outline"}
                       size="sm"

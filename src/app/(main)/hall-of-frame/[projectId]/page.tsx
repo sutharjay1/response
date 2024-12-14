@@ -89,7 +89,9 @@ const HallOfFrame = ({ params }: Props) => {
                 <MobileScreen />
               </TabsContent>
               <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="desktop">Desktop</TabsTrigger>
+                <TabsTrigger value="desktop" asChild>
+                  Desktop
+                </TabsTrigger>
                 <TabsTrigger value="mobile">Mobile</TabsTrigger>
               </TabsList>
             </Tabs>
@@ -99,7 +101,7 @@ const HallOfFrame = ({ params }: Props) => {
 
       <div className="flex w-full items-center justify-between space-x-4 md:px-4 md:py-2">
         <Tabs defaultValue="desktop" className="mx-auto w-full max-w-6xl">
-          <TabsList className="grid w-full grid-cols-2">
+          <TabsList className="flex w-fit gap-4">
             <TabsTrigger value="desktop">Desktop</TabsTrigger>
             <TabsTrigger value="mobile">Mobile</TabsTrigger>
           </TabsList>
@@ -128,7 +130,28 @@ const HallOfFrame = ({ params }: Props) => {
             </Browser>
           </TabsContent>
           <TabsContent value="mobile">
-            <MobileScreen />
+            <MobileScreen>
+              <section className="relative z-10 flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-b-xl border-x border-b">
+                <Marquee pauseOnHover className="[--duration:20s]">
+                  {firstRow?.map((review, index) => (
+                    <ReviewCard
+                      key={`${review.value}+${index}+${review.name}`}
+                      {...review}
+                    />
+                  ))}
+                </Marquee>
+                <Marquee reverse pauseOnHover className="[--duration:20s]">
+                  {secondRow?.map((review, index) => (
+                    <ReviewCard
+                      key={`${review.value}+${index}+${review.name}`}
+                      {...review}
+                    />
+                  ))}
+                </Marquee>
+                <div className="pointer-events-none absolute inset-y-0 left-0 z-0 w-1/3 bg-gradient-to-r from-background dark:from-background"></div>
+                <div className="pointer-events-none absolute inset-y-0 right-0 z-0 w-1/3 bg-gradient-to-l from-background dark:from-background"></div>
+              </section>
+            </MobileScreen>
           </TabsContent>
         </Tabs>
       </div>
