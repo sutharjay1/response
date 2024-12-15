@@ -44,7 +44,7 @@ const ContinueWithGoogle = () => {
       onClick={handleGoogleLogin}
       disabled={isLoggingIn}
     >
-      <BrandGoogleSolid className="size-10" />
+      <BrandGoogleSolid className="size-8" />
       {isLoggingIn ? "Connecting..." : "Continue with Google"}
     </Button>
   );

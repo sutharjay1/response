@@ -23,23 +23,6 @@ import { useDebounce } from "@/hooks/use-debounce";
 import { useProject } from "@/hooks/use-project";
 import { cn } from "@/lib/utils";
 import {
-  closestCenter,
-  DndContext,
-  DragEndEvent,
-  KeyboardSensor,
-  MouseSensor,
-  TouchSensor,
-  useSensor,
-  useSensors,
-} from "@dnd-kit/core";
-import {
-  arrayMove,
-  rectSortingStrategy,
-  SortableContext,
-  useSortable,
-} from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-import {
   CheckSquare,
   ChevronDown,
   ChevronUp,
@@ -248,25 +231,6 @@ const IndividualProject = ({ params }: Props) => {
     }
   };
 
-  const mouseSensor = useSensor(MouseSensor);
-  const touchSensor = useSensor(TouchSensor);
-  const keyboardSensor = useSensor(KeyboardSensor);
-
-  const sensors = useSensors(mouseSensor, touchSensor, keyboardSensor);
-
-  const handleDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event;
-
-    if (active.id !== over?.id) {
-      setFormElements((items) => {
-        const oldIndex = items.findIndex((item) => item.id === active.id);
-        const newIndex = items.findIndex((item) => item.id === over?.id);
-
-        return arrayMove(items, oldIndex, newIndex);
-      });
-    }
-  };
-
   const FormField = ({
     element,
     index,
@@ -274,19 +238,6 @@ const IndividualProject = ({ params }: Props) => {
     element: FormElement;
     index: number;
   }) => {
-    const { attributes, listeners, setNodeRef, transform, transition } =
-      useSortable({ id: element.id });
-
-    const style = {
-      transform: CSS.Transform.toString({
-        scaleX: 1,
-        scaleY: 1,
-        x: transform?.x ?? 0,
-        y: transform?.y ?? 0,
-      }),
-      transition,
-    };
-
     return (
       <Card
         className={cn(
@@ -295,10 +246,6 @@ const IndividualProject = ({ params }: Props) => {
           "reorder-handle cursor-pointer",
         )}
         key={element.id}
-        ref={setNodeRef}
-        style={style}
-        {...listeners}
-        {...attributes}
       >
         <CardContent className="space-y-2 p-6">
           <div className="mb-6 flex items-center justify-between gap-2">
@@ -602,24 +549,9 @@ const IndividualProject = ({ params }: Props) => {
               </CardTitle>
             </CardHeader>
             <CardContent className="w-full space-y-6 border-none px-0 shadow-none">
-              <DndContext
-                sensors={sensors}
-                collisionDetection={closestCenter}
-                onDragEnd={handleDragEnd}
-              >
-                <SortableContext
-                  items={formElements.map((element) => element.id)}
-                  strategy={rectSortingStrategy}
-                >
-                  {formElements.map((element, index) => (
-                    <FormField
-                      key={element.id}
-                      element={element}
-                      index={index}
-                    />
-                  ))}
-                </SortableContext>
-              </DndContext>
+              {formElements.map((element, index) => (
+                <FormField key={element.id} element={element} index={index} />
+              ))}
             </CardContent>
           </>
         )}
