@@ -64,7 +64,7 @@ const SubmitForm = ({ params }: Props) => {
   const { videoUrl } = useVideo();
 
   const { data: project } = useQuery({
-    queryKey: ["currentProject", projectId],
+    queryKey: ["submit-project-fetch", projectId],
     queryFn: () => getProjectById(projectId as string),
     enabled: !!projectId,
   });
@@ -302,8 +302,6 @@ const SubmitForm = ({ params }: Props) => {
     submitFormMutation(updatedElements);
   };
 
-  // relative flex min-h-svh flex-1 flex-col border border-[#7c533a]/10 bg-background peer-data-[variant=inset]:min-h-[calc(100svh-theme(spacing.4))] md:peer-data-[variant=inset]:m-2 md:peer-data-[state=collapsed]:peer-data-[variant=inset]:ml-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow
-
   return (
     <div className="flex min-h-[90vh] flex-1 flex-col rounded-xl bg-[#f3f2f1] shadow-inner sm:px-6 md:m-4 md:py-12 lg:px-8">
       <Card className="mx-auto w-full max-w-2xl overflow-hidden border border-[#7c533a]/10 bg-sidebar">
@@ -311,7 +309,9 @@ const SubmitForm = ({ params }: Props) => {
           <div className="relative flex h-40 w-full overflow-hidden rounded-xl border-4 border-background bg-muted md:shadow-sm md:shadow-primary/20">
             <Image
               src={
-                project?.banner || `https://avatar.vercel.sh/${project?.name}`
+                project?.banner
+                  ? project?.banner
+                  : `https://avatar.vercel.sh/${project?.name}`
               }
               alt="card cover"
               fill

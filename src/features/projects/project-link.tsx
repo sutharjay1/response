@@ -136,7 +136,7 @@ const ProjectLink = () => {
         <Button variant="outline" className="gap-2" asChild>
           <Link href={`/projects/${project?.id}`} className="cursor-pointer">
             <EditOne className="h-5 w-5 font-semibold" strokeWidth={2} />
-            <span className="hidden lg:flex">Edit Form</span>
+            <span className="hidden md:flex">Edit Form</span>
           </Link>
         </Button>
       ) : (
