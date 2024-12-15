@@ -7,7 +7,7 @@ import ProjectAnalyticsResponseTable from "@/features/analytics/response-table";
 import { errorToast } from "@/features/global/toast";
 import { getProjectAnalytics } from "@/features/projects/actions/get-project-analytics";
 import { useQuery } from "@tanstack/react-query";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 type Props = {
   params: Promise<{
