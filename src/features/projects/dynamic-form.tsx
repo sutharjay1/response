@@ -496,56 +496,6 @@ const DynamicForm = ({ projectId }: { projectId: string }) => {
                 )}
               </CardTitle>
             </div>
-            {/* <div className="mt-4 flex flex-wrap gap-2">
-              <Button
-                onClick={() => addField("input")}
-                variant="outline"
-                className="flex items-center gap-1 bg-blue-600 px-2 hover:bg-blue-100 md:gap-2 md:px-4"
-              >
-                <TypeBold className="h-6 w-6" />
-                Input
-              </Button>
-              <Button
-                onClick={() => addField("textarea")}
-                variant="outline"
-                className="flex items-center gap-1 bg-green-50 px-2 hover:bg-green-100 md:gap-2 md:px-4"
-              >
-                <Keyboard className="h-6 w-6" />
-                Textarea
-              </Button>
-              <Button
-                onClick={() => addField("checkbox")}
-                variant="outline"
-                className="flex items-center gap-1 bg-orange-50 px-2 hover:bg-orange-100 md:gap-2 md:px-4"
-              >
-                <CheckSquare className="h-6 w-6" />
-                Checkbox
-              </Button>
-              <Button
-                onClick={() => addField("star")}
-                variant="outline"
-                className="flex items-center gap-1 bg-orange-50 px-2 hover:bg-orange-100 md:gap-2 md:px-4"
-              >
-                <Star className="h-6 w-6" />
-                Star
-              </Button>
-              <Button
-                onClick={() => addField("image")}
-                variant="outline"
-                className="flex items-center gap-1 bg-orange-50 px-2 hover:bg-orange-100 md:gap-2 md:px-4"
-              >
-                <ImageIcon className="h-6 w-6" />
-                Image
-              </Button>
-              <Button
-                onClick={() => addField("video")}
-                variant="outline"
-                className="flex items-center gap-1 bg-orange-50 px-2 hover:bg-orange-100 md:gap-2 md:px-4"
-              >
-                <Video className="h-6 w-6" />
-                Video
-              </Button>
-            </div> */}
           </CardHeader>
           <CardContent className="p-4 pt-4 md:p-6 md:pt-6">
             <div className="space-y-4">

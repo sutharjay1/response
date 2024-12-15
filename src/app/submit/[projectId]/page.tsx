@@ -529,14 +529,6 @@ const SubmitForm = ({ params }: Props) => {
                                             : "text-gray-300"
                                         }`}
                                       >
-                                        {/* <Star
-                                        className="h-5 w-5"
-                                        fill={
-                                          value >= rating
-                                            ? "currentColor"
-                                            : "none"
-                                        }
-                                      /> */}
                                         <Star
                                           className="h-6 w-6 font-semibold"
                                           strokeWidth={2}

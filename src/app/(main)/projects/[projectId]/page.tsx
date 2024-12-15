@@ -576,9 +576,21 @@ const IndividualProject = ({ params }: Props) => {
           setFormElements={setFormElements}
         />
         {isInitialLoading || isLoading ? (
-          <div className="flex items-center justify-center">
-            <Skeleton className="h-4 w-1/2" />
-          </div>
+          <>
+            <div>
+              <Skeleton className="h-10 w-[60%]" />
+              <div className="flex flex-col gap-1 py-2">
+                <Skeleton className="h-6 w-1/2" />
+              </div>
+            </div>
+            <div>
+              <CardContent className="w-full space-y-6 border-none px-0 shadow-none">
+                {new Array(3).fill(0).map((_, i) => (
+                  <Skeleton className="h-64 w-full" key={i} />
+                ))}
+              </CardContent>
+            </div>
+          </>
         ) : (
           <>
             <CardHeader className="flex flex-col items-center justify-center space-y-1 px-0 py-4">
