@@ -25,7 +25,7 @@ export async function getProjects(userId: string) {
   }
 }
 
-export async function getProjectById(projectId: string) {
+export async function getProjectById(projectId: string, username?: true) {
   if (!projectId) {
     throw new Error("Project ID is required");
   }
@@ -33,6 +33,9 @@ export async function getProjectById(projectId: string) {
   try {
     const project = await db.project.findUnique({
       where: { id: projectId },
+      include: {
+        user: username ? { select: { name: true, email: true } } : false,
+      },
     });
 
     if (!project) {
