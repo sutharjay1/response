@@ -94,7 +94,7 @@ export const VideoUploadButton: React.FC<VideoUploadFieldProps> = ({
     <Card className="w-full">
       <CardContent
         className={cn(
-          "cursor-pointer rounded-lg border border-dashed border-[#7c533a]/25 p-6",
+          "m-1 cursor-pointer rounded-lg border border-dashed border-[#7c533a]/50 p-6",
         )}
       >
         <ReactMediaRecorder

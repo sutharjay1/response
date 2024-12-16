@@ -439,17 +439,17 @@ const IndividualProject = ({ params }: Props) => {
                     key={element.id}
                   >
                     <Hint
-                      label="Customer can record a video"
+                      label="Reviewers can record a video"
                       side="top"
                       align="center"
                     >
                       <Card className="w-full">
-                        <CardContent className="cursor-pointer rounded-lg border border-dashed border-[#7c533a] p-6">
+                        <CardContent className="m-1 cursor-pointer rounded-lg border border-dashed border-[#7c533a]/50 p-6">
                           <div
                             className={`flex flex-col items-center justify-center rounded-lg transition-colors`}
                           >
                             <div className="flex flex-col items-center justify-center text-center">
-                              <Video className="mb-1 h-24 w-24 text-sidebar" />
+                              <Video className="mb-1 h-24 w-24 text-muted-foreground" />
 
                               <TSmall className="mb-2 text-lg font-semibold">
                                 Record a video
