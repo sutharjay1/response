@@ -31,9 +31,9 @@ import { useQuery } from "@tanstack/react-query";
 
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { copyToClipboard } from "@/lib/utils";
 import Image from "next/image";
 import { useState } from "react";
-import { copyToClipboard } from "@/lib/utils";
 
 type LayoutType = "horizontal" | "vertical" | "infinite-scroll";
 
@@ -88,7 +88,7 @@ const ProjectAnalyticsInfo = () => {
 
   const { setIsScriptGenerated } = useGenerateFile();
 
-  const { data, isLoading, isInitialLoading } = useQuery({
+  const { isLoading, isInitialLoading } = useQuery({
     queryKey: ["projectFields", project?.id],
     queryFn: async () => {
       if (!project?.id) {
@@ -173,10 +173,6 @@ const ProjectAnalyticsInfo = () => {
                     </Avatar>
                     <span className="font-normal">{user?.name}</span>
                   </div>
-                </div>
-
-                <div className="font-medium text-primary">
-                  Edited {data?.updatedAt.toLocaleTimeString()}
                 </div>
               </div>
             </div>
