@@ -12,6 +12,7 @@ export const getProjectAnalytics = async (projectId: string) => {
     const project = await db.project.findUnique({
       where: { id: validatedProjectId },
       include: {
+        user: true,
         fields: {
           orderBy: { order: "asc" },
           include: {

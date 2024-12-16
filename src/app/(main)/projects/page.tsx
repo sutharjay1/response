@@ -1,5 +1,6 @@
 "use client";
 
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -8,13 +9,14 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
+import { InlineCode, TSmall } from "@/components/ui/typography";
 import { successToast } from "@/features/global/toast";
 import { getProjects } from "@/features/projects/actions/get-projects";
 import { useUser } from "@/hooks/use-user";
 import {
+  AnnoyedSquare,
   ArrowLongRight,
   BoundingBox,
-  Calendar,
   ChartBarTwo,
   CogOne,
   FileText,
@@ -22,9 +24,8 @@ import {
   SpinnerOne,
 } from "@mynaui/icons-react";
 import { useQuery } from "@tanstack/react-query";
-import { AnnoyedSquare } from "@mynaui/icons-react";
+import { formatDistanceToNow } from "date-fns";
 import Link from "next/link";
-import { InlineCode } from "@/components/ui/typography";
 
 const Projects = () => {
   const { user } = useUser();
@@ -161,17 +162,42 @@ const Projects = () => {
                     </Button>
                   </div>
                 </div>
-                <div className="mt-1 flex items-center text-sm text-muted-foreground">
-                  <Calendar className="mr-1 h-5 w-5" strokeWidth={2} />
-                  <time dateTime={project.createdAt.toISOString()}>
-                    {project.createdAt.toLocaleDateString()}
-                  </time>
-                </div>
               </CardHeader>
               <CardContent>
-                <p className="line-clamp-2 text-sm text-muted-foreground">
-                  <span>{totalResults} responses</span>
-                </p>
+                <div className="flex items-center justify-between">
+                  <div className="space-y-1">
+                    <TSmall className="line-clamp-2 text-sm text-muted-foreground">
+                      <span>{totalResults} responses</span>
+                    </TSmall>
+                    <div className="flex -space-x-3 *:ring *:ring-background">
+                      {project.fields.map((field) => {
+                        return field.results?.map((result) => {
+                          return (
+                            <Avatar
+                              key={result.name}
+                              aria-setsize={1}
+                              className="h-8 w-8"
+                            >
+                              <AvatarImage src={result.avatar} />
+                            </Avatar>
+                          );
+                        });
+                      })}
+                    </div>
+                  </div>
+
+                  <div className="mt-1 flex items-center text-sm text-muted-foreground">
+                    Updated{" "}
+                    <time
+                      dateTime={project.updatedAt.toISOString()}
+                      className="ml-1"
+                    >
+                      {formatDistanceToNow(new Date(project.updatedAt), {
+                        addSuffix: true,
+                      })}
+                    </time>
+                  </div>
+                </div>
               </CardContent>
               <CardFooter className="flex items-center justify-between bg-muted/50 px-6 py-4">
                 <Badge

@@ -14,6 +14,9 @@ export default {
   ],
   theme: {
     extend: {
+      screens: {
+        "8xl": "1250px",
+      },
       fontFamily: {
         gilroy: ["var(--font-gilroy-sans)", ...fontFamily.sans],
         geistSans: ["var(--font-geist-sans)", ...fontFamily.sans],
@@ -80,8 +83,9 @@ export default {
       },
       keyframes: {
         shine: {
-          from: { backgroundPosition: "200% 0" },
-          to: { backgroundPosition: "-200% 0" },
+          "0%": { backgroundPosition: "200% 0" },
+          "25%": { backgroundPosition: "-200% 0" },
+          "100%": { backgroundPosition: "-200% 0" },
         },
         marquee: {
           from: { transform: "translateX(0)" },

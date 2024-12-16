@@ -71,7 +71,9 @@ const SubmitForm = ({ params }: Props) => {
   }, [params]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formElements, setFormElements] = useState<FormElement[]>([]);
-  const [avatar, setAvatar] = useState<string>("https://avatar.vercel.sh/form");
+  const [avatar, setAvatar] = useState<string>(
+    `https://avatar.vercel.sh/${new Date().getTime()}`,
+  );
   const { videoUrl } = useVideo();
 
   const { data: projectStatus } = useQuery({
