@@ -20,18 +20,20 @@ import { DotsVertical, Folder, Share, Trash } from "@mynaui/icons-react";
 
 export function NavProjects({
   projects,
+  name,
 }: {
   projects: {
     name: string;
     url: string;
     icon: React.ReactNode;
   }[];
+  name: string;
 }) {
   const { isMobile } = useSidebar();
 
   return (
-    <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-      <SidebarGroupLabel>Projects</SidebarGroupLabel>
+    <SidebarGroup className="py-0 group-data-[collapsible=icon]:hidden">
+      <SidebarGroupLabel>{name}</SidebarGroupLabel>
       <SidebarMenu>
         {projects.map((item) => (
           <SidebarMenuItem key={item.name}>

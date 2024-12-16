@@ -13,7 +13,7 @@ import { NavMain } from "@/features/dashboard/nav-main";
 import { NavProjects } from "@/features/dashboard/nav-projects";
 import { NavUser } from "@/features/dashboard/nav-user";
 import { useProject } from "@/hooks/use-project";
-import { CogOne, Frame, Terminal } from "@mynaui/icons-react";
+import { Box, CogOne, Frame, Terminal } from "@mynaui/icons-react";
 import * as React from "react";
 import { ProjectDropDown } from "./project-dropdown";
 
@@ -94,6 +94,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         icon: <Frame size={16} className="font-semibold" strokeWidth={1.08} />,
       },
     ],
+    templates: [
+      {
+        name: "All Template",
+        url: "/template",
+        icon: <Box size={16} className="font-semibold" strokeWidth={1.08} />,
+      },
+    ],
   };
 
   return (
@@ -113,7 +120,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent className="z-10">
         <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
+        <NavProjects projects={data.projects} name="Projects" />
+        <NavProjects projects={data.templates} name="Templates" />
       </SidebarContent>
       <SidebarFooter>
         <NavUser />
