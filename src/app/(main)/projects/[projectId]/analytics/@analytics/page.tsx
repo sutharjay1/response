@@ -2,6 +2,12 @@
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TLarge } from "@/components/ui/typography";
@@ -11,12 +17,23 @@ import { aeonik } from "@/features/font";
 import { errorToast, successToast } from "@/features/global/toast";
 import { getProjectAnalytics } from "@/features/projects/actions/get-project-analytics";
 import { cn } from "@/lib/utils";
-import { Heart, HeartSolid } from "@mynaui/icons-react";
+import {
+  CalendarCheck,
+  DotsVertical,
+  Heart,
+  HeartSolid,
+  LetterE,
+} from "@mynaui/icons-react";
 import { FieldType } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+
+type DateRange = {
+  start: Date;
+  end: Date;
+};
 
 type Props = {
   params: Promise<{
@@ -38,6 +55,11 @@ type ResponseType = {
 
 const ProjectAnalytics = ({ params }: Props) => {
   const [projectId, setProjectId] = useState<string>("");
+  const [dateRange, setDateRange] = useState<DateRange>({
+    start: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
+    end: new Date(),
+  });
+  const [expectedResponses] = useState(100);
 
   useEffect(() => {
     params.then((data) => {
@@ -46,7 +68,7 @@ const ProjectAnalytics = ({ params }: Props) => {
   }, [params]);
 
   const { data, isLoading, isInitialLoading, refetch } = useQuery({
-    queryKey: ["analytics", projectId],
+    queryKey: ["analytics", projectId, dateRange],
     queryFn: async () => {
       if (!projectId) {
         throw new Error("Project ID is required");
@@ -69,49 +91,137 @@ const ProjectAnalytics = ({ params }: Props) => {
     return <div>No data available</div>;
   }
 
-  const totalResponses = data.fields.reduce(
-    (acc: number, fields) => acc + fields.results.length,
-    0,
-  );
-  const averageRating = 4.8; // This should be calculated from actual data
-  const responseRate = 68; // This should be calculated from actual data
-
-  const recentResponses = data.fields
+  const filteredResponses = data.fields
     .flatMap((field) => field.results)
+    .filter(
+      (response) =>
+        new Date(response.createdAt) >= dateRange.start &&
+        new Date(response.createdAt) <= dateRange.end,
+    );
+
+  const totalResponses = filteredResponses.length;
+
+  const starResponses = filteredResponses.filter(
+    (response) => response.field?.type === "star",
+  );
+
+  const averageRating =
+    starResponses.length > 0
+      ? starResponses.reduce(
+          (sum, response) => sum + Number(response.value),
+          0,
+        ) / starResponses.length
+      : 0;
+
+  const responseRate =
+    totalResponses > 0
+      ? Math.round((totalResponses / expectedResponses) * 100)
+      : 0;
+
+  const previousPeriodStart = new Date(
+    dateRange.start.getTime() -
+      (dateRange.end.getTime() - dateRange.start.getTime()),
+  );
+  const previousPeriodResponses = data.fields
+    .flatMap((field) => field.results)
+    .filter(
+      (response) =>
+        new Date(response.createdAt) >= previousPeriodStart &&
+        new Date(response.createdAt) < dateRange.start,
+    );
+
+  const responsesChange =
+    previousPeriodResponses.length > 0
+      ? Math.round(
+          ((totalResponses - previousPeriodResponses.length) /
+            previousPeriodResponses.length) *
+            100,
+        )
+      : 0;
+
+  const ratingChange =
+    starResponses.length > 0
+      ? Number((((averageRating - 4.5) / 4.5) * 100).toFixed(1))
+      : 0;
+
+  const recentResponses = filteredResponses
     .sort(
       (a, b) =>
         new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
     )
     .slice(0, 5);
 
+  const handleDateRangeChange = (days: number) => {
+    const newEnd = new Date();
+    const newStart = new Date(newEnd.getTime() - days * 24 * 60 * 60 * 1000);
+    setDateRange({ start: newStart, end: newEnd });
+  };
+
   return (
     <div className="space-y-6">
       <Tabs defaultValue="overview" className="max-w-8xl mx-auto w-full">
-        <TabsList className="mb-4 flex w-fit gap-4">
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="analytics">Analytics</TabsTrigger>
-        </TabsList>
+        <div className="mb-4 flex items-start justify-between">
+          <TabsList className="flex w-fit gap-4">
+            <TabsTrigger value="overview">Overview</TabsTrigger>
+            <TabsTrigger value="analytics">Analytics</TabsTrigger>
+          </TabsList>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="gap-2">
+                <CalendarCheck />
+                <span className="hidden md:flex">Date Range</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem onClick={() => handleDateRangeChange(7)}>
+                Last 7 Days
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleDateRangeChange(30)}>
+                Last 30 Days
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleDateRangeChange(90)}>
+                Last 90 Days
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
         <TabsContent value="overview">
           <div className="grid grid-cols-1 space-y-6 lg:grid-cols-3 lg:space-x-6 lg:space-y-0">
             <Card className="w-full rounded-lg border bg-sidebar p-6 shadow">
-              <h2 className="mb-4 text-lg font-semibold text-gray-900">
-                Analytics Overview
-              </h2>
+              <div className="mb-4 flex items-center justify-between">
+                <h2 className="text-lg font-semibold text-gray-900">
+                  Analytics Overview
+                </h2>
+                <DropdownMenu>
+                  <DropdownMenuTrigger>
+                    <DotsVertical />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-64" side="top">
+                    <DropdownMenuItem>
+                      <LetterE className="text-muted-foreground" />
+                      <span>Set Expected Responses</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
               <div className="grid grid-cols-1 gap-4">
                 <StatCard
                   title="Total Responses"
                   value={totalResponses}
-                  change={12}
+                  change={responsesChange}
+                  dateRange={dateRange}
                 />
                 <StatCard
                   title="Average Rating"
-                  value={`${averageRating}/5.0`}
-                  change={0.3}
+                  value={averageRating.toFixed(1) + "/5.0"}
+                  change={ratingChange}
+                  dateRange={dateRange}
                 />
                 <StatCard
                   title="Response Rate"
                   value={`${responseRate}%`}
-                  change={-5}
+                  change={0}
+                  dateRange={dateRange}
                 />
               </div>
             </Card>
@@ -147,34 +257,26 @@ const ProjectAnalytics = ({ params }: Props) => {
   );
 };
 
-const SkeletonLoader = () => (
-  <div className="grid h-fit grid-cols-1 gap-4 p-6 md:grid-cols-[50%,50%]">
-    <Card className="flex flex-col items-start justify-between space-y-4 rounded-lg bg-sidebar p-4 md:flex-row md:items-center md:space-y-0">
-      <Skeleton className="h-64 w-full" />
-    </Card>
-    <Card className="flex flex-col items-start justify-between space-y-4 rounded-lg bg-sidebar p-4 md:flex-row md:items-center md:space-y-0">
-      <Skeleton className="h-64 w-full" />
-    </Card>
-  </div>
-);
-
 const StatCard = ({
   title,
   value,
   change,
+  dateRange,
 }: {
   title: string;
   value: string | number;
   change: number;
+  dateRange: DateRange;
 }) => (
   <div className="flex items-center justify-between rounded-lg border bg-sidebar p-4 shadow">
     <div className="flex flex-col gap-y-2">
       <TLarge className="font-medium">{title}</TLarge>
-
       <div
         className={`mt-1 text-sm ${change >= 0 ? "text-green-600" : "text-red-600"}`}
       >
-        {change >= 0 ? "↑" : "↓"} {Math.abs(change)}% from last week
+        {change >= 0 ? "↑" : "↓"} {Math.abs(change)}% from{" "}
+        {dateRange.start.toLocaleDateString()} -{" "}
+        {dateRange.end.toLocaleDateString()}
       </div>
     </div>
     <div>
@@ -184,6 +286,17 @@ const StatCard = ({
         {value}
       </TLarge>
     </div>
+  </div>
+);
+
+const SkeletonLoader = () => (
+  <div className="grid h-fit grid-cols-1 gap-4 p-6 md:grid-cols-[50%,50%]">
+    <Card className="flex flex-col items-start justify-between space-y-4 rounded-lg bg-sidebar p-4 md:flex-row md:items-center md:space-y-0">
+      <Skeleton className="h-64 w-full" />
+    </Card>
+    <Card className="flex flex-col items-start justify-between space-y-4 rounded-lg bg-sidebar p-4 md:flex-row md:items-center md:space-y-0">
+      <Skeleton className="h-64 w-full" />
+    </Card>
   </div>
 );
 
