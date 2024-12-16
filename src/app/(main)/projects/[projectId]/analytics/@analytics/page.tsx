@@ -11,22 +11,14 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TLarge } from "@/components/ui/typography";
-import { addFeedbackToFavorite } from "@/features/analytics/actions/add-feedback-to-favourite";
+import { ResponseCard, ResponseType } from "@/features/analytics/response-card";
 import ProjectAnalyticsCharts from "@/features/analytics/response-charts";
 import { aeonik } from "@/features/font";
-import { errorToast, successToast } from "@/features/global/toast";
+import { errorToast } from "@/features/global/toast";
 import { getProjectAnalytics } from "@/features/projects/actions/get-project-analytics";
 import { cn } from "@/lib/utils";
-import {
-  CalendarCheck,
-  DotsVertical,
-  Heart,
-  HeartSolid,
-  LetterE,
-} from "@mynaui/icons-react";
-import { FieldType } from "@prisma/client";
+import { CalendarCheck, DotsVertical, LetterE } from "@mynaui/icons-react";
 import { useQuery } from "@tanstack/react-query";
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -39,18 +31,6 @@ type Props = {
   params: Promise<{
     projectId: string;
   }>;
-};
-
-type ResponseType = {
-  field?: { label: string; type: FieldType; checked: boolean };
-  id: string;
-  name: string;
-  createdAt: Date;
-  value: string;
-  avatar: string;
-  projectId: string;
-  fieldId: string;
-  isFavorite: boolean;
 };
 
 const ProjectAnalytics = ({ params }: Props) => {
@@ -299,77 +279,5 @@ const SkeletonLoader = () => (
     </Card>
   </div>
 );
-
-const ResponseCard = ({
-  response,
-  projectId,
-  refetch,
-}: {
-  response: ResponseType;
-  projectId: string;
-  refetch: () => void;
-}) => {
-  const handleAddToFavorite = async () => {
-    addFeedbackToFavorite(projectId, response.id, response.isFavorite)
-      .then(() => {
-        successToast(
-          response.isFavorite ? "Removed from favorites" : "Added to favorites",
-          {
-            position: "top-center",
-          },
-        );
-        refetch();
-      })
-      .catch((error: Error) => {
-        errorToast(error.message || "Something went wrong", {
-          position: "top-center",
-        });
-      });
-  };
-
-  return (
-    <div className="rounded-lg border p-4 shadow">
-      <div className="flex items-start justify-between">
-        <div className="flex items-start gap-3">
-          <Image
-            width={40}
-            height={40}
-            src={response.avatar}
-            alt="User"
-            className="h-10 w-10 rounded-full"
-          />
-          <div>
-            <h4 className="font-medium text-gray-900">{response.name}</h4>
-            <p className="text-sm text-gray-500">
-              {new Date(response.createdAt).toLocaleString()}
-            </p>
-            <p className="mt-2 text-gray-600">{response.value}</p>
-          </div>
-        </div>
-        {response?.field?.type === "star" && (
-          <>
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-medium text-gray-900">
-                {response.value}
-              </span>
-              <div className="text-yellow-400">
-                {"★".repeat(Number(response.value))}
-              </div>
-            </div>
-
-            <Button
-              variant={response.isFavorite ? "default" : "outline"}
-              size="sm"
-              className="px-2"
-              onClick={handleAddToFavorite}
-            >
-              {response.isFavorite ? <HeartSolid /> : <Heart />}
-            </Button>
-          </>
-        )}
-      </div>
-    </div>
-  );
-};
 
 export default ProjectAnalytics;

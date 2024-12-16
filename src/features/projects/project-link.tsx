@@ -160,7 +160,7 @@ const ProjectLink = () => {
         </DropdownMenuTrigger>
         <DropdownMenuContent className="min-w-[4rem] space-y-4 p-4" align="end">
           <div className="flex items-center justify-between">
-            <Label htmlFor="share-switch">Share Status</Label>
+            <Label htmlFor="share-switch">Publish Status</Label>
             <Switch
               id="share-switch"
               isLoading={isLoading}
