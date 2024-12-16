@@ -171,13 +171,12 @@ const ProjectLink = () => {
           <Separator />
           {enableShare ? (
             <>
-              <div className="flex items-center gap-1">
+              <div className="flex w-full items-center gap-1">
                 <Hint label="Download QR Code" side="top">
                   <Button
                     variant="outline"
                     className={cn(
                       "flex w-full items-center gap-2 transition-all",
-                      copied && "text-green-500",
                     )}
                     onClick={handleDownloadQrCode}
                   >
@@ -189,7 +188,6 @@ const ProjectLink = () => {
                     variant="outline"
                     className={cn(
                       "flex w-full items-center gap-2 transition-all",
-                      copied && "text-green-500",
                     )}
                     onClick={() => handleCopyToClipboard(shareLink)}
                   >
@@ -199,7 +197,7 @@ const ProjectLink = () => {
                       </>
                     ) : (
                       <>
-                        <Copy className="h-4 w-4" /> Copy to share link
+                        <Copy className="h-4 w-4" /> Copy link
                       </>
                     )}
                   </Button>

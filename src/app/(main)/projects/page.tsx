@@ -80,7 +80,7 @@ const Projects = () => {
 
           return (
             <Card
-              className="transform overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-sidebar-foreground/20 hover:shadow-md"
+              className="transform overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-sidebar-foreground/10 hover:shadow"
               key={project.id}
             >
               <CardHeader className="pb-4 pt-6">
