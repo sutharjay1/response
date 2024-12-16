@@ -329,7 +329,7 @@ const SubmitForm = ({ params }: Props) => {
             geistSans.className,
           )}
         >
-          <Card className="group max-w-xl overflow-hidden rounded-3xl border-none bg-muted/40 px-2 pt-2 shadow-none transition-all">
+          <Card className="group max-w-xl overflow-hidden rounded-3xl border-none bg-muted/40 px-2 pt-2 shadow transition-all">
             <div className="rounded-3xl bg-sidebar pt-1 shadow-sm">
               <CardHeader className="space-y-2 border-b p-6 text-center">
                 <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-yellow-100">
@@ -737,7 +737,7 @@ const SubmitForm = ({ params }: Props) => {
                 <CardFooter className="flex items-center justify-between bg-muted/50 px-6 py-4">
                   <Button
                     type="submit"
-                    className="w-full"
+                    className="w-full gap-2"
                     disabled={isSubmitting || isLoadingFields}
                   >
                     Submit Form 🚀

@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import { useSidebar } from "@/components/ui/sidebar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Textarea } from "@/components/ui/textarea";
-import { H2, P } from "@/components/ui/typography";
+import { H2, P, TSmall } from "@/components/ui/typography";
 import Hint from "@/features/global/hint";
 import { errorToast, successToast } from "@/features/global/toast";
 import { createForm } from "@/features/projects/actions/create-form";
@@ -243,12 +243,7 @@ const IndividualProject = ({ params }: Props) => {
     const controls = useDragControls();
 
     return (
-      <Reorder.Item
-        key={element.id}
-        value={element}
-        dragListener={false}
-        dragControls={controls}
-      >
+      <Reorder.Item key={element.id} value={element} dragControls={controls}>
         <Card
           className={cn(
             "group relative mb-4 bg-sidebar transition-all hover:shadow",
@@ -454,14 +449,14 @@ const IndividualProject = ({ params }: Props) => {
                             className={`flex flex-col items-center justify-center rounded-lg transition-colors`}
                           >
                             <div className="flex flex-col items-center justify-center text-center">
-                              <Video className="mb-1 h-24 w-24 text-muted-foreground" />
+                              <Video className="mb-1 h-24 w-24 text-sidebar" />
 
-                              <p className="mb-2 text-lg font-semibold">
+                              <TSmall className="mb-2 text-lg font-semibold">
                                 Record a video
-                              </p>
-                              <p className="text-sm text-muted-foreground">
+                              </TSmall>
+                              <TSmall className="text-sm text-muted-foreground">
                                 Attach to accept a video
-                              </p>
+                              </TSmall>
                             </div>
                           </div>
                         </CardContent>
