@@ -2,21 +2,18 @@ import React from "react";
 
 export default function AnalyticsParellelLayout({
   children,
-  url,
   projectInfo,
   analytics,
 }: {
   children: React.ReactNode;
   analytics: React.ReactNode;
-  url: React.ReactNode;
   projectInfo: React.ReactNode;
 }) {
   return (
-    <>
+    <div className="mx-auto w-full max-w-screen-8xl space-y-6">
       {children}
       {projectInfo}
-      {url}
       {analytics}
-    </>
+    </div>
   );
 }

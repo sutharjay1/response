@@ -19,7 +19,7 @@ import {
   DangerSquare,
   Download,
   EditOne,
-  Share,
+  Globe,
 } from "@mynaui/icons-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -154,8 +154,8 @@ const ProjectLink = () => {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="outline" className="gap-2">
-            <Share className="h-5 w-5 font-extrabold" />
-            <span className="hidden md:flex">Share Form</span>
+            <Globe className="h-5 w-5 font-extrabold" />
+            <span className="hidden md:flex">Publish</span>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="min-w-[4rem] space-y-4 p-4" align="end">
