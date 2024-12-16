@@ -36,7 +36,7 @@ import {
 } from "@mynaui/icons-react";
 import { useQuery } from "@tanstack/react-query";
 import { Reorder, useDragControls } from "motion/react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 type Props = {
   params: Promise<{
@@ -188,13 +188,16 @@ const IndividualProject = ({ params }: Props) => {
     setFormElements([...formElements, newField]);
   };
 
-  const handleChange = (id: string, key: string, value: string | boolean) => {
-    setFormElements((prevElements) =>
-      prevElements.map((element) =>
-        element.id === id ? { ...element, [key]: value } : element,
-      ),
-    );
-  };
+  const handleChange = useCallback(
+    (id: string, key: string, value: string | boolean) => {
+      setFormElements((prevElements) =>
+        prevElements.map((element) =>
+          element.id === id ? { ...element, [key]: value } : element,
+        ),
+      );
+    },
+    [],
+  );
 
   const moveElement = (index: number, direction: "up" | "down") => {
     const newElements = [...formElements];
@@ -248,7 +251,7 @@ const IndividualProject = ({ params }: Props) => {
           className={cn(
             "group relative mb-4 bg-sidebar transition-all hover:shadow",
             formElements.length - 1 === index && "mb-32",
-            "reorder-handle cursor-pointer",
+            "reorder-handle",
           )}
           key={element.id}
         >
@@ -313,17 +316,18 @@ const IndividualProject = ({ params }: Props) => {
               <div className="w-full space-y-2">
                 <div className="flex flex-col space-y-2">
                   <Label
-                    htmlFor={`${element.id}-label`}
+                    htmlFor={`${element.id}-label-${element.type}`}
                     className="text-sm font-medium"
                   >
                     Label
                   </Label>
                   <Input
-                    id={`${element.id}-label`}
+                    id={`${element.id}-label-${element.type}`}
                     value={element.label}
                     onChange={(e) =>
                       handleChange(element.id, "label", e.target.value)
                     }
+                    autoFocus
                     placeholder="Enter field label"
                     className="mt-1 w-full border border-gray-300 bg-background transition-colors focus:border-indigo-500 focus:ring-indigo-500 focus-visible:ring-1 md:w-full"
                   />
