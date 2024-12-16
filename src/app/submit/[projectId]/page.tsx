@@ -21,7 +21,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
   Modal,
-  ModalClose,
   ModalContent,
   ModalDescription,
   ModalFooter,
@@ -43,7 +42,7 @@ import { AvatarDropZone } from "@/features/submit/avatar-drop-zone";
 import { useVideo } from "@/features/submit/hooks/use-video";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { DangerTriangle, SpinnerOne, Star, X } from "@mynaui/icons-react";
+import { DangerTriangle, SpinnerOne, Star } from "@mynaui/icons-react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
@@ -70,7 +69,7 @@ const SubmitForm = ({ params }: Props) => {
       setProjectId(data.projectId);
     });
   }, [params]);
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [formElements, setFormElements] = useState<FormElement[]>([]);
   const [avatar, setAvatar] = useState<string>("https://avatar.vercel.sh/form");
   const { videoUrl } = useVideo();
@@ -318,45 +317,10 @@ const SubmitForm = ({ params }: Props) => {
 
     submitFormMutation(updatedElements);
   };
-  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <>
       {projectStatus?.status === "DEV" ? (
-        // <main
-        //   className={cn(
-        //     "relative z-10 flex h-screen items-center justify-center bg-background",
-        //     geistSans.className,
-        //   )}
-        // >
-        //   <Card className="group overflow-hidden rounded-3xl border-none bg-muted/40 px-2 pt-2 shadow-none transition-all">
-        //     <div className="rounded-3xl bg-sidebar pt-1 shadow-sm">
-        //       <CardHeader className="m-2 flex items-center justify-center gap-2 space-y-0 border-b bg-sidebar py-5 sm:flex-row">
-        //         <div className="animate-pulse rounded-full bg-yellow-100 p-3">
-        //           <DangerSquare className="h-6 w-6 text-yellow-600" />
-        //         </div>
-        //         <h2 className="text-2xl font-semibold text-gray-800">
-        //           Submissions Paused
-        //         </h2>
-        //       </CardHeader>
-        //       <CardContent className="mx-auto flex w-full items-center justify-center rounded-3xl bg-sidebar px-2 pt-4 sm:px-6 sm:pt-6">
-        //         <TSmall className="text-gray-600">
-        //           {projectStatus.user.name} is currently not accepting new
-        //           submissions for{" "}
-        //           <span className="font-medium text-gray-800">
-        //             {projectStatus.name}
-        //           </span>
-        //           .
-        //         </TSmall>
-        //       </CardContent>
-        //     </div>
-        //     <CardFooter className="flex items-center justify-between bg-muted/50 px-6 py-2">
-        //       <Button variant="outline" className="w-fit">
-        //         Get Notified When Open
-        //       </Button>
-        //     </CardFooter>
-        //   </Card>
-        // </main>
-
         <main
           className={cn(
             "relative z-10 flex h-screen items-center justify-center bg-background",
@@ -365,7 +329,7 @@ const SubmitForm = ({ params }: Props) => {
         >
           <Card className="group max-w-xl overflow-hidden rounded-3xl border-none bg-muted/40 px-2 pt-2 shadow-none transition-all">
             <div className="rounded-3xl bg-sidebar pt-1 shadow-sm">
-              <CardHeader className="space-y-2 border-b bg-muted/30 p-6 text-center">
+              <CardHeader className="space-y-2 border-b p-6 text-center">
                 <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-yellow-100">
                   <DangerTriangle className="h-6 w-6 text-yellow-600" />
                 </div>
@@ -374,15 +338,6 @@ const SubmitForm = ({ params }: Props) => {
                 </h2>
               </CardHeader>
               <CardContent className="mx-auto flex w-full flex-col items-center justify-center rounded-3xl bg-sidebar px-2 pt-4 sm:px-6 sm:pt-6">
-                {/* <TSmall className="text-gray-600">
-                  {projectStatus.user.name} is currently not accepting new
-                  submissions for{" "}
-                  <span className="font-medium text-gray-800">
-                    {projectStatus.name}
-                  </span>
-                  .
-                </TSmall> */}
-
                 <p className="text-muted-foreground">
                   {projectStatus.user.name} is currently not accepting new
                   submissions for{" "}
@@ -398,7 +353,7 @@ const SubmitForm = ({ params }: Props) => {
                 </p>
               </CardContent>
             </div>
-            <CardFooter className="flex items-center justify-between bg-muted/50 px-6 py-2">
+            <CardFooter className="flex items-center justify-between px-6 py-2">
               <Modal open={isModalOpen} onOpenChange={setIsModalOpen}>
                 <ModalTrigger>
                   <Button variant="outline" className="w-fit">
@@ -427,66 +382,15 @@ const SubmitForm = ({ params }: Props) => {
                       />
                     </div>
                   </form>
-                  <ModalFooter>
+                  <ModalFooter className="mt-4 md:mt-0">
                     <Button type="submit">Subscribe</Button>
                   </ModalFooter>
-                  <ModalClose asChild>
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
-                    >
-                      <X className="h-4 w-4" />
-                      <span className="sr-only">Close</span>
-                    </Button>
-                  </ModalClose>
                 </ModalContent>
               </Modal>
             </CardFooter>
           </Card>
         </main>
       ) : (
-        //     <main
-        //     className={cn(
-        //       "relative z-10 flex min-h-screen items-center justify-center bg-gradient-to-br from-background to-background/95 p-4",
-        //       geistSans.className
-        //     )}
-        //   >
-        //  <Card className="group overflow-hidden rounded-3xl border-none   px-2 pt-2 shadow-none transition-all">
-        //    <div className="rounded-3xl bg-sidebar pt-1 shadow-sm">
-        //       <div className="rounded-3xl ">
-        //         <CardHeader className="space-y-2 border-b bg-muted/30 p-6 text-center">
-        //           <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-yellow-100">
-        //             <DangerTriangle className="h-6 w-6 text-yellow-600" />
-        //           </div>
-        //           <h2 className="text-2xl font-bold text-foreground">
-        //             Submissions Temporarily Paused
-        //           </h2>
-        //         </CardHeader>
-        //         <CardContent className="space-y-4 p-6 text-center">
-        //           <p className="text-muted-foreground">
-        //             {projectStatus.user.name} is currently not accepting new submissions for{" "}
-        //             <span className="font-semibold text-foreground">{projectStatus.name}</span>.
-        //           </p>
-        //           <p className="text-sm text-muted-foreground">
-        //             This project is in development mode. The creator may be updating the submission process or making improvements to enhance your experience.
-        //           </p>
-        //         </CardContent>
-        //       </div>
-        //       <CardFooter className="flex flex-col items-stretch gap-4 bg-muted/10 p-6 sm:flex-row sm:items-center sm:justify-between">
-        //         <Button variant="outline" className="w-full sm:w-auto" onClick={() => setIsModalOpen(true)}>
-        //           <Bell className="mr-2 h-4 w-4" />
-        //           Get Notified When Open
-        //         </Button>
-        //         <a href="/" className="text-sm text-muted-foreground hover:text-foreground">
-        //           Return to Homepage
-        //         </a>
-        //       </CardFooter>
-        //     </div>
-        //     </Card>
-
-        //   </main>
-
         projectStatus?.status === "PROD" && (
           <div className="m:px-6 flex min-h-[90vh] flex-1 flex-col rounded-xl bg-[#f3f2f1] shadow-inner md:m-4 md:py-12 lg:px-8">
             <Card className="mx-auto w-full max-w-2xl overflow-hidden border border-[#7c533a]/10 bg-sidebar">
