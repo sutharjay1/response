@@ -286,7 +286,7 @@ export default function Home() {
 
                         <Button className="w-full">Get Started</Button>
                       </CardHeader>
-                      <CardContent className="space-y-3 rounded-b-3xl border-t border-dashed bg-sidebar px-2 pt-4 sm:px-6 sm:pt-6">
+                      <CardContent className="space-y-3 rounded-b-3xl border-t border-dashed bg-sidebar px-6 pt-4 sm:pt-6">
                         <TSmall className="font-inter font-normal">
                           {response.pricing.plans.free.message}
                         </TSmall>
@@ -327,7 +327,7 @@ export default function Home() {
 
                         <Button className="w-full">Get Started</Button>
                       </CardHeader>
-                      <CardContent className="space-y-3 rounded-b-3xl border-t border-dashed bg-sidebar px-2 pt-4 sm:px-6 sm:pt-6">
+                      <CardContent className="space-y-3 rounded-b-3xl border-t border-dashed bg-sidebar px-6 pt-4 sm:pt-6">
                         <TSmall className="font-inter font-normal">
                           {response.pricing.plans.pro.message}
                         </TSmall>
@@ -368,7 +368,7 @@ export default function Home() {
 
                         <Button className="w-full">Get Started</Button>
                       </CardHeader>
-                      <CardContent className="space-y-3 rounded-b-3xl border-t border-dashed bg-sidebar px-2 pt-4 sm:px-6 sm:pt-6">
+                      <CardContent className="space-y-3 rounded-b-3xl border-t border-dashed bg-sidebar px-6 pt-4 sm:pt-6">
                         <TSmall className="font-inter font-normal">
                           {response.pricing.plans.premium.message}
                         </TSmall>
