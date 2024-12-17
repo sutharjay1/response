@@ -12,3 +12,24 @@ export const copyToClipboard = (text: string, message: string) => {
     });
   });
 };
+
+type PriceOptions = {
+  price: number;
+  options?: {
+    notation: "compact" | "standard";
+    currency: string;
+  };
+};
+
+export const formatPrice = ({ price, options }: PriceOptions) => {
+  const { currency = "INR", notation = "standard" } = options || {};
+
+  const numericPrice = typeof price === "string" ? parseFloat(price) : price;
+
+  return new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency,
+    notation: numericPrice < 100000 ? undefined : notation,
+    maximumFractionDigits: 2,
+  }).format(numericPrice);
+};

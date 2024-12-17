@@ -60,7 +60,7 @@ export default async function RootLayout({
       <CSPostHogProvider>
         <body
           className={cn(
-            "min-h-screen w-full scroll-smooth bg-background text-foreground antialiased",
+            "min-h-screen w-full scroll-smooth bg-background text-[#37322f] antialiased",
             geistSans.variable,
             geistSans.className,
           )}
