@@ -43,7 +43,7 @@ export default function Home() {
       <Nav />
       <div className="flex w-full flex-col items-center justify-center">
         <div className="mx-8 mt-3 h-full w-full rounded-3xl">
-          <main className="mx-auto h-full max-w-6xl px-4 py-12">
+          <main className="mx-auto h-full max-w-6xl px-4 pb-3 pt-12 md:py-12">
             <BlurFade delay={0.1} inView>
               <div className="mb-12 w-full text-center">
                 <Badge
