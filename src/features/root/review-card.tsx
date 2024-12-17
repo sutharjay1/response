@@ -43,7 +43,7 @@ export function ReviewCard({
           </TSmall>
         </div>
       </div>
-      <blockquote className="mt-2 text-sm">{body}</blockquote>
+      <blockquote className="mt-2 text-left text-sm">{body}</blockquote>
     </figure>
   );
 }

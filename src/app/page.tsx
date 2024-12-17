@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Marquee } from "@/components/ui/marquee";
 import { Separator } from "@/components/ui/separator";
-import { SkewedInfiniteScroll } from "@/components/ui/skewed-infinite-scroll";
+import { SkewedInfiniteScroll } from "@/features/root/skewed-infinite-scroll";
 import { TLarge, TSmall } from "@/components/ui/typography";
 import { aeonik, geistSans, inter } from "@/features/font";
 import Logo from "@/features/global/logo";
