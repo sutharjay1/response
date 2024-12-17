@@ -18,18 +18,21 @@ export const response = {
     three: " Better Experiences",
   },
   highlight: {
-    one: "Effortlessly collect and analyze feedback.",
-    two: "Unlock insights with video and text responses.",
+    message:
+      "Effortlessly collect and analyze feedback. Unlock insights with video and text responses.",
   },
   cta: {
-    title: "Connect to Response",
+    title: {
+      one: "Connect to",
+      two: "Response",
+    },
     description:
       "Harness the power of user feedback to create products that truly resonate",
     button: "Get started",
     badge: "Feedback Collection",
   },
   features: {
-    badge: "Feedback Collection",
+    badge: "Analytics Insights",
     title: "Comprehensive Analytics Suite",
     description:
       "Gain deep insights into your user base and product performance",
@@ -124,12 +127,12 @@ export const response = {
   ],
 
   extra: {
-    badge: "Feedback Collection",
+    badge: "Key Features",
     title: "Key Features",
     description: "Powerful tools to revolutionize your feedback process",
     items: [
       {
-        badge: "Feedback Collection",
+        badge: "Ease of Use",
         icon: Swatches,
         title: "Ease of Use",
         description:
@@ -148,7 +151,7 @@ export const response = {
   },
 
   pricing: {
-    badge: "Feedback Collection",
+    badge: "Pricing Plans",
     title: "Flexible Plans for Every Stage",
     description:
       "Choose the perfect plan to scale your feedback collection and analysis",

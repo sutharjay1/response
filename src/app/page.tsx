@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/card";
 import { Marquee } from "@/components/ui/marquee";
 import { Separator } from "@/components/ui/separator";
-import { SkewedInfiniteScroll } from "@/features/root/skewed-infinite-scroll";
 import { TLarge, TSmall } from "@/components/ui/typography";
 import { aeonik, geistSans, inter } from "@/features/font";
 import Logo from "@/features/global/logo";
@@ -17,14 +16,17 @@ import { Browser } from "@/features/root/browser";
 import { response } from "@/features/root/config";
 import { Nav } from "@/features/root/nav-bar";
 import { ReviewCard } from "@/features/root/review-card";
+import { SkewedInfiniteScroll } from "@/features/root/skewed-infinite-scroll";
 import { cn, formatPrice } from "@/lib/utils";
 import {
   BrandGithubSolid,
+  ChartBarTwo,
   CheckWaves,
   Database,
   File,
   LinkTwo,
   Rocket,
+  Rupee,
   Video,
 } from "@mynaui/icons-react";
 import Image from "next/image";
@@ -44,7 +46,7 @@ export default function Home() {
               <Badge
                 icon={<CheckWaves className="h-4 w-4" />}
                 variant="default"
-                className="mb-4 rounded-full border border-input py-1 text-sm font-medium"
+                className="mb-6 rounded-full border border-input py-1 text-sm font-medium"
               >
                 {response.heading.badge}
               </Badge>
@@ -70,13 +72,11 @@ export default function Home() {
 
               <p
                 className={cn(
-                  "mb-8 text-lg font-normal text-muted-foreground md:text-xl",
+                  "mx-auto mb-8 max-w-lg text-lg font-normal text-muted-foreground md:text-xl",
                   inter.variable,
                 )}
               >
-                {response.highlight.one}
-                <br />
-                {response.highlight.two}
+                {response.highlight.message}
               </p>
 
               <Button
@@ -116,8 +116,8 @@ export default function Home() {
           <main className="mx-auto w-full space-y-12 px-4 pb-12 md:max-w-6xl lg:px-4">
             <BlurFade delay={0.1} inView>
               <Card className="group overflow-hidden rounded-3xl border-none bg-muted/40 p-2 shadow-none transition-all">
-                <div className="relative z-10 flex flex-col items-start justify-center rounded-2xl border border-[#7c533a]/10 bg-sidebar px-4 py-6 text-center md:flex-row">
-                  <div className="ml-6 flex flex-col items-start justify-start">
+                <div className="relative z-10 flex flex-col items-start justify-center rounded-2xl border border-[#7c533a]/10 bg-sidebar p-6 text-center md:flex-row">
+                  <div className="ml-2 flex w-full flex-col items-start justify-start gap-y-4 md:ml-4">
                     <Badge
                       icon={<Database className="h-4 w-4" />}
                       variant="default"
@@ -126,26 +126,36 @@ export default function Home() {
                       {response.cta.badge}
                     </Badge>
 
-                    <h1
-                      className={cn(
-                        "mb-1 text-left text-4xl font-bold md:text-5xl",
-                        aeonik.className,
-                      )}
-                    >
-                      {response.cta.title}
-                    </h1>
+                    <div className="flex flex-1 flex-col space-y-1">
+                      <h2
+                        className={cn(
+                          "text-left text-4xl font-bold",
+                          aeonik.className,
+                        )}
+                      >
+                        {response.cta.title.one}{" "}
+                        <span
+                          className={cn(
+                            "font-semibold text-[#FF6B6B]",
+                            aeonik.className,
+                          )}
+                        >
+                          {response.cta.title.two}
+                        </span>
+                      </h2>
 
-                    <TSmall
-                      className={cn(
-                        "mb-4 max-w-md text-lg font-normal text-muted-foreground",
-                        inter.variable,
-                      )}
-                    >
-                      {response.cta.description}
-                    </TSmall>
+                      <TSmall
+                        className={cn(
+                          "mb-4 text-left text-lg font-normal leading-snug text-muted-foreground",
+                          inter.variable,
+                        )}
+                      >
+                        {response.cta.description}
+                      </TSmall>
+                    </div>
 
                     <Button
-                      className="rounded-2xl border border-[#201e1d]/80 px-8 py-4 font-medium shadow-inner"
+                      className="mt-4 rounded-2xl border border-[#201e1d]/80 px-8 py-4 font-medium shadow-inner"
                       asChild
                     >
                       <Link href="/signin">{response.cta.button}</Link>
@@ -160,7 +170,7 @@ export default function Home() {
               <div className="mx-auto mb-8 flex w-full flex-col items-center justify-center space-y-2">
                 <div className="flex w-fit items-center justify-center">
                   <Badge
-                    icon={<Rocket className="h-4 w-4" />}
+                    icon={<ChartBarTwo className="h-4 w-4" />}
                     variant="default"
                     className="mx-auto mb-4 ml-2 rounded-full border border-input py-1 text-sm font-medium"
                   >
@@ -203,7 +213,7 @@ export default function Home() {
                           </h2>
                         </div>
                       </CardHeader>
-                      <CardContent className="rounded-3xl bg-sidebar px-2 pt-2 sm:px-6 sm:pt-2">
+                      <CardContent className="rounded-3xl bg-sidebar px-2 pb-4 pt-2 sm:px-4">
                         <Image
                           src={feature.imageSrc}
                           alt={feature.title}
@@ -226,7 +236,7 @@ export default function Home() {
                 <div className="mx-auto mb-8 flex w-full flex-col items-center justify-center space-y-2">
                   <div className="flex w-fit items-center justify-center">
                     <Badge
-                      icon={<Rocket className="h-4 w-4" />}
+                      icon={<Rupee className="h-4 w-4" />}
                       variant="default"
                       className="mx-auto mb-4 ml-2 rounded-full border border-input py-1 text-sm font-medium"
                     >
