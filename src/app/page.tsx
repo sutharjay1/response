@@ -22,9 +22,9 @@ import {
   BrandGithubSolid,
   ChartBarTwo,
   CheckWaves,
+  Code,
   Database,
   FileCheck,
-  Code,
   Rocket,
   Rupee,
   Video,
@@ -42,73 +42,76 @@ export default function Home() {
       <div className="flex w-full flex-col items-center justify-center">
         <div className="mx-8 mt-3 h-full w-full rounded-3xl">
           <main className="mx-auto h-full max-w-6xl px-4 py-12">
-            <div className="mb-12 w-full text-center">
-              <Badge
-                icon={<CheckWaves className="h-4 w-4" />}
-                variant="default"
-                className="mb-6 rounded-full border border-input py-1 text-sm font-medium"
-              >
-                {response.heading.badge}
-              </Badge>
+            <BlurFade delay={0.1} inView>
+              <div className="mb-12 w-full text-center">
+                <Badge
+                  icon={<CheckWaves className="h-4 w-4" />}
+                  variant="default"
+                  className="mb-6 rounded-full border border-input py-1 text-sm font-medium"
+                >
+                  {response.heading.badge}
+                </Badge>
 
-              <h1
-                className={cn(
-                  "mb-4 text-4xl font-bold md:text-5xl",
-                  aeonik.className,
-                )}
-              >
-                {response.heading.one}{" "}
-                <span
+                <h1
                   className={cn(
-                    "font-semibold text-[#FF6B6B]",
+                    "mb-4 text-4xl font-bold md:text-5xl",
                     aeonik.className,
                   )}
                 >
-                  {response.heading.two}
-                </span>
-                <br />
-                {response.heading.three}
-              </h1>
+                  {response.heading.one}{" "}
+                  <span
+                    className={cn(
+                      "font-semibold text-[#FF6B6B]",
+                      aeonik.className,
+                    )}
+                  >
+                    {response.heading.two}
+                  </span>
+                  <br />
+                  {response.heading.three}
+                </h1>
 
-              <p
-                className={cn(
-                  "mx-auto mb-8 max-w-lg text-lg font-normal text-muted-foreground md:text-xl",
-                  inter.variable,
-                )}
-              >
-                {response.highlight.message}
-              </p>
+                <p
+                  className={cn(
+                    "mx-auto mb-8 max-w-lg text-lg font-normal text-muted-foreground md:text-xl",
+                    inter.variable,
+                  )}
+                >
+                  {response.highlight.message}
+                </p>
 
-              <Button
-                className="rounded-2xl border border-[#201e1d]/80 px-8 py-4 font-medium shadow-inner"
-                asChild
-              >
-                <Link href="/signin">Get started</Link>
-              </Button>
-            </div>
-
-            <div className="space-y-4 rounded-xl border-none border-[#7c533a]/10 bg-muted/40 p-4">
-              <Browser className="h-[28rem] w-full">
-                <section className="relative z-10 flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-b-xl border-x border-b">
-                  <Marquee pauseOnHover className="[--duration:20s]">
-                    {response.reviews
-                      .slice(0, response.reviews.length / 2)
-                      .map((review) => (
-                        <ReviewCard key={review.username} {...review} />
-                      ))}
-                  </Marquee>
-                  <Marquee reverse pauseOnHover className="[--duration:20s]">
-                    {response.reviews
-                      .slice(response.reviews.length / 2)
-                      .map((review) => (
-                        <ReviewCard key={review.username} {...review} />
-                      ))}
-                  </Marquee>
-                  <div className="pointer-events-none absolute inset-y-0 left-0 z-0 w-1/3 bg-gradient-to-r from-background dark:from-background"></div>
-                  <div className="pointer-events-none absolute inset-y-0 right-0 z-0 w-1/3 bg-gradient-to-l from-background dark:from-background"></div>
-                </section>
-              </Browser>
-            </div>
+                <Button
+                  className="rounded-2xl border border-[#201e1d]/80 px-8 py-4 font-medium shadow-inner"
+                  asChild
+                >
+                  <Link href="/signin">Get started</Link>
+                </Button>
+              </div>
+            </BlurFade>
+            <BlurFade delay={0.1} inView>
+              <div className="space-y-4 rounded-xl border-none border-[#7c533a]/10 bg-muted/40 p-4">
+                <Browser className="h-[28rem] w-full">
+                  <section className="relative z-10 flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-b-xl border-x border-b">
+                    <Marquee pauseOnHover className="[--duration:20s]">
+                      {response.reviews
+                        .slice(0, response.reviews.length / 2)
+                        .map((review) => (
+                          <ReviewCard key={review.username} {...review} />
+                        ))}
+                    </Marquee>
+                    <Marquee reverse pauseOnHover className="[--duration:20s]">
+                      {response.reviews
+                        .slice(response.reviews.length / 2)
+                        .map((review) => (
+                          <ReviewCard key={review.username} {...review} />
+                        ))}
+                    </Marquee>
+                    <div className="pointer-events-none absolute inset-y-0 left-0 z-0 w-1/3 bg-gradient-to-r from-background dark:from-background"></div>
+                    <div className="pointer-events-none absolute inset-y-0 right-0 z-0 w-1/3 bg-gradient-to-l from-background dark:from-background"></div>
+                  </section>
+                </Browser>
+              </div>
+            </BlurFade>
           </main>
         </div>
 
@@ -386,77 +389,78 @@ export default function Home() {
                 </div>
               </div>
             </BlurFade>
-
-            <div className="mx-auto py-5">
-              <div className="mx-auto mb-8 flex w-full flex-col items-center justify-center space-y-2">
-                <div className="flex w-fit items-center justify-center">
-                  <Badge
-                    icon={<Rocket className="h-4 w-4" />}
-                    variant="default"
-                    className="mx-auto mb-4 ml-2 rounded-full border border-input py-1 text-sm font-medium"
+            <BlurFade delay={0.1} inView>
+              <div className="mx-auto py-5">
+                <div className="mx-auto mb-8 flex w-full flex-col items-center justify-center space-y-2">
+                  <div className="flex w-fit items-center justify-center">
+                    <Badge
+                      icon={<Rocket className="h-4 w-4" />}
+                      variant="default"
+                      className="mx-auto mb-4 ml-2 rounded-full border border-input py-1 text-sm font-medium"
+                    >
+                      {response.extra.badge}
+                    </Badge>
+                  </div>
+                  <h2
+                    className={cn(
+                      "text-center text-3xl font-bold",
+                      aeonik.className,
+                    )}
                   >
-                    {response.extra.badge}
-                  </Badge>
+                    {response.extra.title}
+                  </h2>
+                  <TSmall
+                    className={cn(
+                      "mb-4 text-center text-lg font-normal text-muted-foreground",
+                      inter.variable,
+                    )}
+                  >
+                    {response.extra.description}
+                  </TSmall>
                 </div>
-                <h2
-                  className={cn(
-                    "text-center text-3xl font-bold",
-                    aeonik.className,
-                  )}
-                >
-                  {response.extra.title}
-                </h2>
-                <TSmall
-                  className={cn(
-                    "mb-4 text-center text-lg font-normal text-muted-foreground",
-                    inter.variable,
-                  )}
-                >
-                  {response.extra.description}
-                </TSmall>
-              </div>
 
-              <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2">
-                {response.extra.items.map(
-                  ({ badge, icon: Icon, title, description, color }) => (
-                    <BlurFade delay={0.1} inView key={title}>
-                      <div
-                        className={cn(
-                          "flex flex-col justify-between rounded-3xl p-8 shadow-lg lg:p-12",
-                          color,
-                        )}
-                      >
-                        <Badge
-                          icon={<Icon className="h-4 w-4" />}
-                          variant="default"
-                          className="mb-4 w-fit rounded-full border border-[#201e1d]/80 bg-[#37322f] py-1 text-sm font-medium text-sidebar hover:bg-[#37322f]"
-                        >
-                          {badge}
-                        </Badge>
-
-                        <h1
+                <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2">
+                  {response.extra.items.map(
+                    ({ badge, icon: Icon, title, description, color }) => (
+                      <BlurFade delay={0.1} inView key={title}>
+                        <div
                           className={cn(
-                            "mb-4 text-4xl font-bold text-white md:text-5xl",
-                            aeonik.className,
+                            "flex flex-col justify-between rounded-3xl p-8 shadow-lg lg:p-12",
+                            color,
                           )}
                         >
-                          {title}
-                        </h1>
+                          <Badge
+                            icon={<Icon className="h-4 w-4" />}
+                            variant="default"
+                            className="mb-4 w-fit rounded-full border border-[#201e1d]/80 bg-[#37322f] py-1 text-sm font-medium text-sidebar hover:bg-[#37322f]"
+                          >
+                            {badge}
+                          </Badge>
 
-                        <TSmall
-                          className={cn(
-                            "mb-0 max-w-md text-lg font-normal leading-snug text-white/80",
-                            inter.variable,
-                          )}
-                        >
-                          {description}
-                        </TSmall>
-                      </div>
-                    </BlurFade>
-                  ),
-                )}
+                          <h1
+                            className={cn(
+                              "mb-4 text-4xl font-bold text-white md:text-5xl",
+                              aeonik.className,
+                            )}
+                          >
+                            {title}
+                          </h1>
+
+                          <TSmall
+                            className={cn(
+                              "mb-0 max-w-md text-lg font-normal leading-snug text-white/80",
+                              inter.variable,
+                            )}
+                          >
+                            {description}
+                          </TSmall>
+                        </div>
+                      </BlurFade>
+                    ),
+                  )}
+                </div>
               </div>
-            </div>
+            </BlurFade>
           </main>
         </div>
       </div>
