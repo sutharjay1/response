@@ -94,28 +94,37 @@ export default function Home() {
               </div>
             </BlurFade>
             <BlurFade delay={0.1} inView>
-              <div className="space-y-4 rounded-xl border-none border-[#7c533a]/10 bg-muted/40 p-4">
-                <Browser className="h-[28rem] w-full">
-                  <section className="relative z-10 flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-b-xl border-x border-b">
-                    <Marquee pauseOnHover className="[--duration:20s]">
-                      {response.reviews
-                        .slice(0, response.reviews.length / 2)
-                        .map((review) => (
-                          <ReviewCard key={review.username} {...review} />
-                        ))}
-                    </Marquee>
-                    <Marquee reverse pauseOnHover className="[--duration:20s]">
-                      {response.reviews
-                        .slice(response.reviews.length / 2)
-                        .map((review) => (
-                          <ReviewCard key={review.username} {...review} />
-                        ))}
-                    </Marquee>
-                    <div className="pointer-events-none absolute inset-y-0 left-0 z-0 w-1/3 bg-gradient-to-r from-background dark:from-background"></div>
-                    <div className="pointer-events-none absolute inset-y-0 right-0 z-0 w-1/3 bg-gradient-to-l from-background dark:from-background"></div>
-                  </section>
-                </Browser>
-              </div>
+              <Card className="group overflow-hidden rounded-3xl border-none bg-muted/40 p-3 shadow-none transition-all md:p-4">
+                <div className="space-y-4 rounded-2xl bg-sidebar">
+                  <Browser
+                    className="h-[28rem] w-full rounded-2xl"
+                    tabClassName="rounded-t-2xl"
+                  >
+                    <section className="relative z-10 flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-b-2xl">
+                      <Marquee pauseOnHover className="[--duration:20s]">
+                        {response.reviews
+                          .slice(0, response.reviews.length / 2)
+                          .map((review) => (
+                            <ReviewCard key={review.username} {...review} />
+                          ))}
+                      </Marquee>
+                      <Marquee
+                        reverse
+                        pauseOnHover
+                        className="[--duration:20s]"
+                      >
+                        {response.reviews
+                          .slice(response.reviews.length / 2)
+                          .map((review) => (
+                            <ReviewCard key={review.username} {...review} />
+                          ))}
+                      </Marquee>
+                      <div className="pointer-events-none absolute inset-y-0 left-0 z-0 w-1/3 bg-gradient-to-r from-background dark:from-background"></div>
+                      <div className="pointer-events-none absolute inset-y-0 right-0 z-0 w-1/3 bg-gradient-to-l from-background dark:from-background"></div>
+                    </section>
+                  </Browser>
+                </div>
+              </Card>
             </BlurFade>
           </main>
         </div>

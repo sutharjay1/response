@@ -5,8 +5,10 @@ import { geistSans } from "../font";
 export function Browser({
   className,
   children,
+  tabClassName,
 }: {
   className?: string;
+  tabClassName?: string;
   children?: React.ReactNode;
 }) {
   return (
@@ -17,7 +19,12 @@ export function Browser({
         geistSans.className,
       )}
     >
-      <div className="z-50 flex w-full items-center justify-between rounded-t-xl border-b-2 border-[#201e1d]/10 bg-[#37322f] bg-inherit px-4 py-2">
+      <div
+        className={cn(
+          "z-50 flex w-full items-center justify-between rounded-t-xl border-b-2 border-[#201e1d]/10 bg-[#37322f] bg-inherit px-4 py-2",
+          tabClassName,
+        )}
+      >
         <div className="flex gap-2">
           <div className="h-3 w-3 rounded-full bg-sidebar-border" />
           <div className="h-3 w-3 rounded-full bg-sidebar-border" />
