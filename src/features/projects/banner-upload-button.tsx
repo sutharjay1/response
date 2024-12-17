@@ -341,7 +341,7 @@ export const BannerUploadDropZone: React.FC<BannerUploadDropZoneProps> = ({
         </Button>
 
         <Modal open={open} onOpenChange={setOpen}>
-          <ModalContent className="h-[32rem] max-w-3xl gap-0 p-0">
+          <ModalContent className="gap-0 p-0 lg:max-w-[44rem]">
             <ModalHeader className="p-4 pb-2">
               <ModalTitle>Search Images</ModalTitle>
             </ModalHeader>
@@ -370,7 +370,12 @@ export const BannerUploadDropZone: React.FC<BannerUploadDropZoneProps> = ({
               </div>
             </div>
 
-            <ScrollArea className="h-64 border-t">
+            <ScrollArea
+              className={cn(
+                "border-t",
+                searchResults.length === 0 ? "h-64" : "h-[40rem]",
+              )}
+            >
               {isLoading && (
                 <div className="grid grid-cols-3 gap-4 p-4 md:grid-cols-3">
                   {Array.from({ length: 6 }).map((_, index) => (
