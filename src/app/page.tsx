@@ -23,8 +23,8 @@ import {
   ChartBarTwo,
   CheckWaves,
   Database,
-  File,
-  LinkTwo,
+  FileCheck,
+  Code,
   Rocket,
   Rupee,
   Video,
@@ -287,11 +287,11 @@ export default function Home() {
                             (feature, index) => (
                               <li className="flex items-center" key={feature}>
                                 {index === 0 ? (
-                                  <File className="mr-2 h-5 w-5" />
+                                  <FileCheck className="mr-2 h-5 w-5" />
                                 ) : index === 1 ? (
                                   <Video className="mr-2 h-5 w-5" />
                                 ) : (
-                                  <LinkTwo className="mr-2 h-5 w-5" />
+                                  <Code className="mr-2 h-5 w-5" />
                                 )}
                                 {feature}
                               </li>
@@ -328,11 +328,11 @@ export default function Home() {
                             (feature, index) => (
                               <li className="flex items-center" key={feature}>
                                 {index === 0 ? (
-                                  <File className="mr-2 h-5 w-5" />
+                                  <FileCheck className="mr-2 h-5 w-5" />
                                 ) : index === 1 ? (
                                   <Video className="mr-2 h-5 w-5" />
                                 ) : (
-                                  <LinkTwo className="mr-2 h-5 w-5" />
+                                  <Code className="mr-2 h-5 w-5" />
                                 )}
                                 {feature}
                               </li>
@@ -369,11 +369,11 @@ export default function Home() {
                             (feature, index) => (
                               <li className="flex items-center" key={feature}>
                                 {index === 0 ? (
-                                  <File className="mr-2 h-5 w-5" />
+                                  <FileCheck className="mr-2 h-5 w-5" />
                                 ) : index === 1 ? (
                                   <Video className="mr-2 h-5 w-5" />
                                 ) : (
-                                  <LinkTwo className="mr-2 h-5 w-5" />
+                                  <Code className="mr-2 h-5 w-5" />
                                 )}
                                 {feature}
                               </li>

@@ -181,9 +181,9 @@ export const response = {
         price: 2499,
         message: "All features included",
         features: [
-          "Unlimited form creations",
-          "Unlimited video accepts",
-          "Unlimited script generations",
+          "ꝏ form creations",
+          "ꝏ video accepts",
+          "ꝏ script generations",
         ],
       },
     },
