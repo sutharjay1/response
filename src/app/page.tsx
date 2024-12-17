@@ -196,37 +196,39 @@ export default function Home() {
               </div>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
                 {response.features.items.map((feature) => (
-                  <Card
-                    className="group overflow-hidden rounded-3xl border-none bg-muted/40 px-2 pt-2 shadow-none transition-all"
-                    key={feature.id}
-                  >
-                    <div className="rounded-3xl bg-sidebar pt-1 shadow-sm">
-                      <CardHeader className="m-2 flex items-center gap-2 space-y-0 border-b bg-sidebar py-2 sm:flex-row">
-                        <div className="grid flex-1 gap-1 text-center sm:text-left">
-                          <h2
-                            className={cn(
-                              "text-lg font-semibold text-primary",
-                              aeonik.className,
-                            )}
-                          >
-                            {feature.title}
-                          </h2>
-                        </div>
-                      </CardHeader>
-                      <CardContent className="rounded-3xl bg-sidebar px-2 pb-4 pt-2 sm:px-4">
-                        <Image
-                          src={feature.imageSrc}
-                          alt={feature.title}
-                          width={500}
-                          height={500}
-                          className="rounded-3xl"
-                        />
-                      </CardContent>
-                    </div>
-                    <CardFooter className="flex items-center gap-4 p-4">
-                      <feature.icon className="h-6 w-6" /> {feature.footer}
-                    </CardFooter>
-                  </Card>
+                  <BlurFade delay={0.1} inView key={feature.id}>
+                    <Card
+                      className="group overflow-hidden rounded-3xl border-none bg-muted/40 px-2 pt-2 shadow-none transition-all"
+                      key={feature.id}
+                    >
+                      <div className="rounded-3xl bg-sidebar pt-1 shadow-sm">
+                        <CardHeader className="m-2 flex items-center gap-2 space-y-0 border-b bg-sidebar py-2 sm:flex-row">
+                          <div className="grid flex-1 gap-1 text-center sm:text-left">
+                            <h2
+                              className={cn(
+                                "text-lg font-semibold text-primary",
+                                aeonik.className,
+                              )}
+                            >
+                              {feature.title}
+                            </h2>
+                          </div>
+                        </CardHeader>
+                        <CardContent className="rounded-3xl bg-sidebar px-2 pb-4 pt-2 sm:px-4">
+                          <Image
+                            src={feature.imageSrc}
+                            alt={feature.title}
+                            width={500}
+                            height={500}
+                            className="rounded-3xl"
+                          />
+                        </CardContent>
+                      </div>
+                      <CardFooter className="flex items-center gap-4 p-4">
+                        <feature.icon className="h-6 w-6" /> {feature.footer}
+                      </CardFooter>
+                    </Card>
+                  </BlurFade>
                 ))}
               </div>
             </BlurFade>
@@ -459,69 +461,71 @@ export default function Home() {
         </div>
       </div>
 
-      <footer className="relative mx-2 mb-2 overflow-hidden rounded-3xl bg-gradient-to-br from-[#37322f] to-[#201e1d] px-4 py-8 text-sidebar sm:px-6 lg:px-8">
-        <div className="relative z-10 h-60 w-full text-center">
-          <div className="absolute left-1/2 -translate-x-1/2 translate-y-[140%] text-[108px] font-bold leading-none md:translate-y-[22%] md:text-[278px]">
-            <span className="select-none bg-gradient-to-b from-transparent to-neutral-700/50 bg-clip-text text-transparent">
-              response
-            </span>
-          </div>
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-2/3">
-            <div className="h-56 w-56 rounded-full border-[20px] border-[#7c533a]/60 blur-[80px]"></div>
-          </div>
-        </div>
-
-        <div className="container absolute left-0 right-0 top-0 z-50 mx-auto mt-6 flex w-full max-w-5xl flex-col items-center">
-          <div className="mt-4 flex w-full flex-col items-center justify-around gap-6 md:flex-row">
-            <Logo />
-            <nav className="flex w-fit flex-wrap items-center justify-center gap-5 gap-y-3 lg:flex-nowrap lg:gap-12">
-              <span
-                className={cn(
-                  "flex items-center space-x-1 text-sm font-medium leading-7",
-                  geistSans.className,
-                )}
-              >
-                <span>Building in public by</span>
-                <Button asChild variant="link" className="px-0 text-sidebar">
-                  <Link
-                    href="https://peerlist.io/sutharjay"
-                    target="_blank"
-                    aria-label="Jay Suthar"
-                    className=" "
-                  >
-                    Jay Suthar
-                  </Link>
-                </Button>
+      <BlurFade delay={0.1} inView>
+        <footer className="relative mx-2 mb-2 overflow-hidden rounded-3xl bg-gradient-to-br from-[#37322f] to-[#201e1d] px-4 py-8 text-sidebar sm:px-6 lg:px-8">
+          <div className="relative z-10 h-60 w-full text-center">
+            <div className="absolute left-1/2 -translate-x-1/2 translate-y-[140%] text-[108px] font-bold leading-none md:translate-y-[22%] md:text-[278px]">
+              <span className="select-none bg-gradient-to-b from-transparent to-neutral-700/50 bg-clip-text text-transparent">
+                response
               </span>
-            </nav>
-            <div className="flex w-fit items-center gap-3">
-              <Link
-                href="https://github.com/sutharjay1/response"
-                target="_blank"
-                aria-label="Response GitHub repository"
-              >
-                <BrandGithubSolid className="h-6 w-6" />
-              </Link>
-              <Separator
-                orientation="vertical"
-                className="h-6 bg-sidebar-border/20"
-              />
-              <Link
-                href="https://peerlist.io/sutharjay"
-                target="_blank"
-                aria-label="Response GitHub repository"
-              >
-                <Image
-                  src="https://res.cloudinary.com/cdn-feedback/image/upload/v1733355730/response/peerlist.png"
-                  alt="Peerlist logo"
-                  width={32}
-                  height={32}
-                />
-              </Link>
+            </div>
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-2/3">
+              <div className="h-56 w-56 rounded-full border-[20px] border-[#7c533a]/60 blur-[80px]"></div>
             </div>
           </div>
-        </div>
-      </footer>
+
+          <div className="container absolute left-0 right-0 top-0 z-50 mx-auto mt-6 flex w-full max-w-5xl flex-col items-center">
+            <div className="mt-4 flex w-full flex-col items-center justify-around gap-6 md:flex-row">
+              <Logo />
+              <nav className="flex w-fit flex-wrap items-center justify-center gap-5 gap-y-3 lg:flex-nowrap lg:gap-12">
+                <span
+                  className={cn(
+                    "flex items-center space-x-1 text-sm font-medium leading-7",
+                    geistSans.className,
+                  )}
+                >
+                  <span>Building in public by</span>
+                  <Button asChild variant="link" className="px-0 text-sidebar">
+                    <Link
+                      href="https://peerlist.io/sutharjay"
+                      target="_blank"
+                      aria-label="Jay Suthar"
+                      className=" "
+                    >
+                      Jay Suthar
+                    </Link>
+                  </Button>
+                </span>
+              </nav>
+              <div className="flex w-fit items-center gap-3">
+                <Link
+                  href="https://github.com/sutharjay1/response"
+                  target="_blank"
+                  aria-label="Response GitHub repository"
+                >
+                  <BrandGithubSolid className="h-6 w-6" />
+                </Link>
+                <Separator
+                  orientation="vertical"
+                  className="h-6 bg-sidebar-border/20"
+                />
+                <Link
+                  href="https://peerlist.io/sutharjay"
+                  target="_blank"
+                  aria-label="Response GitHub repository"
+                >
+                  <Image
+                    src="https://res.cloudinary.com/cdn-feedback/image/upload/v1733355730/response/peerlist.png"
+                    alt="Peerlist logo"
+                    width={32}
+                    height={32}
+                  />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </BlurFade>
     </div>
   );
 }
