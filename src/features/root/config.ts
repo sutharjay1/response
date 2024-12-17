@@ -165,7 +165,7 @@ export const response = {
       },
       pro: {
         name: "Pro",
-        price: 159,
+        price: 199,
         message: "All features included",
         features: [
           "25 form creations",

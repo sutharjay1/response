@@ -203,17 +203,18 @@ export default function Home() {
                           </h2>
                         </div>
                       </CardHeader>
-                      <CardContent className="rounded-3xl bg-sidebar px-2 pt-4 sm:px-6 sm:pt-6">
+                      <CardContent className="rounded-3xl bg-sidebar px-2 pt-2 sm:px-6 sm:pt-2">
                         <Image
                           src={feature.imageSrc}
                           alt={feature.title}
                           width={500}
                           height={500}
+                          className="rounded-3xl"
                         />
                       </CardContent>
                     </div>
-                    <CardFooter className="flex items-center gap-4 p-0 px-2 py-4">
-                      {/* <feature.icon className="h-4 w-4" /> {feature.footer} */}
+                    <CardFooter className="flex items-center gap-4 p-4">
+                      <feature.icon className="h-6 w-6" /> {feature.footer}
                     </CardFooter>
                   </Card>
                 ))}
@@ -260,9 +261,7 @@ export default function Home() {
                         <TLarge
                           className={cn("pb-4 text-4xl", aeonik.className)}
                         >
-                          {formatPrice({
-                            price: parseInt(response.pricing.plans.free.price),
-                          })}
+                          {response.pricing.plans.free.price}
                         </TLarge>
 
                         <Button className="w-full">Get Started</Button>
@@ -372,84 +371,6 @@ export default function Home() {
                       </CardContent>
                     </div>
                   </Card>
-
-                  {/* <Card className="group overflow-hidden rounded-3xl border-none bg-muted/40 p-2 shadow-none transition-all">
-                    <div className="rounded-3xl bg-sidebar py-1 shadow-sm">
-                      <CardHeader className="m-2 flex flex-col items-start gap-2 space-y-0 bg-sidebar py-2">
-                        <TSmall className="font-inter text-base font-normal text-muted-foreground">
-                          Pro
-                        </TSmall>
-
-                        <TLarge
-                          className={cn("pb-4 text-4xl", aeonik.className)}
-                        >
-                          {formatPrice({
-                            price: 159,
-                          })}
-                        </TLarge>
-
-                        <Button className="w-full">Get Started</Button>
-                      </CardHeader>
-                      <CardContent className="space-y-3 rounded-b-3xl border-t border-dashed bg-sidebar px-2 pt-4 sm:px-6 sm:pt-6">
-                        <TSmall className="font-inter font-normal">
-                          Everything in Pro plus:
-                        </TSmall>
-                        <ul className="space-y-2">
-                          <li className="flex items-center">
-                            <File className="mr-2 h-5 w-5" />
-                            25 form creations
-                          </li>
-                          <li className="flex items-center">
-                            <Video className="mr-2 h-5 w-5" />
-                            50 video accepts
-                          </li>
-                          <li className="flex items-center">
-                            <LinkTwo className="mr-2 h-5 w-5" />
-                            200 script generations
-                          </li>
-                        </ul>
-                      </CardContent>
-                    </div>
-                  </Card>
-
-                  <Card className="group overflow-hidden rounded-3xl border-none bg-muted/40 p-2 shadow-none transition-all">
-                    <div className="rounded-3xl bg-sidebar py-1 shadow-sm">
-                      <CardHeader className="m-2 flex flex-col items-start gap-2 space-y-0 bg-sidebar py-2">
-                        <TSmall className="font-inter text-base font-normal text-muted-foreground">
-                          Premium
-                        </TSmall>
-
-                        <TLarge
-                          className={cn("pb-4 text-4xl", aeonik.className)}
-                        >
-                          {formatPrice({
-                            price: 2499,
-                          })}
-                        </TLarge>
-
-                        <Button className="w-full">Get Started</Button>
-                      </CardHeader>
-                      <CardContent className="space-y-3 rounded-b-3xl border-t border-dashed bg-sidebar px-2 pt-4 sm:px-6 sm:pt-6">
-                        <TSmall className="font-inter font-normal">
-                          Everything in Premium plus:
-                        </TSmall>
-                        <ul className="space-y-2">
-                          <li className="flex items-center">
-                            <File className="mr-2 h-5 w-5" />
-                            Unlimited form creations
-                          </li>
-                          <li className="flex items-center">
-                            <Video className="mr-2 h-5 w-5" />
-                            Unlimited video accepts
-                          </li>
-                          <li className="flex items-center">
-                            <LinkTwo className="mr-2 h-5 w-5" />
-                            Unlimited script generations
-                          </li>
-                        </ul>
-                      </CardContent>
-                    </div>
-                  </Card> */}
                 </div>
               </div>
             </BlurFade>
@@ -551,7 +472,6 @@ export default function Home() {
                 )}
               >
                 <span>Building in public by</span>
-                {/* <Separator orientation="vertical" className=" h-4" /> */}
                 <Button asChild variant="link" className="px-0 text-sidebar">
                   <Link
                     href="https://peerlist.io/sutharjay"
