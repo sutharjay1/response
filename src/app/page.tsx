@@ -9,6 +9,8 @@ import {
 } from "@/components/ui/card";
 import { Marquee } from "@/components/ui/marquee";
 import { Separator } from "@/components/ui/separator";
+import { TextLoop } from "@/components/ui/text-loop";
+import { TextShimmer } from "@/components/ui/text-shimmer";
 import { TLarge, TSmall } from "@/components/ui/typography";
 import { aeonik, geistSans, inter } from "@/features/font";
 import Logo from "@/features/global/logo";
@@ -58,17 +60,20 @@ export default function Home() {
                     aeonik.className,
                   )}
                 >
-                  {response.heading.one}{" "}
+                  <TextShimmer duration={2}>{response.heading.one}</TextShimmer>{" "}
+                  {response.heading.two}
+                  <br />
                   <span
                     className={cn(
                       "font-semibold text-[#FF6B6B]",
                       aeonik.className,
                     )}
                   >
-                    {response.heading.two}
+                    <TextLoop>
+                      {response.heading.four}
+                      {response.heading.three}
+                    </TextLoop>
                   </span>
-                  <br />
-                  {response.heading.three}
                 </h1>
 
                 <p
@@ -119,8 +124,8 @@ export default function Home() {
           <main className="mx-auto w-full space-y-12 px-4 pb-12 md:max-w-6xl lg:px-4">
             <BlurFade delay={0.1} inView className="py-8">
               <Card className="group overflow-hidden rounded-3xl border-none bg-muted/40 p-2 shadow-none transition-all">
-                <div className="relative z-10 flex flex-col items-start justify-center rounded-2xl border border-[#7c533a]/10 bg-sidebar p-6 text-center md:flex-row">
-                  <div className="ml-2 flex w-full flex-col items-start justify-start gap-y-4 md:ml-4">
+                <div className="relative z-10 flex flex-col-reverse items-start justify-center rounded-2xl border border-[#7c533a]/10 bg-sidebar p-6 text-center md:flex-row">
+                  <div className="ml-2 mt-4 flex w-full flex-col items-start justify-start gap-y-4 md:ml-4 md:mt-0">
                     <Badge
                       icon={<Database className="h-4 w-4" />}
                       variant="default"

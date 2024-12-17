@@ -16,7 +16,7 @@ export const SkewedInfiniteScroll = ({
   return (
     <div className={cn("flex items-center justify-center", className)}>
       <div
-        className="relative w-full max-w-screen-lg overflow-hidden"
+        className="relative w-full overflow-hidden"
         style={{
           maskComposite: "intersect",
           maskImage: `
@@ -27,7 +27,7 @@ export const SkewedInfiniteScroll = ({
         `,
         }}
       >
-        <div className="mx-auto grid h-[250px] w-[300px] animate-skew-scroll grid-cols-1 gap-5 sm:w-[600px] sm:grid-cols-2">
+        <div className="mx-auto grid h-[250px] w-full animate-skew-scroll grid-cols-2 gap-5 sm:w-[600px] sm:grid-cols-2">
           {reviews.map((review) => (
             <div
               key={review.name}

@@ -12,9 +12,9 @@ import { authOptions } from "./api/auth/[...nextauth]/auth";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Response - Streamlined Feedback for Better Experiences",
+  title: "Response - Spotlight What Matters in Feedback",
   description:
-    "Response is a dynamic feedback platform empowering teams to collect, analyze, and act on user feedback effortlessly. Whether it's video or text responses, Response integrates seamlessly with your workflow, offering an embedded script feature for easy deployment. Unlock actionable insights to improve products and foster meaningful user engagement.",
+    "Response is a dynamic feedback platform empowering teams to collect, analyze, and act on user feedback effortlessly. Collect video or text responses seamlessly and integrate the embedded script feature into your workflow. Unlock actionable insights to improve products and foster meaningful user engagement.",
   keywords: [
     "feedback management",
     "user feedback",
@@ -23,27 +23,37 @@ export const metadata: Metadata = {
     "embedded script",
     "user engagement",
     "SaaS",
-    "development",
+    "product development",
   ],
   authors: [{ name: "Response Team" }],
   creator: "Jay Suthar",
   openGraph: {
-    title: "Response - Your Feedback System",
-    description: "Collect feedback easily with video or text on Response.",
+    title: "Response - Spotlight What Matters in Feedback",
+    description:
+      "Easily collect and analyze feedback with video or text responses on Response.",
+    url: "https://response.sutharjay.com",
+    type: "website",
     images: [
       {
         url: "https://res.cloudinary.com/cdn-feedback/image/upload/v1733506409/response/response-no-border.png",
+        alt: "Response Platform - Feedback System",
+        width: 1200,
+        height: 630,
       },
     ],
-    url: "https://response.sutharjay.com",
-    type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Response - Your Feedback System",
-    description: "Collect feedback easily with video or text on Response.",
+    title: "Response - Spotlight What Matters in Feedback",
+    description:
+      "Easily collect and analyze feedback with video or text responses on Response.",
     images: [
-      "https://res.cloudinary.com/cdn-feedback/image/upload/v1733506409/response/response-no-border.png",
+      {
+        url: "https://res.cloudinary.com/cdn-feedback/image/upload/v1733506409/response/response-no-border.png",
+        alt: "Response Platform - Feedback System",
+        width: 1200,
+        height: 630,
+      },
     ],
   },
 };

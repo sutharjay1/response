@@ -12,10 +12,10 @@ import {
 export const response = {
   heading: {
     badge: "Respone beta",
-    // one:"Transform Feedback into Actionable Insights",
-    one: "Streamlined for",
-    two: "Feedback",
-    three: " Better Experiences",
+    one: "Spotlight",
+    two: "What Matters in",
+    three: "Feedback",
+    four: "Review",
   },
   highlight: {
     message:
