@@ -21,14 +21,17 @@ import { useUser } from "@/hooks/use-user";
 import { cn } from "@/lib/utils";
 import { Check, ChevronUpDown } from "@mynaui/icons-react";
 import { Project } from "@prisma/client";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { getProjects } from "../projects/actions/get-projects";
 
 export function ProjectDropDown({ className }: { className?: string }) {
   const { user } = useUser();
   const { isMobile } = useSidebar();
+  const router = useRouter();
   const { project, setProject } = useProject();
+  const queryClient = useQueryClient();
 
   const { data: projects, isLoading: loadingProjects } = useQuery({
     queryKey: ["projects", user?.id],
@@ -47,10 +50,12 @@ export function ProjectDropDown({ className }: { className?: string }) {
     }
   }, [loadingProjects, projects, project?.id, setProject]);
 
-  const handleSelectProject = (projectId: string) => {
+  const handleSelectProject = async (projectId: string) => {
     const selectedProject = projects?.find((p) => p.id === projectId);
     if (selectedProject) {
       setProject(selectedProject);
+      await router.push(`/projects/${projectId}`);
+      await queryClient.invalidateQueries({ queryKey: ["project-fields"] });
     }
   };
 

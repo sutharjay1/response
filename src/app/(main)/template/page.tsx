@@ -23,7 +23,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { TLarge, TSmall } from "@/components/ui/typography";
-import { errorToast } from "@/features/global/toast";
+import { errorToast, successToast } from "@/features/global/toast";
 import {
   createProjectWithTemplate,
   TTemplate,
@@ -112,21 +112,22 @@ const TemplatesGrid = () => {
         throw error;
       }
     },
+    onSuccess: (data) => {
+      successToast("Redirecting...");
+      router.push(`/projects/${data.id}`);
+    },
   });
 
   const onSubmit = async (values: TFormValues) => {
     if (!selectedTemplate) return;
 
     try {
-      const template = await mutateAsync({
+      await mutateAsync({
         name: values.name,
         description: values.description,
         userId: user.id,
         template: selectedTemplate,
       });
-      if (template.id) {
-        router.push(`/projects/${template.id}`);
-      }
     } catch (error) {
       if (error instanceof Error) {
         errorToast(error.message);
