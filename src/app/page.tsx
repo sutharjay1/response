@@ -114,7 +114,7 @@ export default function Home() {
 
         <div className="mx-4 my-3 h-full w-full rounded-3xl md:mx-8">
           <main className="mx-auto w-full space-y-12 px-4 pb-12 md:max-w-6xl lg:px-4">
-            <BlurFade delay={0.1} inView>
+            <BlurFade delay={0.1} inView className="py-8">
               <Card className="group overflow-hidden rounded-3xl border-none bg-muted/40 p-2 shadow-none transition-all">
                 <div className="relative z-10 flex flex-col items-start justify-center rounded-2xl border border-[#7c533a]/10 bg-sidebar p-6 text-center md:flex-row">
                   <div className="ml-2 flex w-full flex-col items-start justify-start gap-y-4 md:ml-4">
@@ -166,7 +166,7 @@ export default function Home() {
               </Card>
             </BlurFade>
 
-            <BlurFade delay={0.1} inView className="pb-16">
+            <BlurFade delay={0.1} inView className="pb-8">
               <div className="mx-auto mb-8 flex w-full flex-col items-center justify-center space-y-2">
                 <div className="flex w-fit items-center justify-center">
                   <Badge
@@ -234,7 +234,7 @@ export default function Home() {
             </BlurFade>
 
             <BlurFade delay={0.1} inView>
-              <div className="mx-auto w-full max-w-5xl px-4 pb-16">
+              <div className="mx-auto w-full max-w-5xl px-4 pb-8">
                 <div className="mx-auto mb-8 flex w-full flex-col items-center justify-center space-y-2">
                   <div className="flex w-fit items-center justify-center">
                     <Badge
