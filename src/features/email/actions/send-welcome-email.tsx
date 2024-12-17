@@ -10,5 +10,6 @@ export const sendWelcomeEmail = async ({ user }: { user: User }) => {
     });
   } catch (error) {
     console.log(error);
+    throw new Error("Failed to send email");
   }
 };
