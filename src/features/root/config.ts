@@ -141,7 +141,7 @@ export const response = {
         icon: HardDrive,
         title: "Data to Insights",
         description:
-          "Leverage advanced analytics to transform raw feedback into actionable insights. Make data-driven decisions to enhance user satisfaction and product performance.",
+          "Turn feedback into actionable insights with advanced analytics. Gain clarity on user sentiment and make data-driven decisions with ease.",
         color: "bg-gradient-to-br from-[#37322f] to-[#201e1d]",
       },
     ],
