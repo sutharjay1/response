@@ -163,17 +163,17 @@ export const response = {
         features: [
           "2 form creations",
           "5 video accepts",
-          "100 script generations",
+          "50 script generations",
         ],
       },
       pro: {
         name: "Pro",
-        price: 199,
+        price: 399,
         message: "All features included",
         features: [
           "25 form creations",
           "50 video accepts",
-          "200 script generations",
+          "150 script generations",
         ],
       },
       premium: {

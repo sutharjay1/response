@@ -1,6 +1,6 @@
 "use client";
 
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { AvatarCircles } from "@/components/ui/avatar-circles";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -170,19 +170,20 @@ const Projects = () => {
                       <span>{totalResults} responses</span>
                     </TSmall>
                     <div className="flex -space-x-3 *:ring *:ring-background">
-                      {project.fields.map((field) => {
-                        return field.results?.map((result) => {
-                          return (
-                            <Avatar
-                              key={result.name}
-                              aria-setsize={1}
-                              className="h-8 w-8"
-                            >
-                              <AvatarImage src={result.avatar} />
-                            </Avatar>
-                          );
-                        });
-                      })}
+                      <AvatarCircles
+                        projectUrl={`${window.location.origin}/submit/${project.id}`}
+                        numPeople={project.fields
+                          .map((field) => field.results.length)
+                          .reduce((a, b) => a + b, 0)}
+                        avatarUrls={project.fields
+                          .map((field) =>
+                            field.results.map((result) => ({
+                              profileUrl: result.avatar,
+                              imageUrl: result.avatar,
+                            })),
+                          )
+                          .flat()}
+                      />
                     </div>
                   </div>
 
