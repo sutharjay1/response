@@ -40,7 +40,7 @@ const ContinueWithGoogle = () => {
   return (
     <Button
       variant="outline"
-      className="flex gap-2 space-x-2 px-4"
+      className="flex w-full gap-2 space-x-2 px-4"
       onClick={handleGoogleLogin}
       disabled={isLoggingIn}
     >
