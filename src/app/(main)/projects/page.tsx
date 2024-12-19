@@ -30,7 +30,7 @@ import Link from "next/link";
 const Projects = () => {
   const { user } = useUser();
   const { data: projects, isLoading: loadingProjects } = useQuery({
-    queryKey: ["projects", user?.id],
+    queryKey: ["all-projects", user?.id],
     queryFn: () => getProjects(user?.id as string),
     enabled: !!user?.id,
     staleTime: 60 * 1000,

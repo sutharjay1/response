@@ -55,6 +55,7 @@
     "nextjs-toploader": "^3.7.15",
     "posthog-js": "^1.195.0",
     "random-word-slugs": "^0.1.7",
+    "razorpay": "^2.9.5",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "react-dropzone": "^14.3.5",

@@ -16,7 +16,7 @@ const SignIn = () => {
   return (
     <main
       className={cn(
-        "relative z-10 flex h-screen items-center justify-center bg-background",
+        "m:px-6 relative z-10 flex min-h-[90vh] flex-1 flex-col items-center justify-center rounded-xl bg-[#f3f2f1] shadow-inner md:m-4 md:py-10 lg:px-8",
         geistSans.className,
       )}
     >
