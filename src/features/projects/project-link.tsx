@@ -28,6 +28,7 @@ import QrCode from "react-qr-code";
 import Hint from "../global/hint";
 import { successToast } from "../global/toast";
 import { updateProjectStatus } from "./actions/update-project-status";
+import { useQueryClient } from "@tanstack/react-query";
 
 const ProjectLink = () => {
   const pathname = usePathname();
@@ -35,6 +36,7 @@ const ProjectLink = () => {
   const { project, setProject } = useProject();
   const [isLoading, setIsLoading] = useState(false);
   const [enableShare, setEnableShare] = useState(false);
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     if (project) {
@@ -105,7 +107,9 @@ const ProjectLink = () => {
         project?.id,
         value ? "PROD" : "DEV",
       );
-
+      await queryClient.invalidateQueries({
+        queryKey: ["submit-project-fetch"],
+      });
       if (res) {
         successToast(
           res === "DEV"

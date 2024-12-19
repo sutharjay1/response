@@ -9,7 +9,7 @@ import {
 } from "@/features/global/toast";
 import { deleteProject } from "@/features/projects/actions/delete-project";
 import { SpinnerOne } from "@mynaui/icons-react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -21,6 +21,7 @@ type Props = {
 
 const ProjectSettings = ({ params }: Props) => {
   const [projectId, setProjectId] = useState<string>("");
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     params.then((data) => {
@@ -58,6 +59,7 @@ const ProjectSettings = ({ params }: Props) => {
           description: "Your project has been deleted successfully.",
         });
         router.push("/projects");
+        await queryClient.invalidateQueries({ queryKey: ["all-projects"] });
       }
     } catch (error) {
       if (error instanceof Error) {
