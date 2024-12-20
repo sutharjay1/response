@@ -17,6 +17,8 @@ model User {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
+  subscription Subscription? @relation("UserSubscription")
+
   projects Project[] @relation("UserProjects")
 
   @@index([email])
@@ -77,6 +79,52 @@ model Result {
   @@index([id])
   @@index([projectId])
   @@index([fieldId])
+}
+
+model Subscription {
+  id               String           @id @default(cuid())
+  type             SubscriptionType @default(FREE)
+  name             String
+  amount           Float
+  userId           String?          @unique
+  user             User?            @relation("UserSubscription", fields: [userId], references: [id], onDelete: Cascade)
+  settlementStatus SettlementStatus @default(UNSETTLED)
+}
+
+model GuestSubscription {
+  id       String             @id @default(cuid())
+  type     SubscriptionType   @default(FREE)
+  name     String
+  amount   Float
+  orderId  String
+  status   SubscriptionStatus @default(PENDING)
+  paidAt   DateTime?
+  failedAt DateTime?
+}
+
+model SubscriptionSeed {
+  id     String           @id @default(cuid())
+  type   SubscriptionType @unique
+  name   String
+  amount Float
+}
+
+enum SubscriptionType {
+  FREE
+  PRO
+  PREMIUM
+}
+
+enum SubscriptionStatus {
+  PENDING
+  ACTIVE
+  FAILED
+  EXPIRED
+}
+
+enum SettlementStatus {
+  UNSETTLED
+  SETTLED
 }
 
 enum FieldType {
