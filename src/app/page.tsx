@@ -295,7 +295,6 @@ export default async function Home() {
                           {response.pricing.plans.free.price}
                         </TLarge>
 
-                      
                         <FreePG />
                       </CardHeader>
                       <CardContent className="space-y-3 rounded-b-3xl border-t border-dashed bg-sidebar px-6 pt-4 sm:pt-6">

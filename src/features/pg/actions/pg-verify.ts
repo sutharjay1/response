@@ -13,8 +13,8 @@ export const PaymentVerify = async ({ orderId }: { orderId: string }) => {
 
   Cashfree.XClientId = CF_ID;
   Cashfree.XClientSecret = CF_SK;
-  Cashfree.XEnvironment = Cashfree.Environment.SANDBOX;
   // Cashfree.XEnvironment = Cashfree.Environment.SANDBOX;
+  Cashfree.XEnvironment = Cashfree.Environment.PRODUCTION;
 
   try {
     const response = await Cashfree.PGOrderFetchPayments(
