@@ -10,7 +10,7 @@ import ContinueWithGoogle from "@/features/auth/continue-with-google";
 import Logo from "@/features/global/logo";
 import Link from "next/link";
 
-const SignIn = () => {
+const SignIn = async () => {
   return (
     <Card className="group overflow-hidden rounded-3xl border-none bg-muted/40 px-2 pt-2 shadow-none transition-all">
       <div className="rounded-3xl bg-sidebar pt-1 shadow-sm">
