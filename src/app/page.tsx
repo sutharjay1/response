@@ -14,6 +14,8 @@ import { TextShimmer } from "@/components/ui/text-shimmer";
 import { TLarge, TSmall } from "@/components/ui/typography";
 import { aeonik, geistSans, inter } from "@/features/font";
 import Logo from "@/features/global/logo";
+import { FreePG } from "@/features/pg/free";
+import { ProButton } from "@/features/pg/layout";
 import { Browser } from "@/features/root/browser";
 import { response } from "@/features/root/config";
 import { Nav } from "@/features/root/nav-bar";
@@ -35,7 +37,7 @@ import Image from "next/image";
 import Link from "next/link";
 import posthog from "posthog-js";
 
-export default function Home() {
+export default async function Home() {
   posthog.capture("my event", { property: "value" });
 
   return (
@@ -293,7 +295,8 @@ export default function Home() {
                           {response.pricing.plans.free.price}
                         </TLarge>
 
-                        <Button className="w-full">Get Started</Button>
+                      
+                        <FreePG />
                       </CardHeader>
                       <CardContent className="space-y-3 rounded-b-3xl border-t border-dashed bg-sidebar px-6 pt-4 sm:pt-6">
                         <TSmall className="font-inter font-normal">
@@ -334,7 +337,7 @@ export default function Home() {
                           })}
                         </TLarge>
 
-                        <Button className="w-full">Get Started</Button>
+                        <ProButton />
                       </CardHeader>
                       <CardContent className="space-y-3 rounded-b-3xl border-t border-dashed bg-sidebar px-6 pt-4 sm:pt-6">
                         <TSmall className="font-inter font-normal">
