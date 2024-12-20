@@ -1,7 +1,9 @@
 import { db } from "@/db";
+import { SettlementStatus } from "@prisma/client";
 import { AuthOptions } from "next-auth";
 import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
+import { cookies } from "next/headers";
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -40,10 +42,44 @@ export const authOptions: AuthOptions = {
         return false;
       }
 
+      const cookie = await cookies();
+      const subscriptionId = cookie.get("subscriptionId");
+
       try {
         const dbUser = await db.user.findUnique({
           where: { email: user.email },
         });
+
+        if (subscriptionId) {
+          const subscription = await db.guestSubscription.findUnique({
+            where: { id: subscriptionId.value },
+          });
+
+          if (subscription && dbUser) {
+            const newSubscription = await db.subscription.create({
+              data: {
+                type: subscription.type,
+                amount: subscription.amount,
+                name: subscription.name,
+                settlementStatus: SettlementStatus.UNSETTLED,
+                userId: dbUser.id as string,
+              },
+            });
+
+            await db.user.update({
+              where: { id: dbUser.id },
+              data: {
+                subscription: {
+                  connect: {
+                    id: newSubscription.id,
+                  },
+                },
+              },
+            });
+          } else {
+            console.warn("Subscription not found for ID:", subscriptionId);
+          }
+        }
 
         if (!dbUser) {
           const newUser = await db.user.create({

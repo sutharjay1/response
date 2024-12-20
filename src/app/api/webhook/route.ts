@@ -45,6 +45,10 @@ export async function POST(req: NextRequest) {
     const signature = req.headers.get("x-webhook-signature");
     const timestamp = req.headers.get("x-webhook-timestamp");
 
+    console.log("Received webhook with signature:", signature);
+    console.log("Received webhook with timestamp:", timestamp);
+    console.log("Received webhook with raw body:", JSON.stringify(req.headers));
+
     if (!signature || !timestamp) {
       return NextResponse.json(
         { error: "Missing headers: signature or timestamp" },
