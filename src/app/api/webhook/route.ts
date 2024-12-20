@@ -18,7 +18,8 @@ if (!CF_ID || !CF_SECRET) {
 
 Cashfree.XClientId = CF_ID;
 Cashfree.XClientSecret = CF_SECRET;
-Cashfree.XEnvironment = Cashfree.Environment.SANDBOX;
+// Cashfree.XEnvironment = Cashfree.Environment.SANDBOX;
+Cashfree.XEnvironment = Cashfree.Environment.PRODUCTION;
 
 function verifyWebhookSignature(
   signature: string,

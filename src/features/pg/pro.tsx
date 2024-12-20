@@ -17,7 +17,8 @@ const ProPG = () => {
   const initializeSDK = async (paymentSessionId: string) => {
     try {
       const cashfree = await load({
-        mode: "sandbox",
+        // mode: "sandbox",
+        mode: "production",
       });
 
       setIsSDKReady(true);

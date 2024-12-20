@@ -10,25 +10,11 @@ type Props = {
 };
 
 export const PaymentSessionId = async ({ type }: Props) => {
-  const data = {
-    FREE: {
-      amount: 0,
-      type: "FREE",
-      name: "Free Plan",
+  const subscriptionData = await db.subscriptionSeed.findUnique({
+    where: {
+      type: type as SubscriptionType,
     },
-    PRO: {
-      amount: 399,
-      type: "PRO",
-      name: "Pro Plan",
-    },
-    PREMIUM: {
-      amount: 2499,
-      type: "PREMIUM",
-      name: "Premium Plan",
-    },
-  };
-
-  const subscriptionData = data[type];
+  });
 
   const generateOrderId = () => {
     const uniqueId = crypto.randomBytes(16).toString("hex");
@@ -50,12 +36,13 @@ export const PaymentSessionId = async ({ type }: Props) => {
 
   Cashfree.XClientId = CF_ID;
   Cashfree.XClientSecret = CF_SK;
-  Cashfree.XEnvironment = Cashfree.Environment.SANDBOX;
+  // Cashfree.XEnvironment = Cashfree.Environment.SANDBOX;
+  Cashfree.XEnvironment = Cashfree.Environment.PRODUCTION;
 
   try {
     const orderId = generateOrderId();
     const request = {
-      order_amount: Number(subscriptionData.amount),
+      order_amount: Number(subscriptionData?.amount),
       order_currency: "INR",
       order_id: orderId,
       customer_details: {
@@ -75,10 +62,10 @@ export const PaymentSessionId = async ({ type }: Props) => {
       await db.guestSubscription.create({
         data: {
           id: orderId,
-          amount: subscriptionData.amount,
-          type: subscriptionData.type as SubscriptionType,
+          amount: subscriptionData?.amount as number,
+          type: subscriptionData?.type as SubscriptionType,
           orderId: orderId,
-          name: subscriptionData.name,
+          name: subscriptionData?.name as string,
         },
       });
 
