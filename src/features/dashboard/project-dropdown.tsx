@@ -34,7 +34,7 @@ export function ProjectDropDown({ className }: { className?: string }) {
   const queryClient = useQueryClient();
 
   const { data: projects, isLoading: loadingProjects } = useQuery({
-    queryKey: ["projects", user?.id],
+    queryKey: ["all-projects", user?.id],
     queryFn: () => getProjects(user?.id as string),
     enabled: !!user?.id,
   });
@@ -88,8 +88,8 @@ export function ProjectDropDown({ className }: { className?: string }) {
                     <span className="truncate font-semibold">
                       {project?.name || "Select Workspace"}
                     </span>
-                    <span className="truncate text-xs text-muted-foreground">
-                      Project
+                    <span className="truncate text-xs capitalize text-muted-foreground">
+                      {user.subscription.type || "Free"}
                     </span>
                   </>
                 )}

@@ -32,7 +32,7 @@ import { templatesData } from "@/features/template/config";
 import { useUser } from "@/hooks/use-user";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SpinnerOne } from "@mynaui/icons-react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -55,6 +55,7 @@ const TemplatesGrid = () => {
   );
   const router = useRouter();
   const { user } = useUser();
+  const queryClient = useQueryClient();
 
   const form = useForm<TFormValues>({
     resolver: zodResolver(formSchema),
@@ -112,9 +113,10 @@ const TemplatesGrid = () => {
         throw error;
       }
     },
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       successToast("Redirecting...");
       router.push(`/projects/${data.id}`);
+      await queryClient.invalidateQueries({ queryKey: ["all-projects"] });
     },
   });
 

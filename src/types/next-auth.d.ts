@@ -16,6 +16,11 @@ declare module "next-auth" {
         description: string | null;
         userId: string;
       };
+      subscription: {
+        id: string;
+        type: string;
+        status: string;
+      };
     } & DefaultSession["user"];
   }
 }

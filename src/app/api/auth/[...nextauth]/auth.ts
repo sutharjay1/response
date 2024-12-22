@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { SettlementStatus } from "@prisma/client";
+import { SettlementStatus, SubscriptionStatus } from "@prisma/client";
 import { AuthOptions } from "next-auth";
 import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
@@ -23,6 +23,7 @@ export const authOptions: AuthOptions = {
           where: { email: session.user.email },
           include: {
             projects: true,
+            subscription: true,
           },
         });
 
@@ -31,6 +32,10 @@ export const authOptions: AuthOptions = {
 
           if (dbUser.projects.length > 0) {
             session.user.project = dbUser.projects[0];
+          }
+
+          if (dbUser.subscription) {
+            session.user.subscription = dbUser.subscription;
           }
         }
       }
@@ -45,43 +50,46 @@ export const authOptions: AuthOptions = {
       const cookie = await cookies();
       const subscriptionId = cookie.get("subscriptionId");
 
+      console.log("Subscription ID:", subscriptionId);
+
       try {
         const dbUser = await db.user.findUnique({
           where: { email: user.email },
         });
 
-        if (subscriptionId) {
+        if (subscriptionId?.value && dbUser) {
           const subscription = await db.guestSubscription.findUnique({
             where: { id: subscriptionId.value },
           });
 
-          if (subscription && dbUser) {
-            const newSubscription = await db.subscription.create({
-              data: {
-                type: subscription.type,
-                amount: subscription.amount,
-                name: subscription.name,
-                settlementStatus: SettlementStatus.UNSETTLED,
-                userId: dbUser.id as string,
-              },
-            });
+          console.log("Subscription:", subscription);
 
-            await db.user.update({
-              where: { id: dbUser.id },
-              data: {
-                subscription: {
-                  connect: {
-                    id: newSubscription.id,
-                  },
+          const newSubscription = await db.subscription.create({
+            data: {
+              type: subscription?.type,
+              amount: subscription?.amount as number,
+              name: "Guest Subscription",
+              settlementStatus: SettlementStatus.UNSETTLED,
+              userId: dbUser.id as string,
+              status: subscription?.status as SubscriptionStatus,
+            },
+          });
+
+          await db.user.update({
+            where: { id: dbUser.id },
+            data: {
+              subscription: {
+                connect: {
+                  id: newSubscription.id,
                 },
               },
-            });
-          } else {
-            console.warn("Subscription not found for ID:", subscriptionId);
-          }
+            },
+          });
+
+          cookie.delete("subscriptionId");
         }
 
-        if (!dbUser) {
+        if (!dbUser && subscriptionId?.value) {
           const newUser = await db.user.create({
             data: {
               email: user.email,
@@ -89,6 +97,22 @@ export const authOptions: AuthOptions = {
               avatar: user.image || "",
             },
           });
+
+          const subscription = await db.guestSubscription.findUnique({
+            where: { id: subscriptionId.value },
+          });
+
+          await db.subscription.create({
+            data: {
+              type: subscription?.type,
+              amount: subscription?.amount as number,
+              name: subscription?.name as string,
+              settlementStatus: SettlementStatus.UNSETTLED,
+              userId: newUser.id as string,
+            },
+          });
+
+          cookie.delete("subscriptionId");
 
           await db.project.create({
             data: {
