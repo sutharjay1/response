@@ -82,13 +82,14 @@ model Result {
 }
 
 model Subscription {
-  id               String           @id @default(cuid())
-  type             SubscriptionType @default(FREE)
+  id               String             @id @default(cuid())
+  type             SubscriptionType   @default(FREE)
   name             String
   amount           Float
-  userId           String?          @unique
-  user             User?            @relation("UserSubscription", fields: [userId], references: [id], onDelete: Cascade)
-  settlementStatus SettlementStatus @default(UNSETTLED)
+  userId           String?            @unique
+  user             User?              @relation("UserSubscription", fields: [userId], references: [id], onDelete: Cascade)
+  settlementStatus SettlementStatus   @default(UNSETTLED)
+  status           SubscriptionStatus @default(PENDING)
 }
 
 model GuestSubscription {
