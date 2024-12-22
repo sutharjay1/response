@@ -85,7 +85,7 @@ model Subscription {
   id               String             @id @default(cuid())
   type             SubscriptionType   @default(FREE)
   name             String
-  amount           Float
+  amount           String
   userId           String?            @unique
   user             User?              @relation("UserSubscription", fields: [userId], references: [id], onDelete: Cascade)
   settlementStatus SettlementStatus   @default(UNSETTLED)
@@ -96,7 +96,7 @@ model GuestSubscription {
   id       String             @id @default(cuid())
   type     SubscriptionType   @default(FREE)
   name     String
-  amount   Float
+  amount   String
   orderId  String
   status   SubscriptionStatus @default(PENDING)
   paidAt   DateTime?
@@ -107,7 +107,7 @@ model SubscriptionSeed {
   id     String           @id @default(cuid())
   type   SubscriptionType @unique
   name   String
-  amount Float
+  amount String
 }
 
 enum SubscriptionType {

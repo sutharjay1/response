@@ -6,7 +6,7 @@ export interface TemplateSuccessSubscriptionProps {
   name: string;
   type: SubscriptionType;
   status: SubscriptionStatus;
-  amount: number;
+  amount: string;
   orderId: string;
 }
 
@@ -20,9 +20,10 @@ export const sendSuccessSubscriptionEmail = async ({
   try {
     await sendEmail({
       template: <TemplateSuccessSubscription {...data} />,
+      subject: "Subscription successful",
       to: email,
     });
-  } catch (error) {
+  } catch (error: unknown) {
     console.log(error);
     throw new Error("Failed to send email");
   }

@@ -6,16 +6,18 @@ const plunk = new Plunk(process.env.PLUNK_SECRET_KEY!);
 
 export const sendEmail = async ({
   template,
+  subject,
   to,
 }: {
   template: ReactElement<unknown, string | JSXElementConstructor<unknown>>;
+  subject: string;
   to: string;
 }) => {
   try {
     const body = await render(template);
     const response = await plunk.emails.send({
       to: to,
-      subject: "Welcome to Response!",
+      subject,
       body,
     });
 
