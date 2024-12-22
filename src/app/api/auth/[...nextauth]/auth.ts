@@ -49,7 +49,9 @@ export const authOptions: AuthOptions = {
       }
 
       const cookie = await cookies();
-      const subscriptionId = cookie.get("subscriptionId");
+      const subscriptionId = JSON.parse(
+        cookie.get("subscriptionId")?.value as string,
+      );
 
       try {
         const dbUser = await db.user.findUnique({
