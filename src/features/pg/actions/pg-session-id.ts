@@ -62,7 +62,7 @@ export const PaymentSessionId = async ({ type }: Props) => {
       await db.guestSubscription.create({
         data: {
           id: orderId,
-          amount: subscriptionData?.amount as number,
+          amount: subscriptionData?.amount as string,
           type: subscriptionData?.type as SubscriptionType,
           orderId: orderId,
           name: subscriptionData?.name as string,

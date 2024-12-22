@@ -1,11 +1,13 @@
 import { PrismaClient, SubscriptionType } from "@prisma/client";
 
+// const { PrismaClient, SubscriptionType } = require("@prisma/client");
+
 const prisma = new PrismaClient();
 
 const subscriptionTypes = [
-  { type: SubscriptionType.FREE, name: "Free Plan", amount: 0 },
-  { type: SubscriptionType.PRO, name: "Pro Plan", amount: 399 },
-  { type: SubscriptionType.PREMIUM, name: "Premium Plan", amount: 2499 },
+  { type: SubscriptionType.FREE, name: "Free Plan", amount: "0" },
+  { type: SubscriptionType.PRO, name: "Pro Plan", amount: "399" },
+  { type: SubscriptionType.PREMIUM, name: "Premium Plan", amount: "2499" },
 ];
 
 async function main() {
@@ -18,13 +20,13 @@ async function main() {
       },
       update: {
         name: subscription.name,
-        amount: subscription.amount,
+        amount: subscription.amount as string,
       },
       create: {
         id: subscription.type,
         type: subscription.type,
         name: subscription.name,
-        amount: subscription.amount,
+        amount: subscription.amount as string,
       },
     });
   }

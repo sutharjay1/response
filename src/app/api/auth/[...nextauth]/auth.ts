@@ -1,5 +1,6 @@
 import { db } from "@/db";
-import { SettlementStatus, SubscriptionStatus } from "@prisma/client";
+import { sendSuccessSubscriptionEmail } from "@/features/email/actions/send-success-subscription-email";
+import { SettlementStatus } from "@prisma/client";
 import { AuthOptions } from "next-auth";
 import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
@@ -50,8 +51,6 @@ export const authOptions: AuthOptions = {
       const cookie = await cookies();
       const subscriptionId = cookie.get("subscriptionId");
 
-      console.log("Subscription ID:", subscriptionId);
-
       try {
         const dbUser = await db.user.findUnique({
           where: { email: user.email },
@@ -62,16 +61,14 @@ export const authOptions: AuthOptions = {
             where: { id: subscriptionId.value },
           });
 
-          console.log("Subscription:", subscription);
-
           const newSubscription = await db.subscription.create({
             data: {
               type: subscription?.type,
-              amount: subscription?.amount as number,
+              amount: subscription?.amount.toString() as string,
               name: "Guest Subscription",
               settlementStatus: SettlementStatus.UNSETTLED,
               userId: dbUser.id as string,
-              status: subscription?.status as SubscriptionStatus,
+              status: "ACTIVE",
             },
           });
 
@@ -86,7 +83,16 @@ export const authOptions: AuthOptions = {
             },
           });
 
-          cookie.delete("subscriptionId");
+          await sendSuccessSubscriptionEmail({
+            data: {
+              amount: newSubscription.amount,
+              name: "Guest Subscription",
+              orderId: newSubscription.id,
+              status: newSubscription.status,
+              type: newSubscription.type,
+            },
+            email: user.email,
+          });
         }
 
         if (!dbUser && subscriptionId?.value) {
@@ -102,17 +108,27 @@ export const authOptions: AuthOptions = {
             where: { id: subscriptionId.value },
           });
 
-          await db.subscription.create({
+          const newSubscription = await db.subscription.create({
             data: {
               type: subscription?.type,
-              amount: subscription?.amount as number,
-              name: subscription?.name as string,
+              amount: subscription?.amount.toString() as string,
+              name: "Guest Subscription",
               settlementStatus: SettlementStatus.UNSETTLED,
               userId: newUser.id as string,
+              status: "ACTIVE",
             },
           });
 
-          cookie.delete("subscriptionId");
+          await sendSuccessSubscriptionEmail({
+            data: {
+              amount: newSubscription.amount as string,
+              name: "Guest Subscription",
+              orderId: newSubscription.id,
+              status: newSubscription.status,
+              type: newSubscription.type,
+            },
+            email: user.email,
+          });
 
           await db.project.create({
             data: {

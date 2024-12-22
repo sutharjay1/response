@@ -6,6 +6,7 @@ export const sendWelcomeEmail = async ({ user }: { user: User }) => {
   try {
     await sendEmail({
       template: <TemplateWelcomeEmail user={user} />,
+      subject: "Welcome to Response",
       to: user.email,
     });
   } catch (error) {

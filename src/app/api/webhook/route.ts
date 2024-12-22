@@ -98,6 +98,7 @@ export async function POST(req: NextRequest) {
             type: payload.data.order.order_id.split("-")[2],
             name: "plan",
             settlementStatus: "UNSETTLED",
+            status: "ACTIVE",
           },
         });
         break;

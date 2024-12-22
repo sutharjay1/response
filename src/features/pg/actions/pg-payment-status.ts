@@ -1,7 +1,6 @@
 "use server";
 
 import { db } from "@/db";
-import { sendSuccessSubscriptionEmail } from "@/features/email/actions/send-success-subscription-email";
 import { cookies } from "next/headers";
 
 export async function checkSubscriptionStatus(
@@ -38,17 +37,6 @@ export async function checkSubscriptionStatus(
         path: "/",
         sameSite: "lax",
         secure: true,
-      });
-
-      await sendSuccessSubscriptionEmail({
-        data: {
-          amount: subscription.amount,
-          name: subscription.name,
-          orderId: subscription.id,
-          status: subscription.status,
-          type: subscription.type,
-        },
-        email: "sutharjay3635@gmail.com",
       });
     }
 
