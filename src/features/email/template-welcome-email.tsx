@@ -1,185 +1,111 @@
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
+import { ArrowLongRight } from "@mynaui/icons-react";
 import { User } from "@prisma/client";
 import {
   Body,
   Button,
-  Container,
   Head,
-  Heading,
+  Hr,
   Html,
   Img,
   Preview,
-  Section,
+  Tailwind,
   Text,
 } from "@react-email/components";
 
-interface TemplateWelcomeEmailProps {
+interface ResponseWelcomeEmailProps {
   user: Partial<User>;
 }
 
-export const TemplateWelcomeEmail = ({ user }: TemplateWelcomeEmailProps) => {
+export const TemplateWelcomeEmail = ({ user }: ResponseWelcomeEmailProps) => {
   return (
     <Html>
-      <Head>
-        <style>
-          {`
-          @import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap');
-              body {
-                font-family: "Geist", sans-serif;
-                font-optical-sizing: auto;
-                font-style: normal;
-                margin: 0;
-                padding: 0;
-                background-color: #f4f4f4;
-              }
-              .email-container {
-                max-width: 600px;
-                margin: 0 auto;
-                background-color: white;
-                border-radius: 8px;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                overflow: hidden;
-              }
-              .email-header {
-                background-color: #f8f9fa;
-                padding: 20px;
-                text-align: center;
-                border-bottom: 1px solid #e9ecef;
-              }
-              .email-body {
-                padding: 30px;
-              }
-              .feature-list {
-                background-color: #f8f9fa;
-                border-radius: 6px;
-                padding: 20px;
-                margin: 20px 0;
-              }
-              .feature-list li {
-                margin-bottom: 10px;
-                line-height: 1.5;
-              }
-            `}
-        </style>
-      </Head>
-      <Preview>Welcome to Response - Your Feedback Management Solution</Preview>
-      <Body>
-        <Container className="email-container">
-          <Section className="email-header">
-            <Img
-              src="https://res.cloudinary.com/cdn-feedback/image/upload/v1733506409/response/response-no-border.png"
-              alt="Response Logo"
-              className="mx-auto h-full w-full"
-            />
-          </Section>
+      <Head />
+      <Preview>
+        Get Feedback with Response - Your Feedback Management Solution
+      </Preview>
+      <Tailwind>
+        <Body className="bg-sidebar font-sans">
+          <Card className="mx-auto px-6 py-5">
+            <div className="mx-auto max-w-xl overflow-hidden rounded-lg bg-sidebar shadow-md">
+              <CardContent className="pt-6">
+                <CardHeader className="mx-auto w-full space-y-0 p-0 pt-0">
+                  <Img
+                    src={
+                      "https://utfs.io/f/xi8FFW9wN0K4PNaKiJSN1w5s87WjSGhcFdgu2OlEa3DYTLX6"
+                    }
+                    width="85"
+                    height="85"
+                    alt="Response"
+                    className="mx-auto w-auto object-contain"
+                  />
+                </CardHeader>
+                <Text className="text-lg leading-7 text-[#37322f]">
+                  Hi <span className="font-semibold">{user.name}</span>,
+                </Text>
 
-          <Section className="email-body">
-            <Heading className="mb-4 text-2xl font-bold text-gray-800">
-              Welcome, {user.name}!
-            </Heading>
+                <Text className="text-lg leading-7 text-[#37322f]">
+                  Welcome to <span className="font-semibold">Response</span>!
+                </Text>
 
-            <Text className="mb-6 text-gray-600">
-              Congratulations! You&apos;re now part of the growing community of
-              teams using <strong>Response</strong> to collect, analyze, and act
-              on user feedback.
-            </Text>
+                <Text className="text-lg leading-7 text-[#37322f]">
+                  Get started by creating and sharing feedback forms or explore
+                  our template library to speed things up.
+                </Text>
 
-            <Text className="mb-6 text-3xl text-gray-600">
-              Here&apos;s how to get started:
-            </Text>
-            <ul className="list-disc pl-6 text-gray-600">
-              <li>
-                <strong>Deploy your first feedback form</strong>
-                <br />
-                Set up a feedback form to start collecting responses from users.
-                You can embed the script on your website or app and start
-                gathering valuable insights immediately.
-              </li>
-              <li>
-                <strong>Analyze your feedback</strong>
-                <br />
-                Once you&apos;ve collected responses, explore detailed analytics
-                to uncover trends and actionable insights. Make data-driven
-                decisions with ease.
-              </li>
-              <li>
-                <strong>Integrate with your workflow</strong>
-                <br />
-                Response integrates seamlessly with your existing tools.
-                Discover integrations that help you automate processes and
-                streamline feedback management.
-              </li>
-              <li>
-                <strong>Customize your experience</strong>
-                <br />
-                Tailor your feedback system to your needs. Add custom questions,
-                adjust design themes, and configure response handling for better
-                user engagement.
-              </li>
-            </ul>
-
-            <Text className="mb-6 text-3xl text-gray-600">Next Steps:</Text>
-            <ul className="list-disc pl-6 text-gray-600">
-              <li>
-                <a
-                  href="https://response.sutharjay.com/dashboard"
-                  className="text-blue-600 hover:underline"
+                <Button
+                  className="w-full cursor-pointer rounded-xl bg-[#37322f] py-3 text-center text-lg text-[#d4d3d3]"
+                  href="https://response.sutharjay.com"
                 >
-                  Go to your dashboard
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://community.response.sutharjay.com/"
-                  className="text-blue-600 hover:underline"
-                >
-                  Visit our forums to connect with other users
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://docs.response.sutharjay.com/"
-                  className="text-blue-600 hover:underline"
-                >
-                  Read the documentation
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://support.response.sutharjay.com/"
-                  className="text-blue-600 hover:underline"
-                >
-                  Contact our support team
-                </a>
-              </li>
-            </ul>
+                  Start Creating Forms
+                  <ArrowLongRight
+                    className="ml-2 h-5 w-5 transition-transform duration-700 group-hover:translate-x-1"
+                    strokeWidth={2}
+                  />
+                </Button>
 
-            <Section className="mb-6 text-center">
-              <Button
-                href={`${process.env.URL}/projects`}
-                className="rounded-2xl border border-[#201e1d]/80 px-8 py-4 font-medium shadow-inner"
-              >
-                Access Your Dashboard
-              </Button>
-            </Section>
+                <Hr className="my-6 border-gray-300" />
 
-            <Text className="mb-6 text-gray-600">
-              If you no longer wish to receive these emails, you can{" "}
-              <a href="#" className="text-blue-600 hover:underline">
-                unsubscribe
-              </a>
-              .
-            </Text>
-          </Section>
+                <Text className="text-lg leading-7 text-[#37322f]">
+                  Discover pre-designed{" "}
+                  <span className="underline">templates</span> that simplify
+                  feedback collection. Choose from customer surveys, product
+                  feedback, feature requests, and more.
+                </Text>
 
-          <Section className="bg-gray-50 p-4 text-center">
-            <Text className="text-sm text-gray-500">
-              © 2024 Response - Transforming Feedback into Growth
-              <br />
-              Created by Jay Suthar
-            </Text>
-          </Section>
-        </Container>
-      </Body>
+                <Button
+                  className="w-full cursor-pointer rounded-xl bg-[#37322f] py-3 text-center text-lg text-[#d4d3d3]"
+                  href="https://response.sutharjay.com/template"
+                >
+                  Explore Templates
+                  <ArrowLongRight
+                    className="ml-2 h-5 w-5 transition-transform duration-700 group-hover:translate-x-1"
+                    strokeWidth={2}
+                  />
+                </Button>
+              </CardContent>
+
+              <CardFooter className="flex flex-col items-center justify-center">
+                <Text className="text-lg leading-7 text-[#37322f]">
+                  Best regards, Jay Suthar
+                </Text>
+
+                <Hr className="border-gray-300" />
+
+                <Text className="text-center text-sm text-gray-500">
+                  &copy; {new Date().getFullYear()} Response. All rights
+                  reserved.
+                </Text>
+              </CardFooter>
+            </div>
+          </Card>
+        </Body>
+      </Tailwind>
     </Html>
   );
 };

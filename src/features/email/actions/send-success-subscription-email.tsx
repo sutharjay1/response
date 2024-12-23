@@ -1,4 +1,4 @@
-import { SubscriptionStatus, SubscriptionType } from "@prisma/client";
+import { SubscriptionStatus, SubscriptionType, User } from "@prisma/client";
 import { sendEmail } from "../lib";
 import { TemplateSuccessSubscription } from "../template-success-subscription-email";
 
@@ -8,6 +8,8 @@ export interface TemplateSuccessSubscriptionProps {
   status: SubscriptionStatus;
   amount: string;
   orderId: string;
+  plan?: string;
+  user: User;
 }
 
 export const sendSuccessSubscriptionEmail = async ({
@@ -17,6 +19,9 @@ export const sendSuccessSubscriptionEmail = async ({
   email: string;
   data: TemplateSuccessSubscriptionProps;
 }) => {
+  data.plan =
+    data.type === "PRO" ? "Pro" : data.type === "PREMIUM" ? "Premium" : "Free";
+
   try {
     await sendEmail({
       template: <TemplateSuccessSubscription {...data} />,

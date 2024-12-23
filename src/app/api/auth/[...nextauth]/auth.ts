@@ -1,5 +1,6 @@
 import { db } from "@/db";
 import { sendSuccessSubscriptionEmail } from "@/features/email/actions/send-success-subscription-email";
+import { sendWelcomeEmail } from "@/features/email/actions/send-welcome-email";
 import { SettlementStatus } from "@prisma/client";
 import { AuthOptions } from "next-auth";
 import GitHubProvider from "next-auth/providers/github";
@@ -49,18 +50,27 @@ export const authOptions: AuthOptions = {
       }
 
       const cookie = await cookies();
-      const subscriptionId = JSON.parse(
-        cookie.get("subscriptionId")?.value as string,
-      );
+      const subscriptionCookie = cookie.get("subscriptionId");
+
+      let subscriptionId;
+
+      if (subscriptionCookie && subscriptionCookie.value) {
+        try {
+          subscriptionId = JSON.parse(subscriptionCookie.value);
+        } catch (error) {
+          console.error("Failed to parse subscriptionId cookie:", error);
+          subscriptionId = null;
+        }
+      }
 
       try {
         const dbUser = await db.user.findUnique({
           where: { email: user.email },
         });
 
-        if (subscriptionId?.value && dbUser) {
+        if (dbUser && subscriptionId) {
           const subscription = await db.guestSubscription.findUnique({
-            where: { id: subscriptionId.value },
+            where: { id: subscriptionId },
           });
 
           const newSubscription = await db.subscription.create({
@@ -92,6 +102,7 @@ export const authOptions: AuthOptions = {
               orderId: newSubscription.id,
               status: newSubscription.status,
               type: newSubscription.type,
+              user: dbUser,
             },
             email: user.email,
           });
@@ -107,7 +118,7 @@ export const authOptions: AuthOptions = {
           });
 
           const subscription = await db.guestSubscription.findUnique({
-            where: { id: subscriptionId.value },
+            where: { id: subscriptionId },
           });
 
           const newSubscription = await db.subscription.create({
@@ -128,6 +139,7 @@ export const authOptions: AuthOptions = {
               orderId: newSubscription.id,
               status: newSubscription.status,
               type: newSubscription.type,
+              user: dbUser!,
             },
             email: user.email,
           });
@@ -179,9 +191,9 @@ export const authOptions: AuthOptions = {
             },
           });
 
-          // await sendWelcomeEmail({
-          //   user: newUser,
-          // });
+          await sendWelcomeEmail({
+            user: newUser,
+          });
         }
 
         return true;
