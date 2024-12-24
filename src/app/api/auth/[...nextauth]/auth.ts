@@ -60,6 +60,17 @@ export const authOptions: AuthOptions = {
             },
           });
 
+          await db.subscription.create({
+            data: {
+              amount: "0",
+              name: "Free",
+              settlementStatus: "UNSETTLED",
+              status: "ACTIVE",
+              type: "FREE",
+              userId: newUser.id,
+            },
+          });
+
           await db.project.create({
             data: {
               name: "Feedback Submission Form",
