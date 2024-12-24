@@ -1,11 +1,8 @@
 import { db } from "@/db";
-import { sendSuccessSubscriptionEmail } from "@/features/email/actions/send-success-subscription-email";
 import { sendWelcomeEmail } from "@/features/email/actions/send-welcome-email";
-import { SettlementStatus } from "@prisma/client";
 import { AuthOptions } from "next-auth";
 import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
-import { cookies } from "next/headers";
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -49,99 +46,18 @@ export const authOptions: AuthOptions = {
         return false;
       }
 
-      const cookie = await cookies();
-      const subscriptionCookie = cookie.get("subscriptionId");
-
-      let subscriptionId;
-
-      if (subscriptionCookie && subscriptionCookie.value) {
-        try {
-          subscriptionId = JSON.parse(subscriptionCookie.value);
-        } catch (error) {
-          console.error("Failed to parse subscriptionId cookie:", error);
-          subscriptionId = null;
-        }
-      }
-
       try {
         const dbUser = await db.user.findUnique({
           where: { email: user.email },
         });
 
-        if (dbUser && subscriptionId) {
-          const subscription = await db.guestSubscription.findUnique({
-            where: { id: subscriptionId },
-          });
-
-          const newSubscription = await db.subscription.create({
-            data: {
-              type: subscription?.type,
-              amount: subscription?.amount.toString() as string,
-              name: "Guest Subscription",
-              settlementStatus: SettlementStatus.UNSETTLED,
-              userId: dbUser.id as string,
-              status: "ACTIVE",
-            },
-          });
-
-          await db.user.update({
-            where: { id: dbUser.id },
-            data: {
-              subscription: {
-                connect: {
-                  id: newSubscription.id,
-                },
-              },
-            },
-          });
-
-          await sendSuccessSubscriptionEmail({
-            data: {
-              amount: newSubscription.amount,
-              name: "Guest Subscription",
-              orderId: newSubscription.id,
-              status: newSubscription.status,
-              type: newSubscription.type,
-              user: dbUser,
-            },
-            email: user.email,
-          });
-        }
-
-        if (!dbUser && subscriptionId?.value) {
+        if (!dbUser) {
           const newUser = await db.user.create({
             data: {
               email: user.email,
               name: user.name || "Guest",
               avatar: user.image || "",
             },
-          });
-
-          const subscription = await db.guestSubscription.findUnique({
-            where: { id: subscriptionId },
-          });
-
-          const newSubscription = await db.subscription.create({
-            data: {
-              type: subscription?.type,
-              amount: subscription?.amount.toString() as string,
-              name: "Guest Subscription",
-              settlementStatus: SettlementStatus.UNSETTLED,
-              userId: newUser.id as string,
-              status: "ACTIVE",
-            },
-          });
-
-          await sendSuccessSubscriptionEmail({
-            data: {
-              amount: newSubscription.amount as string,
-              name: "Guest Subscription",
-              orderId: newSubscription.id,
-              status: newSubscription.status,
-              type: newSubscription.type,
-              user: dbUser!,
-            },
-            email: user.email,
           });
 
           await db.project.create({
