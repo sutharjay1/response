@@ -504,7 +504,7 @@ export default async function Home() {
                     geistSans.className,
                   )}
                 >
-                  <span>Building in public by</span>
+                  <span>Made by</span>
                   <Button asChild variant="link" className="px-0 text-sidebar">
                     <Link
                       href="https://peerlist.io/sutharjay"
@@ -518,29 +518,44 @@ export default async function Home() {
                 </span>
               </nav>
               <div className="flex w-fit items-center gap-3">
-                <Link
-                  href="https://github.com/sutharjay1/response"
-                  target="_blank"
-                  aria-label="Response GitHub repository"
+                <Button
+                  asChild
+                  variant="ghost"
+                  size="icon"
+                  className="hover:bg-accent/5 hover:text-current"
                 >
-                  <BrandGithubSolid className="h-6 w-6" />
-                </Link>
+                  <Link
+                    href="https://github.com/sutharjay1/response"
+                    target="_blank"
+                    aria-label="Response GitHub repository"
+                  >
+                    <BrandGithubSolid className="h-6 w-6" />
+                  </Link>
+                </Button>
                 <Separator
                   orientation="vertical"
                   className="h-6 bg-sidebar-border/20"
                 />
-                <Link
-                  href="https://peerlist.io/sutharjay"
-                  target="_blank"
-                  aria-label="Response GitHub repository"
+                <Button
+                  asChild
+                  variant="ghost"
+                  size="icon"
+                  className="hover:bg-accent/5 hover:text-current"
                 >
-                  <Image
-                    src="https://res.cloudinary.com/cdn-feedback/image/upload/v1733355730/response/peerlist.png"
-                    alt="Peerlist logo"
-                    width={32}
-                    height={32}
-                  />
-                </Link>
+                  <Link
+                    href="https://peerlist.io/sutharjay"
+                    target="_blank"
+                    aria-label="Response GitHub repository"
+                    className="p-1.5"
+                  >
+                    <Image
+                      src="https://res.cloudinary.com/cdn-feedback/image/upload/v1733355730/response/peerlist.png"
+                      alt="Peerlist logo"
+                      width={32}
+                      height={32}
+                    />
+                  </Link>
+                </Button>
               </div>
             </div>
           </div>
