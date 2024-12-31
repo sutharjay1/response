@@ -7,8 +7,6 @@ const navLinks = [
   { label: "Pricing", href: "#" },
   { label: "Blog", href: "#" },
   { label: "Changelog", href: "#" },
-  { label: "Careers", href: "#" },
-  { label: "Support", href: "#" },
 ];
 
 export function Nav() {
