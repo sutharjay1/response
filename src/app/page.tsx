@@ -221,25 +221,22 @@ export default async function Home() {
                               variant="default"
                               className="mx-auto mb-1 ml-2 rounded-full border border-input py-1 text-sm font-medium"
                             >
-                              Coming Soon
+                              {response.features.items.one.available}
                             </Badge>
                           </div>
                           <p className="mt-2 text-lg font-medium tracking-tight text-gray-950 max-lg:text-center">
-                            Live Feedback Updates
+                            {response.features.items.one.title}
                           </p>
                           <p className="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
-                            Instant feedback collection and processing that
-                            keeps you connected with your customers. Watch
-                            responses flow in real-time and respond quickly to
-                            maintain high satisfaction rates.
+                            {response.features.items.one.description}
                           </p>
                         </div>
                         <div className="relative min-h-[30rem] w-full grow [container-type:inline-size] max-lg:mx-auto max-lg:max-w-sm max-lg:rounded-b-lg">
                           <div className="absolute inset-x-10 bottom-0 top-10 overflow-hidden rounded-t-[12cqw] border-x-[3cqw] border-t-[3cqw] border-gray-700 bg-gray-900 shadow-2xl">
                             <img
                               className="size-full object-cover object-top"
-                              src="https://tailwindui.com/plus/img/component-images/bento-03-mobile-friendly.png"
-                              alt=""
+                              src={response.features.items.one.image}
+                              alt={response.features.items.one.title}
                             />
                           </div>
                         </div>
@@ -260,20 +257,17 @@ export default async function Home() {
                         <div className="relative flex h-full flex-1 flex-col items-center justify-center overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] max-lg:rounded-t-[calc(2rem+1px)]">
                           <div className="px-8 pt-8 sm:px-10 sm:pt-10">
                             <p className="mt-2 text-lg font-medium tracking-tight text-gray-950 max-lg:text-center">
-                              Smart Analytics
+                              {response.features.items.two.title}
                             </p>
                             <p className="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
-                              Turn feedback into actionable insights with our
-                              automated analytics. Identify trends, track
-                              sentiment, and make data-driven decisions to
-                              improve your business.
+                              {response.features.items.two.description}
                             </p>
                           </div>
                           <div className="flex flex-1 items-center justify-center px-8 max-lg:pb-12 max-lg:pt-10 sm:px-10 lg:pb-2">
                             <img
                               className="w-full max-lg:max-w-xs"
-                              src="https://tailwindui.com/plus/img/component-images/bento-03-performance.png"
-                              alt=""
+                              src={response.features.items.two.image}
+                              alt={response.features.items.two.title}
                             />
                           </div>
                         </div>
@@ -286,19 +280,17 @@ export default async function Home() {
                         <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)]">
                           <div className="px-8 pt-8 sm:px-10 sm:pt-10">
                             <p className="mt-2 text-lg font-medium tracking-tight text-gray-950 max-lg:text-center">
-                              Video Reviews
+                              {response.features.items.three.title}
                             </p>
                             <p className="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
-                              Capture authentic video testimonials from your
-                              customers. Build trust and credibility with
-                              powerful visual social proof.
+                              {response.features.items.three.description}
                             </p>
                           </div>
                           <div className="flex flex-1 items-center [container-type:inline-size] max-lg:py-6 lg:pb-2">
                             <img
                               className="h-[min(152px,40cqw)] object-cover"
-                              src="https://tailwindui.com/plus/img/component-images/bento-03-security.png"
-                              alt=""
+                              src={response.features.items.three.image}
+                              alt={response.features.items.three.title}
                             />
                           </div>
                         </div>
@@ -314,37 +306,32 @@ export default async function Home() {
                       <div className="relative flex h-fit flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] max-lg:rounded-b-[calc(2rem+1px)] lg:rounded-r-[calc(2rem+1px)]">
                         <div className="px-8 pb-3 pt-8 sm:px-10 sm:pb-0 sm:pt-10">
                           <p className="mt-2 text-lg font-medium tracking-tight text-gray-950 max-lg:text-center">
-                            Embeddable Widget
+                            {response.features.items.four.title}
                           </p>
                           <p className="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
-                            Seamlessly integrate reviews into any website with
-                            our customizable widget. One line of code to
-                            showcase your social proof and boost conversion
-                            rates.
+                            {response.features.items.four.description}
                           </p>
                         </div>
                         <div className="relative min-h-[34rem] w-full grow">
-                          <div className="absolute bottom-0 left-10 right-0 top-10 overflow-hidden rounded-tl-xl bg-gray-900 shadow-2xl">
-                            <div className="flex bg-gray-800/40 ring-1 ring-white/5">
+                          <div className="absolute bottom-0 left-10 right-0 top-10 overflow-hidden rounded-tl-xl bg-gradient-to-br from-[#37322f] to-[#201e1d] shadow-2xl">
+                            <div className="flex bg-[#201e1d]/40 ring-1 ring-white/5">
                               <div className="-mb-px flex text-sm/6 font-medium text-gray-400">
-                                <div className="border-b border-r border-b-white/20 border-r-white/10 bg-white/5 px-4 py-2 text-white">
-                                  widget.js
+                                <div className="bg-[#201e1d]/5 px-4 py-2 text-sidebar">
+                                  {response.features.items.four.file[0].name}
                                 </div>
-                                <div className="border-r border-gray-600/10 px-4 py-2">
-                                  Example.html
+
+                                <Separator
+                                  orientation="vertical"
+                                  className="bg-[#37322f]"
+                                />
+                                <div className="border-r border-primary/10 px-4 py-2">
+                                  {response.features.items.four.file[1].name}
                                 </div>
                               </div>
                             </div>
                             <div className="px-6 pb-14 pt-6">
                               <code className="text-sm/6 font-medium text-gray-400">
-                                {`<script>
-  window.ResponseWidget.init({
-    containerId: 'reviews-widget',
-    theme: 'light',
-    displayCount: 5,
-    autoRotate: true
-  });
-</script>`}
+                                {response.features.items.four.file[0].code}
                               </code>
                             </div>
                           </div>
