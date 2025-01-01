@@ -68,7 +68,7 @@ export const response = {
       "Gain deep insights into your user base and product performance",
     items: {
       one: {
-        available: "Comming soon",
+        available: "Coming soon",
         title: "Live Feedback Updates",
         description:
           "Instant feedback collection and processing that keeps you connected with your customers. Watch responses flow in real-time and respond quickly to maintain high satisfaction rates.",
@@ -98,14 +98,16 @@ export const response = {
         file: [
           {
             name: "widget.js",
-            code: `<script>
-            window.ResponseWidget.init({
-              containerId: 'reviews-widget',
-              theme: 'light',
-              displayCount: 5,
-              autoRotate: true
-            });
-          </script>`,
+            code: `
+      <script>
+        window.ResponseWidget.init({
+          containerId: 'reviews-widget',
+          theme: 'light',
+          displayCount: 5,
+          autoRotate: true
+        });
+      </script>
+    `,
           },
           {
             name: "Example.html",
