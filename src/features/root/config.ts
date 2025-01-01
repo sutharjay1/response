@@ -1,13 +1,4 @@
-import {
-  ChartBarTwo,
-  ChartLine,
-  ChartPieTwo,
-  Database,
-  Earth,
-  HardDrive,
-  Swatches,
-  UsersGroup,
-} from "@mynaui/icons-react";
+import { HardDrive, Swatches } from "@mynaui/icons-react";
 
 export const response = {
   heading: {
@@ -30,62 +21,6 @@ export const response = {
       "Harness the power of user feedback to create products that truly resonate",
     button: "Get started",
     badge: "Feedback Collection",
-  },
-  features: {
-    badge: "Analytics Insights",
-    title: "Comprehensive Analytics Suite",
-    description:
-      "Gain deep insights into your user base and product performance",
-    items: [
-      {
-        id: 1,
-        title: "Average order vs. volume",
-        description: "Analytics for average order and volume.",
-        footer: "Customize bubble size.",
-        imageSrc: "https://avatar.vercel.sh/chart1.png",
-        icon: Database,
-      },
-      {
-        id: 2,
-        title: "Sales by region",
-        description: "Insights from different regions.",
-        footer: "Bar chart for regional data.",
-        imageSrc: "https://avatar.vercel.sh/chart2.png",
-        icon: ChartBarTwo,
-      },
-      {
-        id: 3,
-        title: "Category performance",
-        description: "Top-performing categories.",
-        footer: "Pie chart with segment details.",
-        imageSrc: "https://avatar.vercel.sh/chart3.png",
-        icon: ChartPieTwo,
-      },
-      {
-        id: 4,
-        title: "Global reach",
-        description: "Analyze global presence.",
-        footer: "Globe chart for global reach.",
-        imageSrc: "https://avatar.vercel.sh/chart4.png",
-        icon: Earth,
-      },
-      {
-        id: 5,
-        title: "User demographics",
-        description: "Detailed user demographics.",
-        footer: "User chart with segment data.",
-        imageSrc: "https://avatar.vercel.sh/chart5.png",
-        icon: UsersGroup,
-      },
-      {
-        id: 6,
-        title: "Growth trends",
-        description: "Track growth over time.",
-        footer: "Line chart with trend data.",
-        imageSrc: "https://avatar.vercel.sh/chart6.png",
-        icon: ChartLine,
-      },
-    ],
   },
   reviews: [
     {
@@ -125,6 +60,61 @@ export const response = {
       img: "https://avatar.vercel.sh/james",
     },
   ],
+
+  features: {
+    badge: "Analytics Insights",
+    title: "Comprehensive Analytics Suite",
+    description:
+      "Gain deep insights into your user base and product performance",
+    items: {
+      one: {
+        available: "Comming soon",
+        title: "Live Feedback Updates",
+        description:
+          "Instant feedback collection and processing that keeps you connected with your customers. Watch responses flow in real-time and respond quickly to maintain high satisfaction rates.",
+        image:
+          "https://tailwindui.com/plus/img/component-images/bento-03-mobile-friendly.png",
+      },
+
+      two: {
+        title: "Smart Analytics",
+        description:
+          "Turn feedback into actionable insights with our automated analytics. Identify trends, track sentiment, and make data-driven decisions to improve your business.",
+        image:
+          "https://tailwindui.com/plus/img/component-images/bento-03-performance.png",
+      },
+
+      three: {
+        title: "Video Reviews",
+        description:
+          "Capture authentic video testimonials from your customers. Build trust and credibility with powerful visual social proof.",
+        image:
+          "https://tailwindui.com/plus/img/component-images/bento-03-security.png",
+      },
+      four: {
+        title: "Embeddable Widget",
+        description:
+          "Seamlessly integrate reviews into any website with our customizable widget. One line of code to showcase your social proof and boost conversion rates.",
+        file: [
+          {
+            name: "widget.js",
+            code: `<script>
+            window.ResponseWidget.init({
+              containerId: 'reviews-widget',
+              theme: 'light',
+              displayCount: 5,
+              autoRotate: true
+            });
+          </script>`,
+          },
+          {
+            name: "Example.html",
+            code: "",
+          },
+        ],
+      },
+    },
+  },
 
   extra: {
     badge: "Key Features",
