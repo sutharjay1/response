@@ -3,8 +3,8 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { Video } from "@mynaui/icons-react";
-import React, { useCallback, useState } from "react";
+import { Camera, Microphone, Video } from "@mynaui/icons-react";
+import React, { useCallback, useEffect, useState } from "react";
 import { ReactMediaRecorder } from "react-media-recorder";
 import { errorToast, successToast } from "../global/toast";
 import { useVideo } from "../submit/hooks/use-video";
@@ -25,7 +25,90 @@ export const VideoUploadButton: React.FC<VideoUploadFieldProps> = ({
 }) => {
   const [isUploading, setIsUploading] = useState(false);
   const [uploadedVideoUrl, setUploadedVideoUrl] = useState<string | null>(null);
+  const [permissionState, setPermissionState] = useState<{
+    camera: boolean;
+    microphone: boolean;
+  }>({ camera: false, microphone: false });
+  const [showPermissionPrompt, setShowPermissionPrompt] = useState(true);
   const { videoUrl, setVideoUrl } = useVideo();
+
+  const checkPermission = async (type: "camera" | "microphone") => {
+    try {
+      const result = await navigator.permissions.query({
+        name: type as PermissionName,
+      });
+
+      if (result.state === "granted") {
+        setPermissionState((prev) => ({
+          ...prev,
+          [type]: true,
+        }));
+        return true;
+      }
+
+      const constraints = {
+        audio: type === "microphone" ? true : false,
+        video: type === "camera" ? true : false,
+      };
+
+      const stream = await navigator.mediaDevices.getUserMedia(constraints);
+
+      stream.getTracks().forEach((track) => track.stop());
+
+      setPermissionState((prev) => ({
+        ...prev,
+        [type]: true,
+      }));
+
+      return true;
+    } catch (error) {
+      console.error(`${type} permission error:`, error);
+
+      if (error instanceof DOMException) {
+        switch (error.name) {
+          case "NotAllowedError":
+            errorToast(
+              `${type} access was denied. Please allow access in your browser settings.`,
+            );
+            break;
+          case "NotFoundError":
+            errorToast(`No ${type} device found.`);
+            break;
+          default:
+            errorToast(
+              `Error accessing ${type}. Please check your device settings.`,
+            );
+        }
+      }
+      return false;
+    }
+  };
+
+  const handleCameraPermissionRequest = async () => {
+    const cameraGranted = await checkPermission("camera");
+    if (cameraGranted) {
+      successToast("Camera access granted");
+      if (permissionState.microphone) {
+        setShowPermissionPrompt(false);
+      }
+    }
+  };
+
+  const handleMicrophonePermissionRequest = async () => {
+    const microphoneGranted = await checkPermission("microphone");
+    if (microphoneGranted) {
+      successToast("Microphone access granted");
+      if (permissionState.camera) {
+        setShowPermissionPrompt(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (permissionState.camera && permissionState.microphone) {
+      setShowPermissionPrompt(false);
+    }
+  }, [permissionState]);
 
   const handleVideoUpload = useCallback(
     async (mediaBlobUrl: string) => {
@@ -33,7 +116,6 @@ export const VideoUploadButton: React.FC<VideoUploadFieldProps> = ({
 
       try {
         setIsUploading(true);
-
         const response = await fetch(mediaBlobUrl);
         const blob = await response.blob();
 
@@ -58,11 +140,10 @@ export const VideoUploadButton: React.FC<VideoUploadFieldProps> = ({
 
         if (uploadResponse.success && uploadResponse.data) {
           const videoUrl = uploadResponse.data.secure_url;
-
           setVideoUrl(videoUrl);
           setUploadedVideoUrl(videoUrl);
 
-          if (typeof setFormElements === "function") {
+          if (setFormElements) {
             setFormElements((prevElements) =>
               prevElements.map((element) =>
                 element.id === id ? { ...element, value: videoUrl } : element,
@@ -76,8 +157,6 @@ export const VideoUploadButton: React.FC<VideoUploadFieldProps> = ({
 
           successToast("Video uploaded successfully");
           return videoUrl;
-        } else {
-          throw new Error(uploadResponse.error || "Upload failed");
         }
       } catch (error) {
         console.error("Upload error:", error);
@@ -90,6 +169,73 @@ export const VideoUploadButton: React.FC<VideoUploadFieldProps> = ({
     [id, setFormElements, setVideoUrl, onChange],
   );
 
+  if (showPermissionPrompt) {
+    return (
+      <Card className="w-full">
+        <CardContent
+          className={cn(
+            "m-1 rounded-lg border border-dashed border-[#7c533a]/50 p-6",
+          )}
+        >
+          <div className="flex flex-col items-center justify-center space-y-4">
+            <div className="text-center">
+              <h3 className="mb-2 text-lg font-semibold">
+                Permission Required
+              </h3>
+              <p className="mb-4 text-sm text-muted-foreground">
+                To record video, we need access to your camera and microphone
+              </p>
+            </div>
+
+            <div className="flex w-full max-w-xs flex-col space-y-3">
+              <div className="flex items-center justify-between rounded-lg bg-secondary p-3">
+                <div className="flex items-center space-x-2">
+                  <Camera className="h-5 w-5" />
+                  <span>Camera</span>
+                </div>
+                <div>
+                  {permissionState.camera ? (
+                    <span className="text-sm text-green-500">Granted</span>
+                  ) : (
+                    <Button
+                      onClick={handleCameraPermissionRequest}
+                      variant="default"
+                      size="sm"
+                    >
+                      <Camera className="mr-2 h-4 w-4" />
+                      Request Access
+                    </Button>
+                  )}
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between rounded-lg bg-secondary p-3">
+                <div className="flex items-center space-x-2">
+                  <Microphone className="h-5 w-5" />
+                  <span>Microphone</span>
+                </div>
+                <div>
+                  {permissionState.microphone ? (
+                    <span className="text-sm text-green-500">Granted</span>
+                  ) : (
+                    <Button
+                      onClick={handleMicrophonePermissionRequest}
+                      variant="default"
+                      size="sm"
+                    >
+                      <Microphone className="mr-2 h-4 w-4" />
+                      Request Access
+                    </Button>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
   return (
     <Card className="w-full">
       <CardContent
@@ -99,8 +245,10 @@ export const VideoUploadButton: React.FC<VideoUploadFieldProps> = ({
       >
         <ReactMediaRecorder
           video
+          audio
+          askPermissionOnMount
           render={({ status, startRecording, stopRecording, mediaBlobUrl }) => {
-            if (mediaBlobUrl && !stopRecording) {
+            if (mediaBlobUrl) {
               handleVideoUpload(mediaBlobUrl);
             }
 
@@ -159,7 +307,7 @@ export const VideoUploadButton: React.FC<VideoUploadFieldProps> = ({
                     />
                     <Button
                       type="button"
-                      onClick={() => handleVideoUpload(mediaBlobUrl!)}
+                      onClick={() => handleVideoUpload(mediaBlobUrl)}
                       disabled={isUploading}
                       variant="default"
                     >
