@@ -1,12 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { BlurFade } from "@/components/ui/blur";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Marquee } from "@/components/ui/marquee";
 import { Separator } from "@/components/ui/separator";
 import { TextLoop } from "@/components/ui/text-loop";
@@ -91,7 +86,7 @@ export default async function Home() {
                   className="rounded-2xl border border-[#201e1d]/80 px-8 py-4 font-medium shadow-inner"
                   asChild
                 >
-                  <Link href="/signin">Get started</Link>
+                  <Link href="/signin">Get started for free</Link>
                 </Button>
               </div>
             </BlurFade>
@@ -186,7 +181,7 @@ export default async function Home() {
             </BlurFade>
 
             <BlurFade delay={0.1} inView className="pb-8">
-              <div className="mx-auto mb-8 flex w-full flex-col items-center justify-center space-y-2">
+              <div className="mx-auto mb-8 flex w-full flex-col items-center justify-center space-y-2 md:mb-12">
                 <div className="flex w-fit items-center justify-center">
                   <Badge
                     icon={<ChartBarTwo className="h-4 w-4" />}
@@ -213,47 +208,156 @@ export default async function Home() {
                   {response.features.description}
                 </TSmall>
               </div>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
-                {response.features.items.map((feature) => (
-                  <BlurFade delay={0.1} inView key={feature.id}>
-                    <Card
-                      className="group overflow-hidden rounded-3xl border-none bg-muted/40 px-2 pt-2 shadow-none transition-all"
-                      key={feature.id}
-                    >
-                      <div className="rounded-3xl bg-sidebar pt-1 shadow-sm">
-                        <CardHeader className="m-2 flex items-center gap-2 space-y-0 border-b bg-sidebar py-2 sm:flex-row">
-                          <div className="grid flex-1 gap-1 text-center sm:text-left">
-                            <h2
-                              className={cn(
-                                "text-lg font-semibold text-primary",
-                                aeonik.className,
-                              )}
+
+              <div className="mt-10 grid h-fit place-items-center gap-4 md:-mt-2 lg:grid-cols-3">
+                <BlurFade delay={0.2} inView>
+                  <Card className="group relative overflow-hidden rounded-lg border-none shadow-none transition-all max-lg:rounded-l-lg lg:row-span-2 lg:rounded-l-[2rem]">
+                    <div className="overflow-hidden rounded-lg bg-muted/40 max-lg:rounded-t-lg lg:rounded-l-[2rem]">
+                      <div className="absolute inset-px m-2 rounded-lg bg-sidebar max-lg:rounded-lg lg:rounded-l-[2rem]" />
+                      <div className="relative flex h-fit flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] max-lg:rounded-t-lg lg:rounded-l-[calc(2rem+1px)]">
+                        <div className="px-8 pb-3 pt-8 sm:px-10 sm:pb-0 sm:pt-10">
+                          <div className="flex w-fit items-center justify-center">
+                            <Badge
+                              variant="default"
+                              className="mx-auto mb-1 ml-2 rounded-full border border-input py-1 text-sm font-medium"
                             >
-                              {feature.title}
-                            </h2>
+                              Coming Soon
+                            </Badge>
                           </div>
-                        </CardHeader>
-                        <CardContent className="rounded-3xl bg-sidebar px-2 pb-4 pt-2 sm:px-4">
-                          <Image
-                            src={feature.imageSrc}
-                            alt={feature.title}
-                            width={500}
-                            height={500}
-                            className="rounded-3xl"
-                          />
-                        </CardContent>
+                          <p className="mt-2 text-lg font-medium tracking-tight text-gray-950 max-lg:text-center">
+                            Live Feedback Updates
+                          </p>
+                          <p className="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
+                            Instant feedback collection and processing that
+                            keeps you connected with your customers. Watch
+                            responses flow in real-time and respond quickly to
+                            maintain high satisfaction rates.
+                          </p>
+                        </div>
+                        <div className="relative min-h-[30rem] w-full grow [container-type:inline-size] max-lg:mx-auto max-lg:max-w-sm max-lg:rounded-b-lg">
+                          <div className="absolute inset-x-10 bottom-0 top-10 overflow-hidden rounded-t-[12cqw] border-x-[3cqw] border-t-[3cqw] border-gray-700 bg-gray-900 shadow-2xl">
+                            <img
+                              className="size-full object-cover object-top"
+                              src="https://tailwindui.com/plus/img/component-images/bento-03-mobile-friendly.png"
+                              alt=""
+                            />
+                          </div>
+                        </div>
                       </div>
-                      <CardFooter className="flex items-center gap-4 p-4">
-                        <feature.icon className="h-6 w-6" /> {feature.footer}
-                      </CardFooter>
+                    </div>
+                  </Card>
+                </BlurFade>
+
+                <BlurFade
+                  delay={0.2}
+                  inView
+                  className="h-full max-lg:row-start-1"
+                >
+                  <div className="flex h-full flex-1 flex-col items-start max-lg:row-start-1">
+                    <Card className="group relative flex h-full w-full flex-1 flex-col overflow-hidden rounded-lg border-none shadow-none transition-all max-lg:row-start-1 max-lg:rounded-t-[calc(2rem+1px)]">
+                      <div className="w-full overflow-hidden rounded-lg bg-muted/40">
+                        <div className="absolute inset-px m-2 rounded-lg bg-sidebar max-lg:rounded-t-[calc(2rem+1px)]"></div>
+                        <div className="relative flex h-full flex-1 flex-col items-center justify-center overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] max-lg:rounded-t-[calc(2rem+1px)]">
+                          <div className="px-8 pt-8 sm:px-10 sm:pt-10">
+                            <p className="mt-2 text-lg font-medium tracking-tight text-gray-950 max-lg:text-center">
+                              Smart Analytics
+                            </p>
+                            <p className="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
+                              Turn feedback into actionable insights with our
+                              automated analytics. Identify trends, track
+                              sentiment, and make data-driven decisions to
+                              improve your business.
+                            </p>
+                          </div>
+                          <div className="flex flex-1 items-center justify-center px-8 max-lg:pb-12 max-lg:pt-10 sm:px-10 lg:pb-2">
+                            <img
+                              className="w-full max-lg:max-w-xs"
+                              src="https://tailwindui.com/plus/img/component-images/bento-03-performance.png"
+                              alt=""
+                            />
+                          </div>
+                        </div>
+                      </div>
                     </Card>
-                  </BlurFade>
-                ))}
+
+                    <Card className="group relative mt-4 flex h-full flex-1 flex-col overflow-hidden rounded-lg border-none shadow-none transition-all max-lg:row-start-3 lg:col-start-2 lg:row-start-2">
+                      <div className="w-full overflow-hidden rounded-lg bg-muted/40 max-lg:rounded-t-[2rem]">
+                        <div className="absolute inset-px m-2 rounded-lg bg-sidebar"></div>
+                        <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)]">
+                          <div className="px-8 pt-8 sm:px-10 sm:pt-10">
+                            <p className="mt-2 text-lg font-medium tracking-tight text-gray-950 max-lg:text-center">
+                              Video Reviews
+                            </p>
+                            <p className="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
+                              Capture authentic video testimonials from your
+                              customers. Build trust and credibility with
+                              powerful visual social proof.
+                            </p>
+                          </div>
+                          <div className="flex flex-1 items-center [container-type:inline-size] max-lg:py-6 lg:pb-2">
+                            <img
+                              className="h-[min(152px,40cqw)] object-cover"
+                              src="https://tailwindui.com/plus/img/component-images/bento-03-security.png"
+                              alt=""
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </Card>
+                  </div>
+                </BlurFade>
+
+                <BlurFade delay={0.2} inView className="h-full">
+                  <Card className="group relative flex h-full flex-col overflow-hidden rounded-lg border-none shadow-none transition-all lg:row-span-2">
+                    <div className="overflow-hidden bg-muted/40 max-lg:rounded-b-[2rem] lg:rounded-r-[2rem]">
+                      <div className="absolute inset-px m-2 rounded-lg bg-sidebar max-lg:rounded-b-[2rem] lg:rounded-r-[2rem]"></div>
+                      <div className="relative flex h-fit flex-col overflow-hidden rounded-[calc(theme(borderRadius.lg)+1px)] max-lg:rounded-b-[calc(2rem+1px)] lg:rounded-r-[calc(2rem+1px)]">
+                        <div className="px-8 pb-3 pt-8 sm:px-10 sm:pb-0 sm:pt-10">
+                          <p className="mt-2 text-lg font-medium tracking-tight text-gray-950 max-lg:text-center">
+                            Embeddable Widget
+                          </p>
+                          <p className="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
+                            Seamlessly integrate reviews into any website with
+                            our customizable widget. One line of code to
+                            showcase your social proof and boost conversion
+                            rates.
+                          </p>
+                        </div>
+                        <div className="relative min-h-[34rem] w-full grow">
+                          <div className="absolute bottom-0 left-10 right-0 top-10 overflow-hidden rounded-tl-xl bg-gray-900 shadow-2xl">
+                            <div className="flex bg-gray-800/40 ring-1 ring-white/5">
+                              <div className="-mb-px flex text-sm/6 font-medium text-gray-400">
+                                <div className="border-b border-r border-b-white/20 border-r-white/10 bg-white/5 px-4 py-2 text-white">
+                                  widget.js
+                                </div>
+                                <div className="border-r border-gray-600/10 px-4 py-2">
+                                  Example.html
+                                </div>
+                              </div>
+                            </div>
+                            <div className="px-6 pb-14 pt-6">
+                              <code className="text-sm/6 font-medium text-gray-400">
+                                {`<script>
+  window.ResponseWidget.init({
+    containerId: 'reviews-widget',
+    theme: 'light',
+    displayCount: 5,
+    autoRotate: true
+  });
+</script>`}
+                              </code>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </Card>
+                </BlurFade>
               </div>
             </BlurFade>
 
             <BlurFade delay={0.1} inView>
-              <div className="mx-auto w-full max-w-5xl px-4 pb-8">
+              <div className="mx-auto w-full max-w-5xl pb-8 md:px-4">
                 <div className="mx-auto mb-8 flex w-full flex-col items-center justify-center space-y-2">
                   <div className="flex w-fit items-center justify-center">
                     <Badge
