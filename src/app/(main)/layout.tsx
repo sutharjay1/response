@@ -17,21 +17,20 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         color="#37322f"
         initialPosition={0.08}
         crawlSpeed={200}
-        height={3}
+        height={4}
         crawl={true}
         showSpinner={false}
         easing="ease"
         speed={200}
-        shadow="0 0 10px #EEEEEC65,0 0 5px #EEEEEC65"
-        template='<div class="bar" role="bar"><div class="peg"></div></div> 
-<div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
+        shadow="0 0 15px #37322f, 0 0 30px #37322f"
+        template='<div class="bar" role="bar"><div class="peg"></div></div>'
         zIndex={1600}
         showAtBottom={false}
       />
       <SidebarProvider>
         <AppSidebar />
-        <SidebarInset>
-          <header className="flex h-16 shrink-0 items-center justify-between gap-2 pr-4">
+        <SidebarInset className="flex h-screen flex-col">
+          <header className="sticky top-0 z-10 flex h-16 shrink-0 items-center justify-between gap-2 bg-background pr-4">
             <div className="flex items-center gap-2 px-4">
               <SidebarTrigger className="-ml-1" />
               <Separator orientation="vertical" className="md:mr-2 md:h-4" />
@@ -40,7 +39,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
             <ProjectLink />
           </header>
-          <div className="flex min-h-[90vh] flex-col gap-4 overflow-y-hidden border-t border-zinc-200 p-4">
+          <div className="flex flex-1 flex-col gap-4 overflow-y-auto border-t border-zinc-200 p-4">
             {children}
           </div>
         </SidebarInset>

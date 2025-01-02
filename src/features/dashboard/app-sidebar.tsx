@@ -64,10 +64,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             url: `/projects/new`,
           },
           {
-            title: "Archived Projects",
-            url: "/projects/archived",
-          },
-          {
             title: "Settings",
             url: `/projects/${project?.id}/settings`,
           },
