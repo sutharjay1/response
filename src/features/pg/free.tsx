@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export const FreePG = () => {
   return (
-    <Button className="w-full" asChild>
+    <Button className="mb-6 w-full" asChild>
       <Link href="/signin">Get started for free</Link>
     </Button>
   );

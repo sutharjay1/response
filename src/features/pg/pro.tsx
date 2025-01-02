@@ -56,7 +56,7 @@ const ProPG = () => {
       {isPaymentSessionIdLoading ? (
         <SpinnerOne className="flex h-4 w-4 animate-spin" size={16} />
       ) : (
-        <Button className="w-full" onClick={handleCheckout}>
+        <Button className="mb-6 w-full" onClick={handleCheckout}>
           Get started
         </Button>
       )}
