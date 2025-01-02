@@ -179,5 +179,110 @@ export const response = {
         ],
       },
     },
+
+    feature: {
+      title: "Feature comparison",
+      description: "Compare the key features of our plans",
+      items: [
+        {
+          name: "Form Builder",
+          features: [
+            {
+              feature: "Form creations",
+              starter: "2 forms",
+              growth: "25 forms",
+              scale: "Unlimited",
+            },
+            {
+              feature: "Custom form themes",
+              starter: false,
+              growth: true,
+              scale: true,
+            },
+            {
+              feature: "Form templates",
+              starter: "3 templates",
+              growth: "20 templates",
+              scale: "Unlimited",
+            },
+            {
+              feature: "Custom branding",
+              starter: false,
+              growth: true,
+              scale: true,
+            },
+          ],
+        },
+        {
+          name: "Feedback Collection",
+          features: [
+            {
+              feature: "Video feedback accepts",
+              starter: "5/month",
+              growth: "50/month",
+              scale: "Unlimited",
+            },
+            {
+              feature: "Script generations",
+              starter: "50/month",
+              growth: "150/month",
+              scale: "Unlimited",
+            },
+            {
+              feature: "File upload size",
+              starter: "5 MB",
+              growth: "50 MB",
+              scale: "500 MB",
+            },
+            {
+              feature: "Response rate analytics",
+              starter: true,
+              growth: true,
+              scale: true,
+            },
+          ],
+        },
+        {
+          name: "Analytics & Reporting",
+          features: [
+            {
+              feature: "Real-time analytics",
+              starter: true,
+              growth: true,
+              scale: true,
+            },
+            {
+              feature: "Custom dashboards",
+              starter: "1",
+              growth: "5",
+              scale: "Unlimited",
+            },
+            {
+              feature: "Export formats",
+              starter: "CSV",
+              growth: "CSV, Excel",
+              scale: "CSV, Excel",
+            },
+            {
+              feature: "Advanced filtering",
+              starter: false,
+              growth: true,
+              scale: true,
+            },
+          ],
+        },
+        {
+          name: "Widget",
+          features: [
+            {
+              feature: "Custom integrations",
+              starter: true,
+              growth: true,
+              scale: true,
+            },
+          ],
+        },
+      ],
+    },
   },
 };

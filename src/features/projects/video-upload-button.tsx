@@ -246,10 +246,23 @@ export const VideoUploadButton: React.FC<VideoUploadFieldProps> = ({
         <ReactMediaRecorder
           video
           audio
+          mediaRecorderOptions={{
+            mimeType: "video/webm",
+          }}
           askPermissionOnMount
-          render={({ status, startRecording, stopRecording, mediaBlobUrl }) => {
+          render={({
+            status,
+            startRecording,
+            stopRecording,
+            mediaBlobUrl,
+            error,
+          }) => {
             if (mediaBlobUrl) {
               handleVideoUpload(mediaBlobUrl);
+            }
+
+            if (error) {
+              console.log(error);
             }
 
             return (
