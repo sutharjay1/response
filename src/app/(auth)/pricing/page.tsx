@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { TSmall } from "@/components/ui/typography";
 import { aeonik, inter } from "@/features/font";
+import { FreePG } from "@/features/pg/free";
+import { ProButton } from "@/features/pg/layout";
 import { response } from "@/features/root/config";
 import { cn, formatPrice } from "@/lib/utils";
 import { CheckCircle, Minus, Rupee } from "@mynaui/icons-react";
@@ -62,9 +64,8 @@ export default function PricingPage() {
                       <span className="text-4xl font-bold">
                         {response.pricing.plans.free.price}
                       </span>
-                      <span className="ml-1 text-muted-foreground">/month</span>
                     </div>
-                    <Button className="mb-6 w-full">Get started</Button>
+                    <FreePG />
                     <ul className="space-y-3">
                       {response.pricing.plans.free.features.map((feature) => (
                         <li key={feature} className="flex items-center gap-2">
@@ -75,6 +76,7 @@ export default function PricingPage() {
                     </ul>
                   </CardContent>
                 </div>
+                <div className="pointer-events-none absolute inset-px rounded-3xl shadow ring-1 ring-black/5" />
               </Card>
             </BlurFade>
             <BlurFade delay={0.1} inView>
@@ -97,7 +99,7 @@ export default function PricingPage() {
                       </span>
                       <span className="ml-1 text-muted-foreground">/month</span>
                     </div>
-                    <Button className="mb-6 w-full">Get started</Button>
+                    <ProButton />
                     <ul className="space-y-3">
                       {response.pricing.plans.pro.features.map((feature) => (
                         <li key={feature} className="flex items-center gap-2">
@@ -108,6 +110,7 @@ export default function PricingPage() {
                     </ul>
                   </CardContent>
                 </div>
+                <div className="pointer-events-none absolute inset-px rounded-3xl shadow ring-1 ring-black/5" />
               </Card>
             </BlurFade>
             <BlurFade delay={0.1} inView>
@@ -148,6 +151,7 @@ export default function PricingPage() {
                     </ul>
                   </CardContent>
                 </div>
+                <div className="pointer-events-none absolute inset-px rounded-3xl shadow ring-1 ring-black/5" />
               </Card>
             </BlurFade>
           </div>
