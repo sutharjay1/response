@@ -35,7 +35,7 @@ import { errorToast, successToast } from "@/features/global/toast";
 import { getProjectField } from "@/features/projects/actions/get-project-field";
 import { getProjectById } from "@/features/projects/actions/get-projects";
 import { FormElement } from "@/features/projects/types";
-import { VideoUploadButton } from "@/features/projects/video-upload-button";
+import { VideoUploadButton } from "@/features/submit/video-upload-button";
 import { getProjectStatus } from "@/features/submit/actions/get-project-status";
 import { submitFieldResponse } from "@/features/submit/actions/submit-field-response";
 import { AvatarDropZone } from "@/features/submit/avatar-drop-zone";

@@ -7,9 +7,9 @@ import { Camera, Microphone, Video } from "@mynaui/icons-react";
 import React, { useCallback, useEffect, useState } from "react";
 import { ReactMediaRecorder } from "react-media-recorder";
 import { errorToast, successToast } from "../global/toast";
-import { useVideo } from "../submit/hooks/use-video";
-import { uploadToCloudinary } from "./actions/upload-image";
-import { FormElement } from "./types";
+import { useVideo } from "./hooks/use-video";
+import { uploadToCloudinary } from "../projects/actions/upload-image";
+import { FormElement } from "../projects/types";
 
 interface VideoUploadFieldProps {
   id?: string;
