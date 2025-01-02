@@ -1,17 +1,25 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Logo from "../global/logo";
+import { cn } from "@/lib/utils";
+import { usePathname } from "next/navigation";
 
 const navLinks = [
   { label: "Features", href: "#" },
-  { label: "Pricing", href: "#" },
+  { label: "Pricing", href: "/pricing" },
   { label: "Blog", href: "#" },
   { label: "Changelog", href: "#" },
 ];
 
-export function Nav() {
+export function Nav({ className }: { className?: string }) {
+  const pathname = usePathname();
+
   return (
-    <nav className="flex w-full items-center justify-between p-4">
+    <nav
+      className={cn("flex w-full items-center justify-between p-4", className)}
+    >
       <div className="flex items-center gap-2">
         <Logo show />
       </div>
@@ -21,7 +29,10 @@ export function Nav() {
           <Link
             key={link.label}
             href={link.href}
-            className="rounded-lg px-2 py-0.5 text-sm text-primary/60 hover:bg-accent hover:text-primary"
+            className={cn(
+              "rounded-lg px-2 py-0.5 text-sm text-primary/60 hover:bg-accent hover:text-primary",
+              pathname === link.href && "bg-accent px-2 py-0.5 text-primary",
+            )}
           >
             {link.label}
           </Link>

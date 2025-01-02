@@ -38,7 +38,7 @@ export default async function Home() {
   return (
     <div className="min-h-screen bg-background">
       <Nav />
-      <div className="flex w-full flex-col items-center justify-center">
+      <div className="mx-auto flex w-full max-w-7xl flex-col items-center justify-center lg:px-8">
         <div className="mx-8 mt-3 h-full w-full rounded-3xl">
           <main className="mx-auto h-full max-w-6xl px-4 pb-3 pt-12 md:py-12">
             <BlurFade delay={0.1} inView>
