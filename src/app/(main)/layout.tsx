@@ -7,6 +7,7 @@ import {
 import { AppSidebar } from "@/features/dashboard/app-sidebar";
 import BreadcrumbInfo from "@/features/dashboard/breadcrumb-info";
 import ProjectLink from "@/features/projects/project-link";
+import { SettingsBreadCrumb } from "@/features/settings/setting-breadcrumb";
 import { QueryProvider } from "@/providers/query-provider";
 import NextTopLoader from "nextjs-toploader";
 
@@ -37,6 +38,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <BreadcrumbInfo />
             </div>
 
+            <SettingsBreadCrumb />
             <ProjectLink />
           </header>
           <div className="flex flex-1 flex-col gap-4 overflow-y-auto border-t border-zinc-200 p-4">
