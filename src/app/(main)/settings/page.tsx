@@ -165,7 +165,7 @@ export default function SettingsPage() {
         </div>
 
         <Tabs defaultValue="account" className="w-full">
-          <TabsList className="overflow-x-auto bg-transparent px-0">
+          <TabsList className="bg-transparent px-0">
             <TabsTrigger
               value="account"
               className="rounded-md transition-all data-[state=active]:bg-sidebar/50 data-[state=active]:shadow-sm data-[state=active]:shadow-[#7c533a]/50 data-[state=active]:ring-1 data-[state=active]:ring-[#201e1d]/10"
