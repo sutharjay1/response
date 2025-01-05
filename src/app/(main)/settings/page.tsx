@@ -13,6 +13,7 @@ import { Form, FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { H3, P } from "@/components/ui/typography";
@@ -146,8 +147,8 @@ export default function SettingsPage() {
   };
 
   return (
-    <section className="container mx-auto max-w-6xl pt-6">
-      <div className="flex flex-col gap-8">
+    <section className="container mx-auto max-w-6xl py-4">
+      <div className="flex flex-col gap-6">
         <div className="flex flex-col">
           <div className="flex items-center gap-2">
             <H3>Settings</H3>
@@ -158,7 +159,7 @@ export default function SettingsPage() {
               Beta
             </Badge>
           </div>
-          <P className="text-muted-foreground [&:not(:first-child)]:mt-2">
+          <P className="text-muted-foreground [&:not(:first-child)]:mt-0">
             Manage your personal and team settings here.
           </P>
         </div>
@@ -186,9 +187,11 @@ export default function SettingsPage() {
             </TabsTrigger>
           </TabsList>
 
+          <Separator className="my-4" />
+
           <TabsContent value="account" className="space-y-4">
-            <Card className="border-none bg-transparent pt-6 shadow-none">
-              <CardHeader className="px-0 md:px-0">
+            <Card className="border-none bg-transparent pt-2 shadow-none">
+              <CardHeader className="gap-y-1.5 space-y-0 px-0 pt-0 md:px-0">
                 <CardTitle>Profile Information</CardTitle>
                 <CardDescription>
                   Update your account profile details and settings.
@@ -233,7 +236,7 @@ export default function SettingsPage() {
           </TabsContent>
 
           <TabsContent value="notifications" className="space-y-4">
-            <Card className="border-none bg-transparent pt-6 shadow-none">
+            <Card className="border-none bg-transparent pt-2 shadow-none">
               <CardHeader className="px-0 md:px-0">
                 <CardTitle>Notification Preferences</CardTitle>
                 <CardDescription>
@@ -260,7 +263,7 @@ export default function SettingsPage() {
           </TabsContent>
 
           <TabsContent value="appearance" className="space-y-4">
-            <Card className="border-none bg-transparent pt-6 shadow-none">
+            <Card className="border-none bg-transparent pt-2 shadow-none">
               <CardHeader className="px-0 md:px-0">
                 <CardTitle>Theme</CardTitle>
                 <CardDescription>
