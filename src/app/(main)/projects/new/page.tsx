@@ -1,20 +1,25 @@
 "use client";
 
-import { TSmall } from "@/components/ui/typography";
-import PageHeader from "@/features/global/page-header";
+import { H3, P } from "@/components/ui/typography";
 import ProjectForm from "@/features/projects/create-project-form";
 import { QueryProvider } from "@/providers/query-provider";
-import React from "react";
 
 const NewProject = () => {
   return (
     <QueryProvider>
-      <PageHeader title="Create New Project" className="text-left">
-        <TSmall className="text-base text-muted-foreground">
-          Get started by creating a new project
-        </TSmall>
-      </PageHeader>
-      <ProjectForm />
+      <section className="container mx-auto max-w-6xl pt-6">
+        <div className="flex flex-col gap-8">
+          <div className="flex flex-col">
+            <div className="flex items-center gap-2">
+              <H3>Create New Project</H3>
+            </div>
+            <P className="text-muted-foreground [&:not(:first-child)]:mt-2">
+              Get started by creating a new project
+            </P>
+          </div>
+        </div>
+        <ProjectForm />
+      </section>
     </QueryProvider>
   );
 };

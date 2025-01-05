@@ -24,6 +24,6 @@ export const sendEmail = async ({
 
     return response.success;
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
