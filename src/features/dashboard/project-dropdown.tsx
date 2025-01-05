@@ -67,7 +67,7 @@ export function ProjectDropDown({ className }: { className?: string }) {
             <SidebarMenuButton
               size="lg"
               className={cn(
-                "rounded-xl border border-input bg-background data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground",
+                "rounded-xl border border-input/50 bg-background data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground",
                 className,
               )}
             >

@@ -29,7 +29,7 @@ export const sendSuccessSubscriptionEmail = async ({
       to: email,
     });
   } catch (error: unknown) {
-    console.log(error);
+    console.error(error);
     throw new Error("Failed to send email");
   }
 };

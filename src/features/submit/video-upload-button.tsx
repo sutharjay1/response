@@ -262,7 +262,7 @@ export const VideoUploadButton: React.FC<VideoUploadFieldProps> = ({
             }
 
             if (error) {
-              console.log(error);
+              console.error(error);
             }
 
             return (

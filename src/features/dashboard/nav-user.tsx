@@ -1,10 +1,9 @@
 "use client";
 
 import {
-  Bell,
-  ChevronUpDown,
   CheckWaves,
-  CreditCard,
+  ChevronUpDown,
+  CogOne,
   Logout,
   Sparkles,
 } from "@mynaui/icons-react";
@@ -47,7 +46,7 @@ export function NavUser() {
           <DropdownMenuTrigger asChild className="bg-background">
             <SidebarMenuButton
               size="lg"
-              className="rounded-xl border border-input bg-background data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+              className="rounded-xl border border-input/50 bg-background data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="h-8 w-8 rounded-xl">
                 <AvatarImage src={user?.image} alt={user?.name} />
@@ -97,14 +96,12 @@ export function NavUser() {
                 <CheckWaves />
                 Account
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <CreditCard />
-                Billing
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Bell />
-                Notifications
-              </DropdownMenuItem>
+              <Link href="/settings">
+                <DropdownMenuItem>
+                  <CogOne />
+                  Setting
+                </DropdownMenuItem>
+              </Link>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleLogout}>

@@ -148,7 +148,6 @@ const ProjectForm = () => {
                 <Input
                   {...field}
                   placeholder="Project Name"
-                  className="border-transparent bg-muted shadow-none"
                   disabled={loadingProjects}
                 />
               </FormControl>
@@ -167,7 +166,6 @@ const ProjectForm = () => {
                 <Textarea
                   {...field}
                   placeholder="Description (optional)"
-                  className="border-transparent bg-muted shadow-none"
                   disabled={loadingProjects}
                 />
               </FormControl>
