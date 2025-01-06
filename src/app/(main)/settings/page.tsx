@@ -13,6 +13,7 @@ import { Form, FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -33,7 +34,7 @@ const items = [
     value: "r1",
     label: "Light",
     available: true,
-    image: ({ disabled }: { disabled: boolean }) => (
+    theme: ({ disabled }: { disabled: boolean }) => (
       <div
         className={cn(
           "relative flex h-20 w-full flex-col overflow-hidden rounded-lg border border-[#d1d5db]/10 bg-background shadow-sm md:w-32",
@@ -56,7 +57,7 @@ const items = [
     value: "r2",
     label: "Dark",
     available: false,
-    image: ({ disabled }: { disabled: boolean }) => (
+    theme: ({ disabled }: { disabled: boolean }) => (
       <div
         className={cn(
           "relative flex h-20 w-full flex-col overflow-hidden rounded-lg border border-[#201e1d]/10 bg-[#201e1d]/80 shadow-sm md:w-32",
@@ -79,7 +80,7 @@ const items = [
     value: "r3",
     label: "System",
     available: false,
-    image: ({ disabled }: { disabled: boolean }) => (
+    theme: ({ disabled }: { disabled: boolean }) => (
       <div
         className={cn(
           "relative flex h-20 w-full flex-col overflow-hidden rounded-lg border border-[#201e1d]/10 bg-[#201e1d]/80 shadow-sm md:w-32",
@@ -165,27 +166,29 @@ export default function SettingsPage() {
         </div>
 
         <Tabs defaultValue="account" className="w-full">
-          <TabsList className="bg-transparent px-0">
-            <TabsTrigger
-              value="account"
-              className="rounded-md transition-all data-[state=active]:bg-sidebar/50 data-[state=active]:shadow-sm data-[state=active]:shadow-[#7c533a]/50 data-[state=active]:ring-1 data-[state=active]:ring-[#201e1d]/10"
-            >
-              Account
-            </TabsTrigger>
-            <TabsTrigger
-              value="appearance"
-              className="rounded-md transition-all data-[state=active]:bg-sidebar/50 data-[state=active]:shadow-sm data-[state=active]:shadow-[#7c533a]/50 data-[state=active]:ring-1 data-[state=active]:ring-[#201e1d]/10"
-            >
-              Appearance
-            </TabsTrigger>
+          <ScrollArea>
+            <TabsList className="bg-transparent px-0">
+              <TabsTrigger
+                value="account"
+                className="rounded-md transition-all data-[state=active]:bg-sidebar/50 data-[state=active]:shadow-sm data-[state=active]:shadow-[#7c533a]/50 data-[state=active]:ring-1 data-[state=active]:ring-[#201e1d]/10"
+              >
+                Account
+              </TabsTrigger>
+              <TabsTrigger
+                value="appearance"
+                className="rounded-md transition-all data-[state=active]:bg-sidebar/50 data-[state=active]:shadow-sm data-[state=active]:shadow-[#7c533a]/50 data-[state=active]:ring-1 data-[state=active]:ring-[#201e1d]/10"
+              >
+                Appearance
+              </TabsTrigger>
 
-            <TabsTrigger
-              value="notifications"
-              className="rounded-md transition-all data-[state=active]:bg-sidebar/50 data-[state=active]:shadow-sm data-[state=active]:shadow-[#7c533a]/50 data-[state=active]:ring-1 data-[state=active]:ring-[#201e1d]/10"
-            >
-              Notifications
-            </TabsTrigger>
-          </TabsList>
+              <TabsTrigger
+                value="notifications"
+                className="rounded-md transition-all data-[state=active]:bg-sidebar/50 data-[state=active]:shadow-sm data-[state=active]:shadow-[#7c533a]/50 data-[state=active]:ring-1 data-[state=active]:ring-[#201e1d]/10"
+              >
+                Notifications
+              </TabsTrigger>
+            </TabsList>
+          </ScrollArea>
 
           <Separator className="my-4" />
 
@@ -273,7 +276,10 @@ export default function SettingsPage() {
               </CardHeader>
               <CardContent className="space-y-4 px-0 md:px-0">
                 <fieldset className="space-y-4">
-                  <RadioGroup className="flex gap-3" defaultValue="r1">
+                  <RadioGroup
+                    className="flex w-full flex-col gap-4 sm:flex-row"
+                    defaultValue="r1"
+                  >
                     {items.map((item) => (
                       <label key={item.id}>
                         <RadioGroupItem
@@ -281,10 +287,10 @@ export default function SettingsPage() {
                           value={item.value}
                           disabled={!item.available}
                           className={cn(
-                            "peer sr-only after:absolute after:inset-0",
+                            "peer sr-only w-full after:absolute after:inset-0",
                           )}
                         />
-                        <item.image disabled={!item.available} />
+                        <item.theme disabled={!item.available} />
                         <div className="group mt-2 flex items-center gap-2 peer-data-[state=unchecked]:text-muted-foreground/70">
                           <span className="text-sm font-medium">
                             {item.label}
