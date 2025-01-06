@@ -71,7 +71,7 @@ export function ProjectDropDown({ className }: { className?: string }) {
                 className,
               )}
             >
-              <Avatar className="h-8 w-8 rounded-xl">
+              <Avatar className="relative h-8 w-8 rounded-xl">
                 {loadingProjects ? (
                   <Skeleton className="h-8 w-8 rounded-xl" />
                 ) : (
@@ -79,6 +79,7 @@ export function ProjectDropDown({ className }: { className?: string }) {
                     {project?.name ? project.name[0].toUpperCase() : "?"}
                   </AvatarFallback>
                 )}
+                <div className="absolute inset-0 rounded-xl ring-1 ring-inset ring-primary/10" />
               </Avatar>
               <div className="grid flex-1 items-center text-left text-sm leading-tight">
                 {loadingProjects ? (
@@ -99,10 +100,11 @@ export function ProjectDropDown({ className }: { className?: string }) {
           </DropdownMenuTrigger>
 
           <DropdownMenuContent
-            className="w-72"
-            side={isMobile ? "bottom" : "right"}
-            alignOffset={20}
-            sideOffset={6}
+            className="mx-4 mt-2 w-64 md:w-60"
+            side={"bottom"}
+            align="end"
+            alignOffset={isMobile ? 0 : 8}
+            sideOffset={4}
           >
             <DropdownMenuLabel>Projects</DropdownMenuLabel>
             <DropdownMenuSeparator />
@@ -113,25 +115,33 @@ export function ProjectDropDown({ className }: { className?: string }) {
                 ))}
               </div>
             ) : (
-              projects?.map((proj: Project) => (
-                <DropdownMenuItem
-                  key={proj.id}
-                  className="flex w-full items-center px-2 py-1.5"
-                  onSelect={() => handleSelectProject(proj.id)}
-                >
-                  <Avatar className="mr-2 h-8 w-8 rounded-xl">
-                    <AvatarFallback className="rounded-xl px-3 py-2">
-                      {proj.name[0].toUpperCase()}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="flex w-full items-center justify-between">
-                    <span className="truncate">{proj.name}</span>
-                    {proj.id === project?.id && (
-                      <Check className="ml-auto h-4 w-4" />
-                    )}
-                  </div>
-                </DropdownMenuItem>
-              ))
+              <div className="p-2">
+                {projects?.map((proj: Project) => (
+                  <DropdownMenuItem
+                    key={proj.id}
+                    className="flex w-full items-center px-2 py-1.5"
+                    onSelect={() => handleSelectProject(proj.id)}
+                  >
+                    <div className="flex w-full items-center justify-between">
+                      <span className="overflow-hidden truncate">
+                        {proj.name}
+                      </span>
+                      {proj.id === project?.id && (
+                        <Check
+                          size={18}
+                          strokeWidth={2}
+                          className="rounded-full p-0.5 peer-data-[state=unchecked]:group-[]:hidden"
+                          aria-hidden="true"
+                          style={{
+                            backgroundColor: "#004014",
+                            color: "#56eda1",
+                          }}
+                        />
+                      )}
+                    </div>
+                  </DropdownMenuItem>
+                ))}
+              </div>
             )}
           </DropdownMenuContent>
         </DropdownMenu>

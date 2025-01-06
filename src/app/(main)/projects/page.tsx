@@ -344,20 +344,20 @@ const Projects = () => {
           </Button>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-4">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
           {templatesData.templates.slice(0, 4).map((template) => (
             <Card
               className="flex h-full transform flex-col overflow-hidden rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
               key={template.name}
             >
               <div className="flex-1">
-                <CardHeader className="h-[200px] space-y-2 overflow-hidden rounded-t-xl p-0 text-center">
+                <CardHeader className="aspect-auto h-[200px] space-y-2 overflow-hidden rounded-t-xl p-0 text-center">
                   <Image
                     src={template.banner}
                     alt={template.name}
                     width={400}
                     height={200}
-                    className="h-full w-full object-cover"
+                    className="aspect-auto h-full w-full object-cover"
                   />
                 </CardHeader>
                 <CardContent className="flex flex-1 flex-col p-4">

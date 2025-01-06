@@ -39,7 +39,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
             <ProjectLink />
           </header>
-          <div className="flex flex-1 flex-col gap-4 overflow-y-auto border-t border-zinc-200 p-4">
+          <div
+            className="flex flex-1 flex-col gap-4 overflow-y-auto border-t border-zinc-200 p-4"
+            style={{
+              scrollBehavior: "smooth",
+              scrollbarWidth: "none",
+            }}
+          >
             {children}
           </div>
         </SidebarInset>
