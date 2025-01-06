@@ -90,7 +90,7 @@ const BreadcrumbInfo = () => {
 
   return (
     <>
-      <Breadcrumb className={cn(pathname.startsWith("/settings") && "hidden")}>
+      <Breadcrumb>
         <BreadcrumbList className=" ">
           <BreadcrumbItem>
             <BreadcrumbLink href="/dashboard">
